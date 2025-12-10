@@ -93,7 +93,7 @@ public function render()
     }
 
     $response = $this->api->get('videos', $params);
-// dd($response );
+ //dd($response );
     return view('livewire.video.my-videos', [
         'videos' => $response, // ← full response with 'data', 'links', 'meta'
     ]);

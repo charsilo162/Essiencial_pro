@@ -1,30 +1,32 @@
 <div class="flex flex-wrap gap-2">
     <button 
-        wire:click="setFilter('all')" 
+        wire:click="setTypeFilter('all')" 
         @class([
-            'py-2 px-4 rounded-full font-semibold text-sm transition shadow',
-            'bg-gray-700 text-white hover:bg-gray-800' => $currentType === 'all',
-            'bg-gray-100 text-gray-700 hover:bg-gray-200' => $currentType !== 'all',
+            'py-2 px-4 rounded-full text-sm font-medium border transition',
+            'bg-gray-600 text-white border-transparent' => $filterType === 'all',
+            'bg-white text-gray-700 hover:bg-gray-50 border-gray-200' => $filterType !== 'all',
         ])
     >
-        All Types
+        All
     </button>
+    
     <button 
-        wire:click="setFilter('online')" 
+        wire:click="setTypeFilter('online')"
         @class([
-            'py-2 px-4 rounded-full font-semibold text-sm transition shadow',
-            'bg-indigo-600 text-white hover:bg-indigo-700' => $currentType === 'online',
-            'bg-gray-100 text-gray-700 hover:bg-gray-200' => $currentType !== 'online',
+            'py-2 px-4 rounded-full text-sm font-medium border transition',
+            'bg-blue-600 text-white border-transparent' => $filterType === 'online',
+            'bg-white text-gray-700 hover:bg-gray-50 border-gray-200' => $filterType !== 'online',
         ])
     >
         Online
     </button>
+    
     <button 
-        wire:click="setFilter('physical')" 
+        wire:click="setTypeFilter('physical')"
         @class([
-            'py-2 px-4 rounded-full font-semibold text-sm transition shadow',
-            'bg-sky-500 text-white hover:bg-sky-600' => $currentType === 'physical',
-            'bg-gray-100 text-gray-700 hover:bg-gray-200' => $currentType !== 'physical',
+            'py-2 px-4 rounded-full text-sm font-medium border transition',
+            'bg-orange-500 text-white border-transparent' => $filterType === 'physical',
+            'bg-white text-gray-700 hover:bg-gray-50 border-gray-200' => $filterType !== 'physical',
         ])
     >
         Physical

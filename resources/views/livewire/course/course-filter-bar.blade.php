@@ -4,11 +4,11 @@
     <div class="flex flex-wrap items-center gap-4 order-2 md:order-1 w-full md:w-auto">
         <h2 class="text-2xl font-bold text-gray-800 hidden md:block">Filter Courses</h2>
 
+        {{-- Type Filter --}}
+        <livewire:course.course-type-filter :filterType="$filterType" key="type-filter-buttons" />
+
         {{-- Price Filter --}}
         <livewire:course.course-price-filter :filterPrice="$filterPrice" key="price-filter-buttons" />
-
-        {{-- Type Filter (uncomment when ready) --}}
-        {{-- <livewire:course.course-type-filter :filterType="$filterType" key="type-filter-buttons" /> --}}
 
         {{-- Clear All Filters Button --}}
         <button

@@ -7,6 +7,8 @@ use App\Http\Controllers\MyVideosController;
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
 use App\Livewire\Category\CategoryManager;
+use App\Livewire\PopularCategoryCards;
+use App\Livewire\SimpleCategoryGrid;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/categorys', function () {
@@ -32,11 +34,18 @@ Route::get('/profile', function () {
 Route::get('/watch', function () {
     return view('watch');
 })->name('watch');
+Route::get('/contact-us', function () {
+    return view('pages.contact');
+})->name('contact_us');
+
+
+// Route::get('/cate', PopularCategoryCards::class)->name('cat');
+// Route::get('/cat', SimpleCategoryGrid::class)->name('simp');
 
 
 //About us about-us
 Route::get('/about-us', function () {
-    return view('watch');
+    return view('pages.about');
 })->name('about-us');
 Route::get('/faqs', function () {
     return view('watch');

@@ -56,7 +56,7 @@
 </body>
 </html>
 
-    <!-- OUR CLASSES ------------------------------------------------------ -->
+    {{-- <!-- OUR CLASSES ------------------------------------------------------ -->
     <section class="py-20 px-6 bg-gray-100 fade-in">
         <h2 class="text-3xl font-extrabold text-gray-800 text-center mb-4">
             Our Classes
@@ -105,7 +105,7 @@
             </div>
 
         </div>
-    </section>
+    </section> --}}
 
     
 
@@ -117,155 +117,14 @@
     <!-- ========================== NEW SECTION =============================== -->
 
 
-<!-- TOP CATEGORIES HEADER + SEARCH -->
-<section class="px-6 mt-10">
-    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
 
-        <div>
-            <h2 class="text-2xl md:text-3xl font-bold text-gray-900">
-                Top Categories
-            </h2>
-            <p class="text-sm text-gray-500">
-                Explore essential skills curated for your success
-            </p>
-        </div>
-
-        <!-- Search box -->
-        <div class="flex items-center bg-white rounded-full overflow-hidden shadow-md w-full md:w-80 border border-gray-200">
-            <input 
-                type="text"
-                placeholder="Search categories..."
-                class="flex-1 px-5 py-3 outline-none text-gray-700 text-sm" 
-            />
-            <button class="bg-blue-600 text-white px-6 py-3 font-semibold text-sm">
-                Search
-            </button>
-        </div>
-
-    </div>
-</section>
-
-<section class="px-6 py-10 bg-gray-50">
-    <div class="flex items-center gap-6 overflow-x-auto pb-3">
-
-        <!-- Card item -->
-        <div class="min-w-[180px] bg-white rounded-2xl shadow-md overflow-hidden">
-            <img src="{{ asset('storage/img1.jpg') }}" class="h-32 w-full object-cover" />
-            <div class="px-4 py-3">
-                <h3 class="font-bold text-lg">UI/UX</h3>
-                <p class="text-gray-500 text-sm">(345)</p>
-            </div>
-        </div>
-        <div class="min-w-[180px] bg-white rounded-2xl shadow-md overflow-hidden">
-            <img src="{{ asset('storage/logo2.jpg') }}" class="h-32 w-full object-cover" />
-            <div class="px-4 py-3">
-                <h3 class="font-bold text-lg">Coding</h3>
-                <p class="text-gray-500 text-sm">(345)</p>
-            </div>
-        </div>
-        <div class="min-w-[180px] bg-white rounded-2xl shadow-md overflow-hidden">
-            <img src="{{ asset('storage/logo2.jpg') }}" class="h-32 w-full object-cover" />
-            <div class="px-4 py-3">
-                <h3 class="font-bold text-lg">Java</h3>
-                <p class="text-gray-500 text-sm">(345)</p>
-            </div>
-        </div>
-
-        <div class="min-w-[180px] bg-white rounded-2xl shadow-md overflow-hidden">
-            <img src="{{ asset('storage/logo4.jpg') }}" class="h-32 w-full object-cover" />
-            <div class="px-4 py-3">
-                <h3 class="font-bold text-lg">Barbing</h3>
-                <p class="text-gray-500 text-sm">(345)</p>
-            </div>
-        </div>
-
-        <div class="min-w-[180px] bg-white rounded-2xl shadow-md overflow-hidden">
-            <img src="{{ asset('storage/img3.jpg') }}" class="h-32 w-full object-cover" />
-            <div class="px-4 py-3">
-                <h3 class="font-bold text-lg">Catering</h3>
-                <p class="text-gray-500 text-sm">(345)</p>
-            </div>
-        </div>
-
-        <div class="min-w-[180px] bg-white rounded-2xl shadow-md overflow-hidden">
-            <img src="{{ asset('storage/img4.jpg') }}" class="h-32 w-full object-cover" />
-            <div class="px-4 py-3">
-                <h3 class="font-bold text-lg">Development</h3>
-                <p class="text-gray-500 text-sm">(345)</p>
-            </div>
-        </div>
-
-        <div class="min-w-[180px] bg-white rounded-2xl shadow-md overflow-hidden">
-            <img src="{{ asset('storage/logo6.jpg') }}" class="h-32 w-full object-cover" />
-            <div class="px-4 py-3">
-                <h3 class="font-bold text-lg">Public Speaking</h3>
-                <p class="text-gray-500 text-sm">(345)</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-
+<livewire:course.our-classes />
+<livewire:category.popular-category-cards />
+<livewire:category.simple-category-grid />
 <!-- GRADIENT FEATURE BANNER -->
 
-<section class="px-6 py-10">
-    <div class="rounded-3xl p-10 text-white"
-        style="background: linear-gradient(90deg, #2925FF, #0028FF, #5D1CFF, #FF6A00);">
-
-        <!-- HEADING + SEARCH SIDE BY SIDE -->
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-
-            <!-- Left Text -->
-            <div>
-                <h1 class="text-3xl md:text-4xl font-bold mb-2">
-                    At Essential Training we have it all
-                </h1>
-
-                <p class="text-sm md:text-base text-blue-100 max-w-xl">
-                    Unbeatable expertise, unmatched resources, unparalleled results.
-                    Elevate your skills with the best.
-                </p>
-            </div>
-
-            <!-- Right Search -->
-            <div class="flex items-center bg-white rounded-full overflow-hidden shadow-lg w-full md:w-96">
-                <input 
-                    type="text"
-                    placeholder="Search skills..."
-                    class="flex-1 px-5 py-3 outline-none text-gray-700 text-sm"
-                />
-                <button class="bg-orange-500 text-white px-6 py-3 font-semibold text-sm">
-                    Search
-                </button>
-            </div>
-
-        </div>
-    </div>
-</section>
 
 
-
-
-<!-- SKILLS GRID -->
-<section class="px-6 py-10">
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-
-        <!-- skill card reusable -->
-        @foreach([
-            'UI/UX','Barbing','Frontend Dev','Tailoring','Backend Dev','Carpenter',
-            'Data Analysis','Vulganizers','Graphics Design','Makeup Artist','Software Dev',
-            'Hair Dresser','Full Stack','Fashion Design','Video Edit'
-        ] as $skill)
-
-        <div class="border border-blue-200 rounded-xl p-5 bg-white shadow-sm hover:shadow-md transition">
-            <h3 class="font-bold text-blue-900 mb-1">{{ $skill }} <span class="text-gray-400">(345)</span></h3>
-            <p class="text-gray-500 text-sm">Build aesthetically pleasing digital products</p>
-        </div>
-
-        @endforeach
-
-    </div>
-</section>
 
 
 <!-- SPLIT IMAGE + TEXT SECTION -->
@@ -425,7 +284,7 @@
 </section>
 
 
-<section class="bg-white px-6 py-6">
+{{-- <section class="bg-white px-6 py-6">
     <div class="flex justify-between items-center mb-4">
         <h2 class="text-2xl font-bold text-gray-800">Groups you may like</h2>
         <a href="#" class="text-red-500 font-medium hover:text-red-600">See more</a>
@@ -521,7 +380,7 @@
         </div>
 
         </div>
-</section>
+</section> --}}
 
 <footer class="bg-gray-400 text-black pt-10 pb-4 px-6">
     <div class="max-w-6xl mx-auto">

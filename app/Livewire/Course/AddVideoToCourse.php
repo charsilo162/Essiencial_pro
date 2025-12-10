@@ -88,6 +88,7 @@ class AddVideoToCourse extends Component
 
     public function save()
     {
+        // dd('you are');
         $this->validate();
 
         $data = [

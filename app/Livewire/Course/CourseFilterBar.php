@@ -9,8 +9,6 @@ class CourseFilterBar extends Component
     public string $filterType = 'all';
     public string $filterPrice = 'all';
 
-    // REMOVED: public string $searchLocation = '';  ← We delete this!
-
     protected $listeners = [
         'updateFilter' => 'handleFilterUpdate',
     ];
@@ -23,7 +21,7 @@ class CourseFilterBar extends Component
         }
 
         // Forward the update to the parent (CourseList)
-        $this->dispatch('updateFilter', key: $key, value: $value);
+        $this->dispatch('updateFilter', key: $key, value: $value)->to(CourseList::class);
     }
 
     public function clearAllFilters(): void
@@ -32,7 +30,7 @@ class CourseFilterBar extends Component
         $this->filterPrice = 'all';
 
         // This will clear the search box in CourseList too
-        $this->dispatch('clearAllFilters');
+        $this->dispatch('clearAllFilters')->to(CourseList::class);
     }
 
     public function render()

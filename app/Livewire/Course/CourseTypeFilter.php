@@ -1,22 +1,20 @@
 <?php
+
 namespace App\Livewire\Course;
 
 use Livewire\Component;
 
 class CourseTypeFilter extends Component
 {
-    public string $currentType;
+    public string $filterType;
 
-    public function mount(string $currentType): void
+    public function mount(string $filterType)
     {
-        $this->currentType = $currentType;
+        $this->filterType = $filterType;
     }
 
-    public function setFilter(string $type): void
+    public function setTypeFilter(string $type)
     {
-        $this->currentType = $type;
-        
-        // Dispatch event to the CourseList parent
         $this->dispatch('updateFilter', key: 'filterType', value: $type);
     }
 

@@ -11,9 +11,9 @@
     {{-- Center Links (Desktop) --}}
     <div class="hidden md:flex items-center space-x-6 text-white font-semibold mx-auto">
         {{-- <a class="hover:text-blue-600 transition" href="{{ route('home') }}">Home</a> --}}
-        <a class="hover:text-blue-600 transition" href="{{ route('category') }}">Category</a>
-        <a class="hover:text-blue-600 transition" href="{{ route('watch') }}">Watch</a>
-        <a class="hover:text-blue-600 transition" href="#">Profile</a>
+        <a class="hover:text-blue-600 transition" href="{{ route('category.index') }}">Category</a>
+        <a class="hover:text-blue-600 transition" href="{{ route('about-us') }}">About Us</a>
+        <a class="hover:text-blue-600 transition" href="{{ route('contact_us') }}">Contact Us</a>
     </div>
 
     {{-- Right Side Auth Section --}}
@@ -100,9 +100,9 @@
     <div class="flex flex-col space-y-4 text-gray-800 font-semibold">
 
         {{-- <a class="hover:text-blue-600 transition" href="{{ route('home') }}">Home</a> --}}
-        <a class="hover:text-blue-600 transition" href="{{ route('category') }}">Category</a>
-        <a class="hover:text-blue-600 transition" href="{{ route('watch') }}">Watch</a>
-        <a class="hover:text-blue-600 transition" href="#">Profile</a>
+        <a class="hover:text-blue-600 transition" href="{{ route('category.index') }}">Category</a>
+        <a class="hover:text-blue-600 transition" href="{{ route('about-us') }}">About Us</a>
+        <a class="hover:text-blue-600 transition" href="{{ route('contact_us') }}">Contact Us</a>
 
         <hr class="my-2 border-gray-200">
 

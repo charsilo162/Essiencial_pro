@@ -11,6 +11,9 @@
         <!-- Video Cards Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             @forelse ($videos['data'] as $video)
+            {{-- @php
+                dd( $video);
+            @endphp --}}
                 <x-video.card :video="$video" />
             @empty
                 <p class="col-span-full text-center text-gray-500 py-8">

@@ -29,7 +29,11 @@
         <input type="text" id="course-title-edit" wire:model.defer="title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black sm:text-sm">
         @error('title') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
     </div>
-
+   <div class="mb-4">
+        <label for="course-price-edit" class="block text-sm font-medium text-gray-700">Price Amount (₦)</label>
+        <input type="number" id="course-price-edit" wire:model.defer="price_amount" step="0.01" min="0" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black sm:text-sm">
+        @error('price_amount') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+    </div>
     {{-- 3. Course Type --}}
     <div class="mb-4">
         <label class="block text-sm font-medium text-gray-700 mb-2">Course Type</label>

@@ -4,7 +4,7 @@
         ['name' => 'Home', 'route' => 'home', 'path_segment' => 'home'], 
         ['name' => 'category', 'route' => 'category.index', 'path_segment' => 'category.index'],
         ['name' => 'About Us', 'route' => 'about-us', 'path_segment' => 'about-us'],
-        ['name' => 'FAQs', 'route' => 'faqs', 'path_segment' => 'faqs'],
+        ['name' => 'Contact US', 'route' => 'contact_us', 'path_segment' => 'contact_us'],
     ];
 @endphp
 

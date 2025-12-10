@@ -26,6 +26,7 @@ class CourseWatch extends Component
 
    public function mount(string $slug)
 {
+    
     $response = $this->api->get("courses/{$slug}/watch");
 // dd($response);
     if (isset($response['message']) && str_contains($response['message'], 'enrolled')) {
@@ -34,7 +35,7 @@ class CourseWatch extends Component
 
     $this->course = $response['data'];
     $this->videos = collect($this->course['videos'] ?? []);
-//dd($this->course);
+
     $this->setCurrentVideo($this->videoId);
 }
     public function setCurrentVideo(?int $id)

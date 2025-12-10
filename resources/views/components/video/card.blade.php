@@ -2,6 +2,9 @@
 
 <div {{ $attributes->merge(['class' => 'p-4 bg-white rounded-xl shadow-lg hover:shadow-xl transition duration-300']) }}>
     <div class="h-32 w-full rounded-lg overflow-hidden mb-3 relative">
+ @if ($slug = ($video['slug'][0] ?? null))
+    <a href="{{ route('course.watch', ['slug' => $slug]) }}">
+@endif
         @if ($video['thumbnail_url'])
             <img src="{{ $video['thumbnail_url'] }}" alt="{{ $video['title'] }}" class="w-full h-full object-cover">
         @else
@@ -12,6 +15,7 @@
                 </svg>
             </div>
         @endif
+        </a>
         <div class="absolute top-2 right-2">
             <span class="px-2 py-1 text-xs font-semibold rounded-full {{ $video['publish'] ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' }}">
                 {{ $video['publish'] ? 'Published' : 'Draft' }}

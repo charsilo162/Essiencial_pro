@@ -78,7 +78,7 @@ public function register()
     Session::put('api_token', $response['token']);
     Session::put('user', $response['user']);
 
-    return redirect()->route('category');
+    return redirect()->route('category.index');
 }
 
     public function render()

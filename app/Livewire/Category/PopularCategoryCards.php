@@ -1,6 +1,5 @@
 <?php
-namespace App\Livewire;
-
+namespace App\Livewire\Category;
 use App\Services\ApiService;
 use Livewire\Component;
 use Livewire\Attributes\Url;
@@ -10,7 +9,7 @@ class PopularCategoryCards extends Component
    #[Url(history: true)]
     public string $search = '';
 
-    public int $limit = 6;
+    public int $limit = 8;
 
     protected $api;
 
@@ -37,14 +36,14 @@ public function render()
 
     $response = $this->api->get('categories', $params);
     $categories = collect($response['data'] ?? []);
-dump($categories);
+// dump($categories);
     $countResponse = $this->api->getCategoriesCount($this->search);
     $totalCategoryCount = $countResponse['total'] ?? 0;
-dd($countResponse);
+// dd($countResponse);
     // Variable name: $showSeeAll (NOT $showAll!)
     $showSeeAll = empty($this->search) && $categories->count() >= $this->limit;
 
-    return view('livewire.popular-category-cards', compact(
+    return view('livewire.category.popular-category-cards', compact(
         'categories',
         'showSeeAll',        // ← Fixed: was 'showAll'
         'totalCategoryCount'

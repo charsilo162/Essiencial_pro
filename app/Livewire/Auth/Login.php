@@ -21,7 +21,7 @@ class Login extends Component
     {
         // Prevent login page if already logged in
         if (Session::has('api_token') && Session::has('user')) {
-            return redirect()->route('category'); // dashboard or category page
+            return redirect()->route('category.index'); // dashboard or category page
         }
     }
 
@@ -43,7 +43,7 @@ class Login extends Component
                 Session::put('api_token', $response['token']);
                 Session::put('user', $response['user']);
 
-                return redirect()->route('category'); 
+                return redirect()->route('category.index'); 
             } 
             else {
                 $this->addError('email', 'Invalid credentials');
