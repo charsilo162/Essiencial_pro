@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Livewire\Center;
+
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
@@ -37,11 +39,8 @@ class CentersList extends Component
     public function openEdit($centerId)
     {
         $this->editingId = $centerId;
-
         $response = $this->api->get("centers/{$centerId}");
-
         $center = $response['data'] ?? $response;
-
         $this->fill([
             'name' => $center['name'] ?? '',
             'description' => $center['description'] ?? '',
@@ -49,12 +48,10 @@ class CentersList extends Component
             'city' => $center['city'] ?? '',
             'years_of_experience' => $center['years_of_experience'] ?? 0,
         ]);
-
         $this->center_thumbnail = null;
         $this->resetErrorBag();
         $this->showModal = true;
-
-        $this->dispatch('open-edit-center-modal');
+        $this->dispatch('open-modal', 'edit-center');
     }
 
     public function getRules()
@@ -92,7 +89,7 @@ class CentersList extends Component
 
         \Log::info('Sending update data (POST with _method=PUT):', $formData);
 
-        $response = $this->api->postWithFile("centers/{$this->editingId}/update", $formData);
+        $response = $this->api->postWithFile("centers/{$this->editingId}", $formData);
 
         if (!empty($response['error'])) {
             $this->dispatch('error-notification', message: $response['message'] ?? 'Update failed');
@@ -104,28 +101,47 @@ class CentersList extends Component
         $this->reset(['name', 'description', 'address', 'city', 'years_of_experience', 'center_thumbnail']);
     }
 
+    public function deleteCenter($centerId)
+    {
+        $response = $this->api->delete("centers/{$centerId}");
+
+        if (!empty($response['error'])) {
+            $this->dispatch('error-notification', message: $response['message'] ?? 'Delete failed');
+            return;
+        }
+
+        $this->dispatch('success-notification', message: 'Center deleted successfully!');
+    }
+
     public function render()
     {
         $perPage = 10;
+        $currentPage = \Illuminate\Pagination\LengthAwarePaginator::resolveCurrentPage('page') ?? 1;
+
         $params = [
             'search' => $this->search,
             'per_page' => $perPage,
-            'page' => $this->page,
+            'page' => $currentPage,
         ];
 
         $response = $this->api->get('centers', $params);
 
         $items = $response['data'] ?? [];
         $total = $response['total'] ?? 0;
-        $currentPage = $this->page;
 
         $centers = new LengthAwarePaginator(
             $items,
             $total,
             $perPage,
             $currentPage,
-            ['path' => URL::current(), 'query' => $params]
+            [
+                'path' => URL::current(),
+                'query' => $params,
+                'pageName' => 'page',
+            ]
         );
+
+        // dd($centers);
 
         return view('livewire.center.centers-list', [
             'centers' => $centers,

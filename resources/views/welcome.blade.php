@@ -155,7 +155,7 @@
 </section>
 
 <!-- ======================== END NEW SECTION ============================= -->
-<section class="bg-white px-6 py-10">
+{{-- <section class="bg-white px-6 py-10">
     <div class="flex justify-between items-center mb-6">
         <h2 class="text-2xl font-bold text-gray-800">Short Videos</h2>
         <a href="#" class="text-gray-500 font-medium hover:text-gray-700">See All</a>
@@ -238,7 +238,7 @@
         </div>
         
     </div>
-</section>
+</section> --}}
 
 
 <section class="bg-white px-6 py-10">
@@ -399,9 +399,9 @@
                 <h3 class="text-lg font-bold mb-4">Useful links</h3>
                 <ul class="space-y-2 text-sm text-gray-800">
                     <li><a href="#" class="hover:text-white">Home</a></li>
-                    <li><a href="#" class="hover:text-white">How It Works</a></li>
-                    <li><a href="#" class="hover:text-white">Video library</a></li>
-                    <li><a href="#" class="hover:text-white">Pricing</a></li>
+                    <li><a href="{{ route('category.index') }}" class="hover:text-white">Category</a></li>
+                    <li><a href="{{ route('about-us') }}" class="hover:text-white">About Us</a></li>
+                    <li><a href="{{ route('contact_us')}}" class="hover:text-white">Contact Us</a></li>
                 </ul>
             </div>
 
@@ -419,7 +419,7 @@
                 </div>
             </div>
 
-            <div>
+            {{-- <div>
                 <h3 class="text-lg font-bold mb-4">Subscribe</h3>
                 <form class="space-y-3">
                     <input type="text" placeholder="Full Name*" class="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -428,12 +428,12 @@
                         Send
                     </button>
                 </form>
-            </div>
+            </div> --}}
         </div>
 
         <div class="mt-8 pt-4 border-t border-gray-700 flex flex-col sm:flex-row justify-between items-center text-xs text-gray-500">
             <p class="mb-2 sm:mb-0">
-                Etraining. All Rights Reserved. Created by DXD Media & Ciobsmith.
+                Etraining. All Rights Reserved. Created by Essencial Media & Ciobsmith.
             </p>
             <div class="flex space-x-4">
                 <a href="#" class="hover:text-white">PRIVACY POLICY</a>

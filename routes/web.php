@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CenterController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CourseWatchController;
 use App\Http\Controllers\MyVideosController;
@@ -87,7 +88,9 @@ Route::get('/center/{center}/{course}', [CourseController::class, 'showCenter'])
     ->name('courses.center')
     ->where('course', '[a-z0-9-]+');
 
-
+ Route::get('/our-center', [CenterController::class, 'centers'])
+  ->name('center.centers')
+    ->middleware(['sessionauth', 'admin']);
 
     /*
 |--------------------------------------------------------------------------

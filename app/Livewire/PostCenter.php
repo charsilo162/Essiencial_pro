@@ -31,6 +31,8 @@ class PostCenter extends Component
 
     public function openModal()
     {
+        $this->reset(); // Clear any previous data
+        $this->resetErrorBag();
         $this->showModal = true;
     }
 
@@ -45,47 +47,52 @@ class PostCenter extends Component
             'center_thumbnail_url' => 'nullable|image|max:1024',
         ];
     }
-public function postCenter()
-{
-    $this->validate($this->getRules());
 
-    $data = [
-        ['name' => 'name', 'contents' => $this->name],
-        ['name' => 'address', 'contents' => $this->address],
-        ['name' => 'description', 'contents' => $this->description],
-        ['name' => 'city', 'contents' => $this->city],
-        ['name' => 'years_of_experience', 'contents' => $this->years_of_experience],
-    ];
+    public function postCenter()
+    {
+        $this->validate($this->getRules());
 
-    if ($this->center_thumbnail_url) {
-        $data[] = [
-            'name' => 'center_thumbnail_url',
-            'contents' => fopen($this->center_thumbnail_url->getRealPath(), 'r'),
-            'filename' => $this->center_thumbnail_url->getClientOriginalName(),
+        $data = [
+            ['name' => 'name', 'contents' => $this->name],
+            ['name' => 'address', 'contents' => $this->address],
+            ['name' => 'description', 'contents' => $this->description ?? ''], // Handle nullable
+            ['name' => 'city', 'contents' => $this->city],
+            ['name' => 'years_of_experience', 'contents' => $this->years_of_experience],
         ];
+
+        if ($this->center_thumbnail_url) {
+            $data[] = [
+                'name' => 'center_thumbnail_url',
+                'contents' => fopen($this->center_thumbnail_url->getRealPath(), 'r'),
+                'filename' => $this->center_thumbnail_url->getClientOriginalName(),
+            ];
+        }
+
+        $response = $this->api->postWithFile('centers', $data);
+
+        // Error handling
+        if (!empty($response['error'])) {
+            $this->dispatch('error-notification', message: $response['message'] ?? 'Failed to post center');
+            return; // Don't close modal on error
+        }
+
+        $this->reset([
+            'name',
+            'address',
+            'description',
+            'city',
+            'years_of_experience',
+            'center_thumbnail_url'
+        ]);
+
+        $this->showModal = false;
+
+        $this->dispatch(
+            'success-notification',
+            message: '🥳 Success! Your training center has been posted.',
+            type: 'center'
+        );
     }
-
-    $response = $this->api->postWithFile('centers', $data);
-
-    $this->reset([
-        'name',
-        'address',
-        'description',
-        'city',
-        'years_of_experience',
-        'center_thumbnail_url'
-    ]);
-
-    $this->showModal = false;
-
-    $this->dispatch(
-        'success-notification',
-        message: '🥳 Success! Your training center has been posted.',
-        type: 'center'
-    );
-}
-
-
 
     public function render()
     {
