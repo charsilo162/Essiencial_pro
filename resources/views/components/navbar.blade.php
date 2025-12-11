@@ -43,6 +43,12 @@
                                 Admin Panel
                             </a>
                         @endif
+                        @if((session('user.role') ?? session('user.type') ?? '') !== 'admin')
+                            <a href="{{ route('profile2') }}"
+                               class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                User Panel
+                            </a>
+                        @endif
 
                         {{-- LOGOUT --}}
                         <a href="#" onclick="

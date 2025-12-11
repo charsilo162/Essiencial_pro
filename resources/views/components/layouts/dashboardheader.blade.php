@@ -73,6 +73,13 @@
                                 </a>
                             @endif
 
+                                 @if((session('user.role') ?? session('user.type') ?? '') !== 'admin')
+                            <a href="{{ route('profile2') }}"
+                               class="block px-4 py-2 text-sm text-gray-100 hover:bg-blue-500">
+                                User Panel
+                            </a>
+                        @endif
+
                             <button @click="loggingOut = true; $nextTick(() => {
                                 fetch('http://127.0.0.1:8001/api/logout', {
                                     method: 'POST',

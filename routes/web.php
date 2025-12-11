@@ -53,7 +53,7 @@ Route::get('/faqs', function () {
 
 //category
 // routes/web.php
-Route::get('/categories', CategoryManager::class)->name('categories');
+Route::get('/noterrror', CategoryManager::class)->name('categories');
 Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
 Route::get('/list_category', [CategoryController::class, 'category'])->name('category.list');
 Route::get('/category/{slug}', [CategoryController::class, 'show'])->name('category.show');
