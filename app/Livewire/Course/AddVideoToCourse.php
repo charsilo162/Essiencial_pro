@@ -28,7 +28,7 @@ class AddVideoToCourse extends Component
     }
 
     protected $rules = [
-        'selectedCourseId' => 'required|exists:courses,id', // Note: Validation still assumes backend checks existence; if fully decoupled, consider removing or handling via API response
+        'selectedCourseId' => 'required', // Note: Validation still assumes backend checks existence; if fully decoupled, consider removing or handling via API response
         'title'            => 'required|string|max:255',
         'video_file'       => 'required|file|mimes:mp4,mov,avi,wmv|max:102400',
         'thumbnail_file'   => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
@@ -88,7 +88,7 @@ class AddVideoToCourse extends Component
 
     public function save()
     {
-        // dd('you are');
+    //    dd('you are');
         $this->validate();
 
         $data = [

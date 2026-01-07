@@ -47,76 +47,14 @@
             <a class="hover:text-blue-600">Fashion</a>
             <a class="hover:text-blue-600">Language</a>
 
-            <button class="bg-orange-500 text-white px-6 py-2 rounded-full hover:bg-orange-600">
+            {{-- <button class="bg-orange-500 text-white px-6 py-2 rounded-full hover:bg-orange-600">
                 Join Us
-            </button>
+            </button> --}}
         </div>
     </section>
 
 </body>
 </html>
-
-    {{-- <!-- OUR CLASSES ------------------------------------------------------ -->
-    <section class="py-20 px-6 bg-gray-100 fade-in">
-        <h2 class="text-3xl font-extrabold text-gray-800 text-center mb-4">
-            Our Classes
-        </h2>
-
-        <p class="text-center max-w-2xl mx-auto text-gray-600 mb-12">
-            We offer a wide range of tutorials categorized under Virtual, Physical or Hybrid Classes.
-        </p>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-
-            <!-- VIRTUAL Card -->
-            <div class="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition-all">
-                <div class="bg-blue-600 text-white p-4 text-center font-semibold">
-                    Virtual Classes
-                </div>
-                <p class="px-4 py-3 text-gray-600">
-                    Join our interactive virtual lessons from anywhere in the world.
-                </p>
-                <img src="{{ asset('storage/logo5.jpg') }}"
-                    class="w-full h-48 object-cover" />
-            </div>
-
-            <!-- PHYSICAL Card -->
-            <div class="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition-all">
-                <div class="bg-orange-500 text-white p-4 text-center font-semibold">
-                    Physical Classes
-                </div>
-                <p class="px-4 py-3 text-gray-600">
-                    Learn onsite with hands-on experience from certified instructors.
-                </p>
-                <img src="{{ asset('storage/logo6.jpg') }}"
-                    class="w-full h-48 object-cover" />
-            </div>
-
-            <!-- HYBRID Card -->
-            <div class="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition-all">
-                <div class="bg-blue-600 text-white p-4 text-center font-semibold">
-                    Hybrid Classes
-                </div>
-                <p class="px-4 py-3 text-gray-600">
-                    Enjoy a flexible mix of virtual and physical learning.
-                </p>
-                <img src="{{ asset('storage/logo4.jpg') }}"
-                    class="w-full h-48 object-cover" />
-            </div>
-
-        </div>
-    </section> --}}
-
-    
-
-
-
-
-
-
-    <!-- ========================== NEW SECTION =============================== -->
-
-
 
 <livewire:course.our-classes />
 <livewire:category.popular-category-cards />
@@ -154,94 +92,7 @@
     </div>
 </section>
 
-<!-- ======================== END NEW SECTION ============================= -->
 {{-- <section class="bg-white px-6 py-10">
-    <div class="flex justify-between items-center mb-6">
-        <h2 class="text-2xl font-bold text-gray-800">Short Videos</h2>
-        <a href="#" class="text-gray-500 font-medium hover:text-gray-700">See All</a>
-    </div>
-
-    <div class="flex items-start gap-6 overflow-x-auto pb-4">
-        
-        <div class="min-w-[200px] max-w-[200px] rounded-xl overflow-hidden relative group">
-            <img src="{{ asset('storage/img1.jpg') }}" alt="Hot air balloon over canyon" class="h-80 w-full object-cover rounded-xl transition duration-300 group-hover:scale-105">
-            <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-black/70 to-transparent flex justify-between text-white text-sm">
-                <span class="flex items-center space-x-1">
-                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg>
-                    <span>203</span>
-                </span>
-                <span>5,345 views</span>
-            </div>
-        </div>
-
-        <div class="min-w-[200px] max-w-[200px] rounded-xl overflow-hidden relative group">
-            <img src="{{ asset('storage/logo6.jpg') }}" alt="Tree in a clear globe" class="h-80 w-full object-cover rounded-xl transition duration-300 group-hover:scale-105">
-            <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-black/70 to-transparent flex justify-between text-white text-sm">
-                <span class="flex items-center space-x-1">
-                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg>
-                    <span>203</span>
-                </span>
-                <span>5,345 views</span>
-            </div>
-        </div>
-
-        <div class="min-w-[200px] max-w-[200px] rounded-xl overflow-hidden relative group">
-            <img src="{{ asset('storage/logo1.jpg') }}" alt="Baby playing a toy piano" class="h-80 w-full object-cover rounded-xl transition duration-300 group-hover:scale-105">
-            <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-black/70 to-transparent flex justify-between text-white text-sm">
-                <span class="flex items-center space-x-1">
-                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg>
-                    <span>203</span>
-                </span>
-                <span>5,345 views</span>
-            </div>
-        </div>
-
-        <div class="min-w-[200px] max-w-[200px] rounded-xl overflow-hidden relative group">
-            <img src="{{ asset('storage/logo3.jpg') }}" alt="Woman watching a film" class="h-80 w-full object-cover rounded-xl transition duration-300 group-hover:scale-105">
-            <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-black/70 to-transparent flex justify-between text-white text-sm">
-                <span class="flex items-center space-x-1">
-                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg>
-                    <span>203</span>
-                </span>
-                <span>5,345 views</span>
-            </div>
-        </div>
-        <div class="min-w-[200px] max-w-[200px] rounded-xl overflow-hidden relative group">
-            <img src="{{ asset('storage/logo2.jpg') }}" alt="Woman watching a film" class="h-80 w-full object-cover rounded-xl transition duration-300 group-hover:scale-105">
-            <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-black/70 to-transparent flex justify-between text-white text-sm">
-                <span class="flex items-center space-x-1">
-                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg>
-                    <span>203</span>
-                </span>
-                <span>5,345 views</span>
-            </div>
-        </div>
-        <div class="min-w-[200px] max-w-[200px] rounded-xl overflow-hidden relative group">
-            <img src="{{ asset('storage/logo7.jpg') }}" alt="Woman watching a film" class="h-80 w-full object-cover rounded-xl transition duration-300 group-hover:scale-105">
-            <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-black/70 to-transparent flex justify-between text-white text-sm">
-                <span class="flex items-center space-x-1">
-                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg>
-                    <span>203</span>
-                </span>
-                <span>5,345 views</span>
-            </div>
-        </div>
-        <div class="min-w-[200px] max-w-[200px] rounded-xl overflow-hidden relative group">
-            <img src="{{ asset('storage/logo8.jpg') }}" alt="Woman watching a film" class="h-80 w-full object-cover rounded-xl transition duration-300 group-hover:scale-105">
-            <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-black/70 to-transparent flex justify-between text-white text-sm">
-                <span class="flex items-center space-x-1">
-                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path></svg>
-                    <span>203</span>
-                </span>
-                <span>5,345 views</span>
-            </div>
-        </div>
-        
-    </div>
-</section> --}}
-
-
-<section class="bg-white px-6 py-10">
     <div class="mx-auto text-center">
         <h2 class="text-3xl font-bold text-gray-800 mb-10">Our <span class="text-blue-600">clients</span></h2>
 
@@ -281,7 +132,7 @@
                  class="h-10 sm:h-12 opacity-75 hover:opacity-100 transition duration-300 flex-shrink-0">
         </div>
     </div>
-</section>
+</section> --}}
 
 
 {{-- <section class="bg-white px-6 py-6">

@@ -40,7 +40,7 @@
                                      text-white px-6 py-3 text-sm font-bold tracking-wider rounded-full shadow-2xl
                                      border-4 border-white transform -rotate-12 hover:rotate-0 transition-all duration-500
                                      flex items-center gap-2 animate-pulse hover:animate-none">
-                            Sparkles {{ $badgeText }}
+                             {{ $badgeText }}
                         </span>
                     @endif
                 </div>
@@ -79,8 +79,8 @@
                     </div>
 
                             {{-- RATING — PREMIUM SVG STARS (Best Looking) --}}
-                <div class="flex items-center gap-5 py-4">
-                    <div class="flex items-center space-x-1">
+                {{-- <div class="flex items-center gap-5 py-4"> --}}
+                    {{-- <div class="flex items-center space-x-1">
                         @for($i = 1; $i <= 5; $i++)
                             @if($i <= round($rating))
                                 <!-- Filled Star -->
@@ -96,17 +96,17 @@
                                 </svg>
                             @endif
                         @endfor
-                    </div>
+                    </div> --}}
 
-                    <div class="ml-2">
+                    {{-- <div class="ml-2">
                         <span class="text-4xl font-extrabold text-gray-900">
                             {{ number_format($rating, 1) }}
                         </span>
                         <p class="text-sm text-gray-500 font-medium">
                             {{ number_format(rand(300, 1800)) }} verified reviews
                         </p>
-                    </div>
-                </div>
+                    </div> --}}
+                {{-- </div> --}}
 
                     {{-- Slots --}}
                     <div class="bg-gradient-to-r from-orange-50 to-pink-50 rounded-2xl p-6 border-2 border-orange-200/50">

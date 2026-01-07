@@ -21,17 +21,15 @@
 
     @livewireStyles
 </head>
-
 <body class="bg-gray-50 font-sans text-black">
 
-    {{-- Navbar Component --}}
     <x-navbar />
 
-    <main>
+    <main class="pt-20">
         {{ $slot }}
     </main>
 
     @livewireScripts
-  
 </body>
+
 </html>

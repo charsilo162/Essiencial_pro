@@ -38,35 +38,34 @@ public function updatedPhoto()
 }
 public function register()
 {
-    $this->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|email|max:255',
-        'type' => 'required|in:user,center,tutor',
-        'password' => 'required|min:6|confirmed',
-        // Validate photo if uploaded
-        'photo' => 'nullable|image|max:2048', // optional, max 2MB
-    ]);
+    $this->validate(); // Uses the $rules property
 
-    // If user uploaded a photo, store it
-    $photoPath = null;
-    if ($this->photo) {
-        $photoPath = $this->photo->store('profile_photos', 'public');
-    }
-
+    // 1. Prepare the payload array for your multipartRequest function
     $payload = [
-        'name' => $this->name,
-        'email' => $this->email,
-        'type' => $this->type,
-        'password' => $this->password,
-        'password_confirmation' => $this->password_confirmation,
+        ['name' => 'name', 'contents' => $this->name],
+        ['name' => 'email', 'contents' => $this->email],
+        ['name' => 'type', 'contents' => $this->type],
+        ['name' => 'password', 'contents' => $this->password],
+        ['name' => 'password_confirmation', 'contents' => $this->password_confirmation],
     ];
 
-    if ($photoPath) {
-        $payload['photo'] = $photoPath; // Send path to API
+    // 2. Attach the actual file stream if it exists
+    if ($this->photo) {
+        // Get the file contents as a stream resource
+        $fileStream = fopen($this->photo->getRealPath(), 'r');
+        
+        // Add the file to the payload in the expected format
+        $payload[] = [
+            'name' => 'photo', // This MUST match the API's validation rule name
+            'contents' => $fileStream, // The file stream resource
+            'filename' => $this->photo->getFilename(), // Recommended for correct file naming
+        ];
     }
 
-    $response = (new ApiService())->post('register', $payload);
-// dd($response);
+    // 3. Use the postWithFile method, which utilizes multipartRequest
+    // The ApiService will close the stream automatically.
+    $response = (new ApiService())->postWithFile('register', $payload);
+    
     if (isset($response['errors'])) {
         foreach ($response['errors'] as $field => $messages) {
             $this->addError($field, is_array($messages) ? $messages[0] : $messages);
@@ -80,7 +79,6 @@ public function register()
 
     return redirect()->route('category.index');
 }
-
     public function render()
     {
         return view('livewire.auth.register')->layout('layouts.auth', ['title' => 'Sign Up']);

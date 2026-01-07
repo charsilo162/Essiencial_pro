@@ -15,7 +15,7 @@
                     <div class="flex items-start space-x-4">
                         <div class="shrink-0">
                             <img class="h-16 w-16 rounded-full object-cover"
-                                 src="{{ asset('storage/img3.png') }}" alt="Ishola Balogun">
+                                 src="{{ asset(session('user.photo_path')) }}" alt="Ishola Balogun">
                         </div>
                         <div class="flex flex-col">
                             <h1 class="text-xl font-semibold text-gray-800">   {{ session('user.name') }}</h1>
@@ -39,6 +39,9 @@
                 <livewire:post-center />
                 <livewire:course.post-course />
             @endif
+             @endif
+             @if((session('user.role') ?? session('user.type') ?? '') == 'user')
+           <livewire:profile.edit-profile />
              @endif
             
         </div>

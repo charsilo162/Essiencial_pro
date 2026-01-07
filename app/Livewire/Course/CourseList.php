@@ -103,7 +103,7 @@ class CourseList extends Component
                 ]);
 
             $course['button_text'] = $data['type'] === 'online'
-                ? 'Start Learning Now'
+                ? 'Start Now'
                 : 'View Details';
 
             return $course;

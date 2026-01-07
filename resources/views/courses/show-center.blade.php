@@ -16,23 +16,26 @@
 >
 
         {{-- Share Panel --}}
+          @if (session('user'))
         <x-slot:shareBlock>
             <div class="mt-6">
-                <livewire:share-panel 
+              
+                   <livewire:share-panel 
                     :resource-id="$course['id']" 
                     :resource-type="\App\Models\Course::class" 
-                />
-            </div>
+                />  
+              </div>
         </x-slot:shareBlock>
-
+            @endif
         {{-- Likes / Dislikes / Comments --}}
+         @if (session('user'))
         <x-slot:thumbsBlock>
             @livewire('interaction-panel', [
                 'resourceId' => $course['id'],
                 'resourceType' => 'App\Models\Course'
             ])
         </x-slot:thumbsBlock>
-
+ @endif
         {{-- Interaction Stats --}}
         <x-slot:interactionStats>
             <x-shared.resource-stats 
@@ -46,13 +49,13 @@
 
         {{-- Contact / Center Info --}}
         <x-slot:contactArea>
-            <div class="space-y-6">
-                @foreach ($course['centers'] as $center)
+            {{-- <div class="space-y-6"> --}}
+                {{-- @foreach ($course['centers'] as $center) --}}
 
                 {{-- @php
                   dd($course['centers']);  
                 @endphp --}}
-                    <div class="p-5 bg-gradient-to-r from-orange-50 to-pink-50 rounded-2xl border-2 border-orange-200/50">
+                    {{-- <div class="p-5 bg-gradient-to-r from-orange-50 to-pink-50 rounded-2xl border-2 border-orange-200/50">
                         <div class="flex items-center gap-4 mb-4">
                             <div class="w-16 h-16 bg-gray-200 border-2 border-dashed rounded-xl"></div>
                             <div>
@@ -73,9 +76,9 @@
                                 </span>
                             @endif
                         </div>
-                    </div>
-                @endforeach
-            </div>
+                    </div> --}}
+                {{-- @endforeach --}}
+            {{-- </div> --}}
         </x-slot:contactArea>
 
         {{-- Footer: Price + Enroll Button --}}
@@ -91,7 +94,7 @@
                         </p>
                     @endif
                 </div>
-
+ @if (session('user'))
                 <a href="{{ route('enroll.course', $course['slug']) }}" 
                    class="relative px-10 py-5 bg-gradient-to-r from-orange-500 via-pink-500 to-yellow-400 
                           text-white font-bold text-lg rounded-full shadow-2xl
@@ -99,8 +102,17 @@
                           hover:from-orange-600 hover:via-pink-600 hover:to-yellow-500
                           transition-all duration-300 flex items-center gap-3 overflow-hidden">
                     <span class="relative z-10">Enroll Now</span>
-                    <span class="relative z-10">Rocket</span>
+                   
                 </a>
+                @else
+ <a href="{{ route('logins') }}" class="relative px-5 py-3 bg-gradient-to-r from-orange-500 via-pink-500 to-yellow-400 
+                          text-white font-bold text-lg rounded-full shadow-2xl
+                          hover:shadow-orange-500/50 hover:scale-105
+                          hover:from-orange-600 hover:via-pink-600 hover:to-yellow-500
+                          transition-all duration-300 flex items-center gap-3 overflow-hidden">
+                    <span class="relative z-10">login to Enroll</span>
+              </a>
+                @endif
             </div>
         </x-slot:footerArea>
     </x-shared.detail-wrapper>
