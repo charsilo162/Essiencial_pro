@@ -4,11 +4,10 @@ namespace App\Livewire;
 use Livewire\Component;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
-use App\Mail\ContactMessage;
+use App\Mail\ContactMessage; 
 
 class ContactForm extends Component
 {
-    
     public $name = '';
     public $email = '';
     public $subject = '';
@@ -35,7 +34,7 @@ class ContactForm extends Component
         $markdownMessage = Str::markdown($this->message);
 
         // Send email (assuming you have a Mailable set up)
-        Mail::to('support@esencialacademy.com')->send(new ContactMessage(
+        Mail::to('support@youracademy.com')->send(new ContactMessage(
             $this->name,
             $this->email,
             $this->subject,
@@ -51,7 +50,6 @@ class ContactForm extends Component
 
     public function render()
     {
-        // dd(dd);
         return view('livewire.contact-form');
     }
 }

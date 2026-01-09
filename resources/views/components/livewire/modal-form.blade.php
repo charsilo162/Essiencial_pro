@@ -1,60 +1,35 @@
-<div x-data="{ open: @entangle('showModal') }"
-     x-show="open"
-     class="fixed inset-0 z-50 overflow-y-auto overscroll-contain"
-     style="display: none;"
+{{-- This uses the standard Livewire wire:model="showModal" to control visibility --}}
+<div x-data="{ open: @entangle('showModal') }" x-show="open" 
+     class="fixed inset-0 z-50 overflow-y-auto" 
+     style="display: none;" 
      x-transition.duration.300ms>
 
-    <!-- Dark overlay -->
-    <div class="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity z-40"></div>
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
 
-    <!-- Modal container -->
-    <div class="relative z-50 flex items-center justify-center min-h-screen px-4 text-center">
+    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
 
-        <!-- Modal Gradient Border Wrapper -->
-        <div class="inline-block w-full max-w-lg bg-gradient-to-r from-orange-500 via-yellow-400 to-blue-500 p-[2px] rounded-xl shadow-2xl">
-
-            <!-- Modal box -->
-            <div class="bg-white rounded-xl text-left overflow-y-auto max-h-[90vh] transform transition-all">
-
-                <form wire:submit.prevent="{{ $submitAction }}">
+        <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+            <form wire:submit.prevent="{{ $submitAction }}">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">
+                        {{ $title }}
+                    </h3>
                     
-                    <!-- Header -->
-                 
-                    <div class="px-6 py-5 bg-gradient-to-r from-orange-500 via-yellow-400 to-blue-500 rounded-t-xl">
-                        <h3 class="text-xl font-bold text-white flex items-center gap-2">
-                            {{ $title }}
-                        </h3>
-                        <p class="text-sm text-white/90 mt-1">
-                            Please complete the form below
-                        </p>
-                    </div>
+                    {{-- THIS IS THE SLOT FOR THE UNIQUE FORM FIELDS (Course or Center) --}}
+                    {{ $slot }} 
 
-
-                    <!-- Body -->
-                    <div class="px-6 py-4 space-y-4">
-                        {{ $slot }}
-                    </div>
-
-                    <!-- Footer -->
-                    <div class="bg-gray-50 px-6 py-4 flex justify-end gap-3 border-t border-gray-100">
-
-                        <!-- Cancel button -->
-                        <button type="button"
-                            wire:click="$set('showModal', false)"
-                            class="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 transition">
-                            Cancel
-                        </button>
-
-                        <!-- Submit button (Gradient) -->
-                        <button type="submit"
-                            class="px-5 py-2 rounded-lg bg-gradient-to-r from-orange-500 via-yellow-400 to-blue-500 text-white font-semibold shadow-md hover:opacity-90 transition transform hover:scale-[1.02]">
-                            {{ $submitButtonText ?? 'Submit' }}
-                        </button>
-
-                    </div>
-                </form>
-
-            </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-black text-base font-medium text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black sm:ml-3 sm:w-auto sm:text-sm">
+                       
+                    {{ $submitButtonText ?? 'Submit' }}
+                    </button>
+                    <button type="button" wire:click="$set('showModal', false)" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                        Cancel
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

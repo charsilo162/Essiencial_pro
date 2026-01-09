@@ -1,4 +1,5 @@
-<x-layouts.home-layout>
+<x-layouts.app title="Course Watch">
+    <x-navigation.header-original />
 
     <main class="py-8">
         {{-- 
@@ -10,5 +11,5 @@
         @livewire('course.course-watch', ['slug' => $course['slug']])
     </main>
 
-
-</x-layouts.home-layout>
+    <x-navigation.footer />
+</x-layouts.app>

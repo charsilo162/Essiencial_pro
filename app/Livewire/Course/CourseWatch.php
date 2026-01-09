@@ -11,7 +11,7 @@ class CourseWatch extends Component
     public ?array $currentVideo = null;
     public Collection $videos;           // ← Now correct type
     public ?int $videoId = null;
-    public int $playerKey = 0;
+
     protected $queryString = [
         'videoId' => ['except' => null, 'as' => 'v'],
     ];
@@ -26,7 +26,6 @@ class CourseWatch extends Component
 
    public function mount(string $slug)
 {
-    
     $response = $this->api->get("courses/{$slug}/watch");
 // dd($response);
     if (isset($response['message']) && str_contains($response['message'], 'enrolled')) {
@@ -35,7 +34,7 @@ class CourseWatch extends Component
 
     $this->course = $response['data'];
     $this->videos = collect($this->course['videos'] ?? []);
-
+//dd($this->course);
     $this->setCurrentVideo($this->videoId);
 }
     public function setCurrentVideo(?int $id)
@@ -48,7 +47,6 @@ class CourseWatch extends Component
 
         $this->currentVideo = $video;
         $this->videoId = $video['id'] ?? null;
-        $this->playerKey++;
     }
 
     public function render()

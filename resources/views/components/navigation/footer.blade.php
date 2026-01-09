@@ -27,7 +27,7 @@
                 <p class="text-sm">3 Walker Street, Edinburgh, EH3 7JY</p>
             </div>
 
-      
+            @livewire('subscribe-form')
 
         </div>
     </div>

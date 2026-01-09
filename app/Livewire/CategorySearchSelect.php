@@ -55,6 +55,6 @@ class CategorySearchSelect extends Component
 
     public function render()
     {
-        return view('livewire.category.category-search-select');
+        return view('livewire.category-search-select');
     }
 }

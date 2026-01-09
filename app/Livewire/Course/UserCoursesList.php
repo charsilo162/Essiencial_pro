@@ -47,21 +47,18 @@ class UserCoursesList extends Component
 
     public function render()
     {
-        $user = session('user');
+          $user = session('user');
 
-        if (!$user) {
-            return redirect()->route('login');
-        }
+    if (!$user) {
+        return redirect()->route('login');
+    }
 
-        $params = [
-            'include_unpublished' => true,
-            'paginate' => true,
-        ];
+    $params = [
+        'uploader' => $user['id'],
+        'include_unpublished' => true,
+        'paginate' => true,
+    ];
 
-        // Only filter by uploader if the user is not an admin
-        if ($user['type'] !== 'admin') {
-            $params['uploader'] = $user['id'];
-        }
 
         if ($this->search) {
             $params['search'] = $this->search;

@@ -103,7 +103,7 @@ public function loadCourses()
     $endpoint = $this->course_id ? "courses/{$this->course_id}" : 'courses';
     $method = $this->course_id ? 'put' : 'post';
 
-    $this->api->$method($endpoint, $data, true);
+    $this->api->withToken()->$method($endpoint, $data, true);
 
     $this->dispatch('success-notification', message: 'Course saved!');
     $this->showModal = false;

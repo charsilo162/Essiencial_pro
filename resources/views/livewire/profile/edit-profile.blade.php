@@ -43,7 +43,7 @@
         </div>
 
         {{-- Type --}}
-        {{-- <div class="mb-4">
+        <div class="mb-4">
             <label class="block text-sm font-medium text-gray-700 mb-2">Account Type</label>
             <div class="flex flex-col space-y-2">
                 <label class="inline-flex items-center">
@@ -60,7 +60,7 @@
                 </label>
             </div>
             @error('type') <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span> @enderror
-        </div> --}}
+        </div>
 
         {{-- Password (optional) --}}
         <div class="mb-4">

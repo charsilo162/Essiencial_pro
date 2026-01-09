@@ -38,20 +38,21 @@
     </span>
     
     {{-- Views Count (Uses your existing SVG) --}}
-    {{-- <span class="flex items-center gap-1">
+    <span class="flex items-center gap-1">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
             <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
         </svg>
         <span>{{ $viewsCount }} Views</span>
-    </span> --}}
+    </span>
     
     {{-- Shares Count (NEW - Using the same icon as Likes/Views for simplicity, feel free to change) --}}
-    {{-- <span class="flex items-center gap-1">
+    <span class="flex items-center gap-1">
         <svg class="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+             {{-- You might want a different SVG for Share, e.g., Heroicons 'Share' or 'Arrow Up on Square' --}}
              <path d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
              <path fill-rule="evenodd" d="M.458 10C1.732 5.602 6.008 3 10 3s8.268 2.602 9.542 7c-1.274 4.398-5.55 7-9.542 7S1.732 14.398.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
         </svg>
         <span>{{ $sharesCount }} Shares</span>
-    </span> --}}
+    </span>
 </div>

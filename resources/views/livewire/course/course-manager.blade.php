@@ -1,4 +1,4 @@
-{{-- <div class="p-6">
+<div class="p-6">
   <div class="flex justify-between items-center mb-6">
     <h2 class="text-2xl font-bold text-gray-800">My Courses</h2>
     <button wire:click="$dispatch('openPostCourseModal')" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
@@ -16,4 +16,4 @@
     </div>
   @endif
   @include('livewire.partials.course-form-modal')
-</div> --}}
+</div>

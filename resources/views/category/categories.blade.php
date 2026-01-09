@@ -1,9 +1,4 @@
-   <x-profile.dashboard-layout
-    title="category"
-    active-tab="course"
-    :stats="['completed' => 2, 'pending' => 2]"
->
+<x-layouts.appdashboard title="Course Listings">
    <livewire:category.category-manager />
-</x-profile.dashboard-layout>
+</x-layouts.appdashboard>
 
- 

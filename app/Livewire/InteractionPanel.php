@@ -60,13 +60,13 @@ public function vote($type)
         $this->dispatch('toast', 'Please log in to vote.');
         return;
     }
-// dd( $this->likeableType);
-    $this->api->post('likes/toggle', [ // ← REMOVED .withToken()
+
+  $dd =  $this->api->post('likes/toggle', [ // ← REMOVED .withToken()
         'resource_type' => $this->likeableType,
         'resource_id'   => $this->likeableId,
         'type'          => $type,
     ]);
-
+//  dd(  $dd);
     $this->refreshVotes();
     $this->dispatch('toast', 'Vote recorded!');
 }

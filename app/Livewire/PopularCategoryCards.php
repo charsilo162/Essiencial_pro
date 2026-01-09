@@ -37,10 +37,10 @@ public function render()
 
     $response = $this->api->get('categories', $params);
     $categories = collect($response['data'] ?? []);
-dump($categories);
+
     $countResponse = $this->api->getCategoriesCount($this->search);
     $totalCategoryCount = $countResponse['total'] ?? 0;
-dd($countResponse);
+
     // Variable name: $showSeeAll (NOT $showAll!)
     $showSeeAll = empty($this->search) && $categories->count() >= $this->limit;
 

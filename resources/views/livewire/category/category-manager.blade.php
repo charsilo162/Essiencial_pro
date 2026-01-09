@@ -16,59 +16,53 @@
     </div>
 
     <!-- Table -->
-    <!-- Modern Category Grid -->
-<div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-
-    @forelse($categories as $cat)
-        <div class="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden
-                    hover:shadow-xl transition duration-300 transform hover:-translate-y-1">
-
-            <!-- Thumbnail -->
-<div class="h-40 w-full bg-gradient-to-r from-[#733c22] via-[#3b1501] to-[#70501b] flex items-center justify-center">
-                @if($cat['thumbnail_url'])
-                    <img src="{{ $cat['thumbnail_url'] }}"
-                         class="h-28 w-28 rounded-full object-cover border-4 border-white shadow-md">
-                @else
-                    <div class="h-28 w-28 rounded-full bg-white bg-opacity-40 border-2 border-dashed border-white"></div>
+    <div class="bg-white shadow overflow-hidden rounded-lg">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Thumbnail</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Slug</th>
+                      @if((session('user.role') ?? session('user.type') ?? '') == 'admin')
+                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                 @endif
-            </div>
-
-            <!-- Content -->
-            <div class="p-5">
-                <h3 class="font-semibold text-lg text-gray-800">{{ $cat['name'] }}</h3>
-                <p class="text-sm text-gray-500 mt-1">{{ $cat['slug'] }}</p>
-
-                <!-- Actions -->
-                <div class="flex justify-end mt-5 gap-3">
-
-                    <button wire:click="edit({{ $cat['id'] }})"
-                        class="px-4 py-2 rounded-lg text-white text-sm font-medium
-                               bg-blue-600 hover:bg-blue-700 transition">
-                        Edit
-                    </button>
-
-                    <button wire:click="delete({{ $cat['id'] }})"
-                        wire:confirm="Delete this category?"
-                        class="px-4 py-2 rounded-lg text-white text-sm font-medium
-                               bg-red-600 hover:bg-red-700 transition">
-                        Delete
-                    </button>
-
-                </div>
-            </div>
-
-        </div>
-    @empty
-        <p class="text-gray-500 text-center col-span-full py-10">No categories found.</p>
-    @endforelse
-</div>
-
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                @forelse($categories as $cat)
+                    <tr>
+                        <td class="px-6 py-4">
+                            @if($cat['thumbnail_url'])
+                                <img src="{{ $cat['thumbnail_url'] }}" class="h-10 w-10 rounded-full object-cover" alt="{{ $cat['name'] }}">
+                            @else
+                                <div class="h-10 w-10 rounded-full bg-gray-200 border-2 border-dashed border-gray-400"></div>
+                            @endif
+                        </td>
+                        <td class="px-6 py-4 text-sm font-medium text-gray-900">{{ $cat['name'] }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-500">{{ $cat['slug'] }}</td>
+                        @if((session('user.role') ?? session('user.type') ?? '') == 'admin')
+                        <td class="px-6 py-4 text-right space-x-3">
+                            <button wire:click="edit({{ $cat['id'] }})"
+                                    class="text-indigo-600 hover:text-indigo-900 font-medium">Edit</button>
+                            <button wire:click="delete({{ $cat['id'] }})"
+                                    wire:confirm="Are you sure you want to delete this category?"
+                                    class="text-red-600 hover:text-red-900 font-medium">Delete</button>
+                        </td>
+                        @endif
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="4" class="text-center py-12 text-gray-500">No categories found.</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
 
     <!-- Pagination -->
     <div class="mt-8">
-    {{-- Change this line --}}
-    {{ $paginator->links('livewire::tailwind') }}
-</div>
+        {!! $paginator->links() !!}
+    </div>
 
     <!-- Modal -->
     @if($showModal)

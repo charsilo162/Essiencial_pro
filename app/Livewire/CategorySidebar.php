@@ -35,7 +35,6 @@ public function loadCategories()
     }
 
     $response = $this->api->get('categories', $params); // ← REMOVED .withToken()
-  
     $this->categories = $response['data'] ?? [];
 }
 

@@ -26,6 +26,7 @@ class CourseController extends Controller
   public function buy($slug)
 {
     $response = $this->api->get("courses/{$slug}");
+   
     if (isset($response['message']) || empty($response['data']['id'])) {
         abort(404);
     }
@@ -35,7 +36,7 @@ class CourseController extends Controller
 
     try {
         $init = $this->api->initializePayment($courseId);
-
+//  dd($init);
         // If API returned readable error
         if (!$init['success']) {
             return redirect()
@@ -52,7 +53,7 @@ class CourseController extends Controller
 
     } catch (Exception $e) {
 
-        \Log::error("Paystack Initialization Error: " . $e->getMessage());
+        // \Log::error("Paystack Initialization Error: " . $e->getMessage());
 
         return redirect()
             ->route('courses.online', $slug)
@@ -64,7 +65,7 @@ class CourseController extends Controller
    public function showOnline($slug)
 {
     $response = $this->api->get("courses/{$slug}");
-// dd($response);
+
     if (isset($response['message'])) {
         abort(404);
     }
@@ -81,7 +82,7 @@ class CourseController extends Controller
     public function showCenter($centerId, $slug)
     {
         $response = $this->api->get("courses/{$slug}");
-//  dd($response);
+
         if (isset($response['message'])) {
             abort(404);
         }

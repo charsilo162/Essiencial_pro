@@ -1,6 +1,4 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-    {{-- ONE UNIFIED SEARCH BAR — THIS IS THE ONLY SEARCH BOX NOW --}}
     <div class="mb-10">
         <div class="max-w-3xl mx-auto">
             <div class="relative">
@@ -19,20 +17,20 @@
             </div>
         </div>
     </div>
-
     @if ($usePagination)
         <div class="mb-8 px-4 sm:px-0">
-            <livewire:course.course-filter-bar
-                :filterType="$this->filterType"
-                :filterPrice="$this->filterPrice"
+            <livewire:course.course-filter-bar 
+                :filterType="$filterType" 
+                :filterPrice="$filterPrice" 
+                :searchLocation="$searchLocation" 
                 :key="'main-filter-bar'"
             />
         </div>
     @endif
 
-    <x-shared.list-section
-        :title="$sectionTitle"
-        :items="$items"
+    <x-shared.list-section 
+        :title="$sectionTitle" 
+        :items="$items" 
         :show-see-all="!$usePagination"
         :see-all-route="route('category.index', [
             'type' => $filterType !== 'all' ? $filterType : null,
@@ -41,7 +39,8 @@
         ])"
     />
 
-    @if ($usePagination && isset($courses['links']))
+    {{-- ONLY SHOW PAGINATION WHEN $usePagination IS TRUE --}}
+   @if ($usePagination && isset($courses['links']))
         <div class="mt-8">
             {{ $courses->links() }}
         </div>

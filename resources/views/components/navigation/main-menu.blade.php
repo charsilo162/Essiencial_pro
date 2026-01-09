@@ -1,28 +1,23 @@
 @php
-    $navLinks = [
-     
-        ['name' => 'Home', 'route' => 'home', 'path_segment' => 'home'], 
-        ['name' => 'category', 'route' => 'category.index', 'path_segment' => 'category.index'],
-        ['name' => 'About Us', 'route' => 'about-us', 'path_segment' => 'about-us'],
-        ['name' => 'Contact US', 'route' => 'contact_us', 'path_segment' => 'contact_us'],
-    ];
+$navLinks = [
+    ['label' => 'Home', 'route' => 'home'],
+    ['label' => 'Category', 'route' => 'category.index'],
+    ['label' => 'About Us', 'route' => 'about-us'],
+    ['label' => 'Contact Us', 'route' => 'contact_us'],
+    ['label' => 'FAQs', 'route' => 'faqs'],
+];
 @endphp
 
-{{-- Default classes for the container (used in the new header design) --}}
-<div {{ $attributes->merge(['class' => 'flex flex-1 justify-center space-x-8 text-sm font-medium']) }}>
+<div {{ $attributes->merge(['class' => 'flex gap-6']) }}>
     @foreach ($navLinks as $link)
-        @php
-            $href = route($link['route']);
-            $isActive = request()->routeIs($link['route']) || ($link['path_segment'] !== '/' && request()->is($link['path_segment'] . '*'));
-            
-            // Apply styling specific to the active link
-            $classes = $isActive 
-                ? 'text-sky-600 font-semibold border-b-2 border-sky-600 pb-1' 
-                : 'hover:text-sky-600';
-        @endphp
-
-        <a href="{{ $href }}" class="{{ $classes }}">
-            {{ $link['name'] }}
+        <a
+            href="{{ route($link['route']) }}"
+            class="text-sm font-medium transition-colors
+            {{ request()->routeIs($link['route'])
+                ? 'text-sky-400 border-b-2 border-sky-400'
+                : 'text-white hover:text-sky-400' }}"
+        >
+            {{ $link['label'] }}
         </a>
     @endforeach
 </div>

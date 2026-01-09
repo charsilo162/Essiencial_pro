@@ -1,16 +1,21 @@
-<x-layouts.home-layout>
- {{-- <x-navigation.header-original /> --}}
-  {{-- <x-layouts.dashboardheader /> --}}
+<x-layouts.app :title="$course['title'] ?? 'Course Details'">
 
+ {{-- <x-navigation.header-original /> --}}
+  <x-layouts.dashboardheader />
+{{-- @php
+    dd($course);
+@endphp --}}
     {{-- 1. Hero Section --}}
     <x-shared.detail-wrapper 
-        :imageUrl="$course['image_thumbnail_url'] ?? ''"
+   x
+
+       :imageUrl="$course['image_thumbnail_url'] ?? asset('storage/img3.png')"
         :title="$course['title']"
         :description="$course['description']"
         :rating="$course['rating'] ?? 4.5"
         :tagLabels="$course['tags'] ?? ['Beginner', 'Programming']"
         badgeText="{{ $course['category']['name'] ?? 'Category' }}"
-        >
+    >
         <x-slot:thumbsBlock>
             @livewire('interaction-panel', [
                 'resourceId' => $course['id'],
@@ -60,7 +65,7 @@
         </x-slot:contactArea>
 
        <x-slot:footerArea>
-        <div class="flex items-center justify-between">
+    <div class="flex items-center justify-between">
         <span class="text-3xl font-extrabold text-blue-600">
             ${{ number_format($course['current_price']['amount'] ?? 99.00, 2) }}
         </span>
@@ -71,22 +76,22 @@
             Enroll Now
         </a>
         @endif
-        @if (session('success'))
-        <div x-data="{ show: true }" x-show="show"
-            class="mb-4 flex items-start justify-between rounded-lg bg-green-100 border border-green-300 text-green-700 px-4 py-3">
-            <span>{{ session('success') }}</span>
-            <button @click="show = false" class="font-bold">×</button>
-        </div>
-        @endif
-        @if (session('error'))
-        <div x-data="{ show: true }" x-show="show"
-            class="mb-4 flex items-start justify-between rounded-lg bg-red-100 border border-red-300 text-red-700 px-4 py-3">
-            <span>{{ session('error') }}</span>
-            <button @click="show = false" class="font-bold">×</button>
-        </div>
-        @endif
-     </div>
-        </x-slot:footerArea>
+  @if (session('success'))
+<div x-data="{ show: true }" x-show="show"
+     class="mb-4 flex items-start justify-between rounded-lg bg-green-100 border border-green-300 text-green-700 px-4 py-3">
+    <span>{{ session('success') }}</span>
+    <button @click="show = false" class="font-bold">×</button>
+</div>
+@endif
+@if (session('error'))
+<div x-data="{ show: true }" x-show="show"
+     class="mb-4 flex items-start justify-between rounded-lg bg-red-100 border border-red-300 text-red-700 px-4 py-3">
+    <span>{{ session('error') }}</span>
+    <button @click="show = false" class="font-bold">×</button>
+</div>
+@endif
+    </div>
+</x-slot:footerArea>
     </x-shared.detail-wrapper>
 
     {{-- 2. Course Description --}}
@@ -95,11 +100,7 @@
         <p class="mt-4">{{ $course['long_description_p2'] ?? '' }}</p>
         <p class="mt-4">{{ $course['long_description_p3'] ?? '' }}</p>
     </x-shared.content-description>
-{{-- <livewire:comment-section --}}
 
- {{-- :resourceId = "$course['id']"
-  :resourceType = "App\\Models\\Course"
-/> --}}
     {{-- 3. Comments --}}
     @livewire('comment-section', [
         'resourceId' => $course['id'],
@@ -115,7 +116,7 @@
     </div>
 
     {{-- 5. Random Courses --}}
-    {{-- <livewire:course.random-courses /> --}}
+    <livewire:course.random-courses />
 
-
-</x-layouts.home-layout>
+    <x-navigation.footer />
+</x-layouts.app>

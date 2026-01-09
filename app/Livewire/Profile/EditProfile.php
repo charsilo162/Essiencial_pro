@@ -43,7 +43,7 @@ class EditProfile extends Component
         $this->fill([
             'name'                  => $user['name'] ?? '',
             'email'                 => $user['email'] ?? '',
-            // 'type'                  => $user['type'] ?? 'user',
+            'type'                  => $user['type'] ?? 'user',
             'password'              => '',
             'password_confirmation'=> '',
         ]);
@@ -63,7 +63,7 @@ class EditProfile extends Component
             return [
                 'name'                  => 'required|string|max:255',
                 'email'                 => 'required|email', // Remove unique:users
-                // 'type'                  => 'required|in:user,center,tutor',
+                'type'                  => 'required|in:user,center,tutor',
                 'password'              => 'nullable|min:6|confirmed',
                 'password_confirmation'=> 'nullable',
                 'photo'                 => 'nullable|image|max:2048',
@@ -78,7 +78,7 @@ class EditProfile extends Component
             ['name' => '_method', 'contents' => 'PUT'],
             ['name' => 'name',  'contents' => $this->name],
             ['name' => 'email', 'contents' => $this->email],
-            // ['name' => 'type',  'contents' => $this->type],
+            ['name' => 'type',  'contents' => $this->type],
         ];
 
         if ($this->password) {

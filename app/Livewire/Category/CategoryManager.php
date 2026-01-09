@@ -14,7 +14,7 @@ class CategoryManager extends Component
 
     public $search = '';
     public $perPage = 10;
-    // public $page = 1;                    // REQUIRED for Livewire pagination
+    public $page = 1;                    // REQUIRED for Livewire pagination
 
     // Form
     public $name = '';
@@ -120,31 +120,30 @@ class CategoryManager extends Component
 
 public function render()
 {
-    $currentPage = $this->getPage();
-  
-$response = $this->api->get('categories', [
-            'search'    => $this->search,
-            'per_page'  => $this->perPage,
-            'page'      => $currentPage, // Use the variable, not $this->page
-        ]);
+    $response = $this->api->get('categories', [
+        'search'    => $this->search,
+        'per_page'  => $this->perPage,
+        'page'      => $this->page,
+    ]);
+
     // Use YOUR proven method — exactly like in your course component
-  $paginator = new \Illuminate\Pagination\LengthAwarePaginator(
-            $response['data'] ?? [],
-            $response['meta']['total'] ?? 0,
-            $response['meta']['per_page'] ?? 10,
-            $response['meta']['current_page'] ?? 1,
-            [
-                'path'     => request()->url(),
-                'pageName' => 'page',
-            ]
-        );
+    $paginator = new \Illuminate\Pagination\LengthAwarePaginator(
+        $response['data'] ?? [],
+        $response['meta']['total'] ?? 0,
+        $response['meta']['per_page'] ?? 10,
+        $response['meta']['current_page'] ?? 1,
+        [
+            'path'     => request()->url(),
+            'pageName' => 'page',
+        ]
+    );
 
     // Preserve search when paginating
     $paginator->appends(['search' => $this->search]);
 
     return view('livewire.category.category-manager', [
-            'categories' => $response['data'],
-            'paginator'  => $paginator,
-        ]);
+        'categories' => $response['data'],
+        'paginator'  => $paginator,   // Real paginator → $paginator->links() works!
+    ]);
 }
 }

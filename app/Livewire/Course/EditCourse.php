@@ -8,16 +8,16 @@ use Livewire\WithFileUploads;
 class EditCourse extends Component
 {
     use WithFileUploads;
-    public $course = [];
+
     public $courseId; // To load via API
     public $category_id;
     public $title;
     public $description;
     public $image_thumb;
     public $type = 'online';
+    public $price_amount;
     public $center_id = null;
     public $publish = false;
-    public $price_amount; // New: For editing price amount
     public $showModal = false;
 
     protected $listeners = [
@@ -33,32 +33,31 @@ class EditCourse extends Component
         $this->api = new ApiService();
     }
 
-    public function openModal($courseId)
-    {
-        $this->courseId = $courseId;
+ public function openModal($courseId)
+{
+    $this->courseId = $courseId;
 
-        // Use the dedicated edit route — always ID
-        $response = $this->api->get("courses/{$courseId}/edit");
+    // Use the dedicated edit route — always ID
+    $response = $this->api->get("courses/{$courseId}/edit");
 
-        $course = $response['data'] ?? $response;
-        // dd($course); // Remove this after testing
+    $course = $response['data'] ?? $response;
 
-        $this->fill([
-            'category_id' => $course['category']['id'] ?? null,  // <-- Fixed: Access nested 'category.id'
-            'title'       => $course['title'] ?? '',
-            'description' => $course['description'] ?? '',
-            'type'        => $course['type'] ?? 'online',
-            'center_id'   => data_get($course, 'centers.0.id'),
-            'publish'     => $course['publish'] ?? false,
-            'price_amount' => $course['current_price']['amount'] ?? '', // New: Load existing price amount
-        ]);
-        $this->course = $course;
-        $this->image_thumb = null;
-        $this->resetErrorBag();
-        $this->showModal = true;
+    $this->fill([
+        'category_id' => $course['category_id'] ?? null,
+        'title'       => $course['title'] ?? '',
+        'description' => $course['description'] ?? '',
+        'type'        => $course['type'] ?? 'online',
+        'center_id'   => data_get($course, 'centers.0.id'),
+         'price_amount' => $course['current_price']['amount'] ?? '',
+        'publish'     => $course['publish'] ?? false,
+    ]);
 
-        $this->dispatch('open-edit-course-modal');
-    }
+    $this->image_thumb = null;
+    $this->resetErrorBag();
+    $this->showModal = true;
+
+    $this->dispatch('open-edit-course-modal');
+}
 
     public function updatedType($value)
     {
@@ -76,8 +75,8 @@ class EditCourse extends Component
             'type' => 'required|in:physical,online',
             'center_id' => $this->type === 'physical' ? 'required|integer' : 'nullable',
             'publish' => 'boolean',
-            'image_thumb' => 'nullable|image|max:1024',
             'price_amount' => 'required|numeric|min:0', // New: Validation for price
+            'image_thumb' => 'nullable|image|max:1024',
         ];
     }
 
@@ -90,52 +89,50 @@ class EditCourse extends Component
     {
         $this->center_id = $centerId;
     }
+public function updateCourse()
+{
+    // 1. Validate the input fields
+    $this->validate($this->getRules());
 
-    public function updateCourse()
-    {
-        // 1. Validate the input fields
-        $this->validate($this->getRules());
+    // 2. Build form data: All fields will be sent as multipart form parts
 
-        // 2. Build form data: All fields will be sent as multipart form parts
-        $formData = [
-            ['name' => '_method', 'contents' => 'PUT'],
-            ['name' => 'category_id', 'contents' => $this->category_id],
-            ['name' => 'title',       'contents' => $this->title],
-            ['name' => 'description', 'contents' => $this->description],
-            ['name' => 'type',        'contents' => $this->type],
-            ['name' => 'publish',     'contents' => $this->publish ? 1 : 0],
-            ['name' => 'price_amount', 'contents' => $this->price_amount], // New: Include price amount
-        ];
+    $formData = [
+        // CRITICAL: Spoof the PUT method for Laravel's router to correctly handle the request
+        ['name' => '_method', 'contents' => 'PUT'], 
 
-        if ($this->type === 'physical' && $this->center_id) {
-            $formData[] = ['name' => 'center_id', 'contents' => $this->center_id];
-        }
+        // Normal text fields
+        ['name' => 'category_id', 'contents' => $this->category_id],
+        ['name' => 'title',       'contents' => $this->title],
+        ['name' => 'description', 'contents' => $this->description],
+        ['name' => 'type',        'contents' => $this->type],
+        ['name' => 'price_amount', 'contents' => $this->price_amount], // New: Include price amount
+        ['name' => 'publish',     'contents' => $this->publish ? 1 : 0],
+    ];
 
-        if ($this->image_thumb) {
-            $formData[] = [
-                'name'     => 'image_thumb',
-                'contents' => fopen($this->image_thumb->getRealPath(), 'r'),
-                'filename' => $this->image_thumb->getClientOriginalName(),
-            ];
-        }
-
-        \Log::info('Sending update data (POST with _method=PUT):', $formData);
-
-        // 3. Send the request
-        $response = $this->api->postWithFile("courses/{$this->courseId}/update", $formData);
-
-        // 4. Handle 422 or other errors gracefully
-        if (!empty($response['error'])) {
-            $this->dispatch('error-notification', message: $response['message'] ?? 'Update failed');
-            return; // stop execution
-        }
-
-        // 5. Handle success
-        $this->showModal = false;
-        $this->dispatch('success-notification', message: 'Course updated successfully!');
-        $this->reset();
+    if ($this->type === 'physical' && $this->center_id) {
+        $formData[] = ['name' => 'center_id', 'contents' => $this->center_id];
     }
 
+    // Add file if exists
+    if ($this->image_thumb) {
+        $formData[] = [
+            'name'     => 'image_thumb',
+            // Pass the file stream content
+            'contents' => fopen($this->image_thumb->getRealPath(), 'r'),
+            'filename' => $this->image_thumb->getClientOriginalName(),
+        ];
+    }
+
+   // \Log::info('Sending update data (POST with _method=PUT):', $formData);
+
+    // 3. USE postWithFile to send the data as multipart/form-data
+    $response = $this->api->postWithFile("courses/{$this->courseId}/update", $formData);
+
+    // 4. Handle success
+    $this->showModal = false;
+    $this->dispatch('success-notification', message: 'Course updated successfully!');
+    $this->reset();
+}
     public function render()
     {
         return view('livewire.course.edit-course');

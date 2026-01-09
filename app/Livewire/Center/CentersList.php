@@ -124,8 +124,8 @@ class CentersList extends Component
             'page' => $currentPage,
         ];
 
-        $response = $this->api->get('centers', $params);
-
+        $response = $this->api->get('centers/my', $params);
+            // dd($response);
         $items = $response['data'] ?? [];
         $total = $response['total'] ?? 0;
 
