@@ -33,6 +33,10 @@
 
         <!-- Dynamic Card items -->
         @forelse($categories as $category)
+        {{-- @php
+            dd($category);
+        @endphp --}}
+        <a href="{{ route('category.show', $category['slug']) }}" >
             <div class="min-w-[180px] bg-white rounded-2xl shadow-md overflow-hidden">
                 @if(isset($category['thumbnail_url']))
                     <img src="{{ $category['thumbnail_url'] }}" class="h-32 w-full object-cover" alt="{{ $category['name'] }}" />
@@ -44,6 +48,7 @@
                     <p class="text-gray-500 text-sm">({{ $category['courses_count'] }})</p>
                 </div>
             </div>
+        </a>
         @empty
             <p class="text-gray-500">No categories found.</p>
         @endforelse

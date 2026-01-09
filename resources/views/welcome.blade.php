@@ -85,54 +85,46 @@
             </p>
 
             <button class="bg-orange-500 text-white px-6 py-3 rounded-full font-semibold hover:bg-orange-600">
-                Get started
+               Coming Soon!!
             </button>
         </div>
 
     </div>
 </section>
 
-{{-- <section class="bg-white px-6 py-10">
-    <div class="mx-auto text-center">
-        <h2 class="text-3xl font-bold text-gray-800 mb-10">Our <span class="text-blue-600">clients</span></h2>
+<section class="bg-white py-16 px-6">
+    <div class="max-w-7xl mx-auto text-center">
+        
+        <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900 mb-14">
+            Trusted by our <span class="text-blue-600">Clients</span>
+        </h2>
 
-        <div class="flex items-center gap-x-10 gap-y-6 pb-2 overflow-x-auto">
+        <div class="flex items-center gap-x-14 gap-y-10 px-2 pb-4 overflow-x-auto scrollbar-hide">
             
-            <img src="{{ asset('storage/d1.png') }}" alt="Communitas Clinics Logo" 
-                 class="h-8 sm:h-10 opacity-75 hover:opacity-100 transition duration-300 flex-shrink-0">
-            
-            <img src="{{ asset('storage/d3.png') }}" alt="Digbyswift Logo" 
-                 class="h-8 sm:h-10 opacity-75 hover:opacity-100 transition duration-300 flex-shrink-0">
-            
-            <img src="{{ asset('storage/d2.png') }}" alt="GetStaffed Logo" 
-                 class="h-8 sm:h-10 opacity-75 hover:opacity-100 transition duration-300 flex-shrink-0">
-            
-            <img src="{{ asset('storage/d6.jpg') }}" alt="Logo 4" 
-                 class="h-8 sm:h-10 opacity-75 hover:opacity-100 transition duration-300 flex-shrink-0">
-            
-            <img src="{{ asset('storage/d1.png') }}" alt="HiVac Logo" 
-                 class="h-10 sm:h-12 opacity-75 hover:opacity-100 transition duration-300 flex-shrink-0">
-           
-                 <img src="{{ asset('storage/d3.png') }}" alt="Digbyswift Logo" 
-                 class="h-8 sm:h-10 opacity-75 hover:opacity-100 transition duration-300 flex-shrink-0">
-            
-            <img src="{{ asset('storage/d2.png') }}" alt="GetStaffed Logo" 
-                 class="h-8 sm:h-10 opacity-75 hover:opacity-100 transition duration-300 flex-shrink-0">
-            
-            <img src="{{ asset('storage/d6.jpg') }}" alt="Logo 4" 
-                 class="h-8 sm:h-10 opacity-75 hover:opacity-100 transition duration-300 flex-shrink-0">
-            
-            <img src="{{ asset('storage/d1.png') }}" alt="HiVac Logo" 
-                 class="h-10 sm:h-12 opacity-75 hover:opacity-100 transition duration-300 flex-shrink-0">
-            
-            <img src="{{ asset('storage/d4.png') }}" alt="Logo 6" 
-                 class="h-10 sm:h-12 opacity-75 hover:opacity-100 transition duration-300 flex-shrink-0">
-            
-            <img src="{{ asset('storage/d5.png') }}" alt="HR Dept Logo" 
-                 class="h-10 sm:h-12 opacity-75 hover:opacity-100 transition duration-300 flex-shrink-0">
+            <img src="{{ asset('storage/d1.png') }}" alt="Communitas Clinics Logo"
+                 class="h-14 md:h-16 opacity-80 hover:opacity-100 hover:scale-105 transition-all duration-300 flex-shrink-0">
+
+            <img src="{{ asset('storage/d3.png') }}" alt="Digbyswift Logo"
+                 class="h-12 md:h-16 opacity-80 hover:opacity-100 hover:scale-105 transition-all duration-300 flex-shrink-0">
+
+            <img src="{{ asset('storage/d2.png') }}" alt="GetStaffed Logo"
+                 class="h-12 md:h-16 opacity-80 hover:opacity-100 hover:scale-105 transition-all duration-300 flex-shrink-0">
+
+            <img src="{{ asset('storage/d6.jpg') }}" alt="Client Logo"
+                 class="h-12 md:h-16 opacity-80 hover:opacity-100 hover:scale-105 transition-all duration-300 flex-shrink-0">
+
+            <img src="{{ asset('storage/d1.png') }}" alt="HiVac Logo"
+                 class="h-14 md:h-18 opacity-80 hover:opacity-100 hover:scale-105 transition-all duration-300 flex-shrink-0">
+
+            <img src="{{ asset('storage/d4.png') }}" alt="Client Logo"
+                 class="h-14 md:h-18 opacity-80 hover:opacity-100 hover:scale-105 transition-all duration-300 flex-shrink-0">
+
+            <img src="{{ asset('storage/d5.png') }}" alt="HR Dept Logo"
+                 class="h-14 md:h-18 opacity-80 hover:opacity-100 hover:scale-105 transition-all duration-300 flex-shrink-0">
         </div>
     </div>
-</section> --}}
+</section>
+
 
 
 {{-- <section class="bg-white px-6 py-6">

@@ -30,7 +30,7 @@
                     <div class="relative w-full h-80 lg:h-full aspect-video lg:aspect-square overflow-hidden rounded-3xl shadow-2xl
                                 ring-4 ring-orange-200/50 hover:ring-orange-400/80 transition-all duration-500">
                         <img class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out"
-                             src="{{ asset('storage/'.$imageUrl) }}"
+                             src="{{ $imageUrl }}"
                              alt="{{ $title }}" />
                         <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     </div>

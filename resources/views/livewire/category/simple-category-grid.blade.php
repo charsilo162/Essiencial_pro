@@ -42,12 +42,14 @@
 
         <!-- Dynamic skill card reusable -->
         @forelse($categories as $category)
+        <a href="{{ route('category.show', $category['slug']) }}" >
             <div class="border border-blue-200 rounded-xl p-5 bg-white shadow-sm hover:shadow-md transition">
                 <h3 class="font-bold text-blue-900 mb-1">
                     {{ $category['name'] }} <span class="text-gray-400">({{ $category['courses_count'] }})</span>
                 </h3>
                 <p class="text-gray-500 text-sm">Build aesthetically pleasing digital products</p>  <!-- Adapt if description is in API data -->
             </div>
+        </a>
         @empty
             <p class="text-gray-500">No skills found.</p>
         @endforelse
