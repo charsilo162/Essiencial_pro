@@ -12,7 +12,6 @@ class PostCourse extends Component
 
     public $category_id;
     public $title;
-    public $price_amount;
     public $description;
     public $image_thumb;
     public $type = 'online';
@@ -34,8 +33,9 @@ class PostCourse extends Component
 
     public function openModal()
     {
+        
         $this->reset([
-            'category_id', 'title', 'price_amount','description', 'image_thumb', 'type', 'center_id'
+            'category_id', 'title', 'description', 'image_thumb', 'type', 'center_id'
         ]);
         $this->type = 'online';
         $this->showModal = true;
@@ -65,7 +65,6 @@ class PostCourse extends Component
             'title' => 'required|string|max:100',
             'description' => 'required|string',
             'type' => 'required|in:online,physical',
-            'price_amount' => 'required|numeric',
             'center_id' => $this->type === 'physical' ? 'required|integer' : 'nullable',
             'image_thumb' => 'nullable|image|max:2048',
         ];
@@ -79,7 +78,6 @@ class PostCourse extends Component
         $data = [
             ['name' => 'category_id', 'contents' => $this->category_id],
             ['name' => 'title', 'contents' => $this->title],
-            ['name' => 'price_amount', 'contents' => $this->price_amount],
             ['name' => 'description', 'contents' => $this->description],
             ['name' => 'type', 'contents' => $this->type],
         ];
@@ -96,18 +94,14 @@ class PostCourse extends Component
             ];
         }
 
-        try {
-            // CRITICAL CHANGE: Use postWithFile to handle file streams
-            // The previous call: $this->api->post('courses', $data, true); was causing the JSON error.
-            $this->api->postWithFile('courses', $data);
-            $this->dispatch('course-updated');
-            $this->dispatch('toast', message: 'Course posted successfully!', type: 'success');
-        } catch (\Exception $e) {
-            $this->dispatch('toast', message: 'Failed to post course: ' . $e->getMessage(), type: 'error');
-        }
+        // CRITICAL CHANGE: Use postWithFile to handle file streams
+        // The previous call: $this->api->post('courses', $data, true); was causing the JSON error.
+        $this->api->postWithFile('courses', $data);
 
         $this->reset(['category_id', 'title', 'description', 'image_thumb', 'type', 'center_id']);
         $this->showModal = false;
+
+        $this->dispatch('success-notification', message: 'Course posted successfully!');
     }
 
     public function render()

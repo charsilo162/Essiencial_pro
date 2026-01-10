@@ -34,6 +34,7 @@ class EditProfile extends Component
 
     public function openModal()
     {
+      //  dd('ee');
         $user = Session::get('user');
 
         // Optional: fetch fresh data from API if you have a dedicated edit endpoint

@@ -1,7 +1,5 @@
 <x-layouts.app title="Course Watch">
-    <x-navigation.header-original />
-
-    <main class="py-8">
+   <main class="py-8">
         {{-- 
             Pass the course's ID to the Livewire component.
             Livewire will then use this ID in its mount method to fetch 

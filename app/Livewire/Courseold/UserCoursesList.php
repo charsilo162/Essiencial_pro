@@ -13,18 +13,12 @@ class UserCoursesList extends Component
     use WithPagination;
 
     public string $search = '';
-    public $confirmingDelete = null; 
+
     protected $api;
 
     public function boot()
     {
         $this->api = app(ApiService::class);
-    }
-
-    #[On('course-updated')]
-    public function refreshList()
-    {
-        // This can be empty; calling it just forces a re-render
     }
 
     #[On('search-updated')]
@@ -51,42 +45,20 @@ class UserCoursesList extends Component
         }
     }
 
-    public function confirmDelete($id)
-    {
-        $this->confirmingDelete = $id;
-    }
-
-    public function deleteCourse($id)
-    {
-        try {
-            $response = $this->api->delete("courses/{$id}");
-
-            if ($response) {
-                $this->confirmingDelete = null;
-                $this->dispatch('course-updated'); // Add this to trigger refresh
-                $this->dispatch('toast', message: 'Course deleted successfully!', type: 'success');
-            } else {
-                throw new \Exception('API response was empty or falsey');
-            }
-        } catch (\Exception $e) {
-            $this->confirmingDelete = null; // Optional: reset even on error
-            $this->dispatch('toast', message: 'Failed to delete course: ' . $e->getMessage(), type: 'error');
-        }
-    }
-
     public function render()
     {
-        $user = session('user');
+          $user = session('user');
 
-        if (!$user) {
-            return redirect()->route('login');
-        }
+    if (!$user) {
+        return redirect()->route('login');
+    }
 
-        $params = [
-            'uploader' => $user['id'],
-            'include_unpublished' => true,
-            'paginate' => true,
-        ];
+    $params = [
+        'uploader' => $user['id'],
+        'include_unpublished' => true,
+        'paginate' => true,
+    ];
+
 
         if ($this->search) {
             $params['search'] = $this->search;

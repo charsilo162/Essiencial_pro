@@ -1,4 +1,5 @@
-<x-layouts.appdashboard title="Course Listings">
+<x-layouts.dashboard title="My category">
    <livewire:category.category-manager />
-</x-layouts.appdashboard>
+</x-layouts.dashboard>
 
+ 

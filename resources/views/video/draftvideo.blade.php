@@ -1,10 +1,7 @@
-<x-profile.dashboard-layout
-    title="My Videos"
-    active-tab="draft"
-    show-post-buttons="false"
-    show-edit-modal="false"
-   
->
+<x-layouts.dashboard title="My Draft">
+ 
+    {{-- Tabs --}}
+    <x-dashboard.tabs active="drafts" />
      <!-- SECTION: Courses Without Videos -->
     <div class="mt-12">
         <livewire:course.no-video-courses />
@@ -14,4 +11,4 @@
     <div class="mt-12">
         <livewire:course.add-video-to-course />
     </div>
-</x-profile.dashboard-layout>
+</x-layouts.dashboard>

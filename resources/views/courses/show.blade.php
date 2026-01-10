@@ -1,10 +1,5 @@
-<x-layouts.app :title="$course['title'] ?? 'Course Details'">
+<x-layouts.app title="Course Details">
 
- {{-- <x-navigation.header-original /> --}}
-  <x-layouts.dashboardheader />
-{{-- @php
-    dd($course);
-@endphp --}}
     {{-- 1. Hero Section --}}
     <x-shared.detail-wrapper 
    x
@@ -15,7 +10,7 @@
         :rating="$course['rating'] ?? 4.5"
         :tagLabels="$course['tags'] ?? ['Beginner', 'Programming']"
         badgeText="{{ $course['category']['name'] ?? 'Category' }}"
-    >
+    > 
         <x-slot:thumbsBlock>
             @livewire('interaction-panel', [
                 'resourceId' => $course['id'],

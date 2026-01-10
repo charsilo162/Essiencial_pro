@@ -1,140 +1,110 @@
 <?php
+
 namespace App\Livewire\Course;
 
 use App\Services\ApiService;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Livewire\Attributes\On;
 
 class EditCourse extends Component
 {
     use WithFileUploads;
 
-    public $courseId; // To load via API
-    public $category_id;
-    public $title;
-    public $description;
-    public $image_thumb;
-    public $type = 'online';
-    public $price_amount;
-    public $center_id = null;
-    public $publish = false;
+    public $courseId, $category_id, $title, $description, $image_thumb;
+    public $type = 'online', $price_amount, $center_id = null, $publish = false;
     public $showModal = false;
-
-    protected $listeners = [
-        'openEditCourseModal' => 'openModal',
-        'categorySelected' => 'setCategory',
-        'centerSelected' => 'setCenter',
-    ];
+    public $current_image_url;
 
     protected $api;
 
-    public function boot()
-    {
+    public function boot() {
         $this->api = new ApiService();
     }
 
- public function openModal($courseId)
-{
-    $this->courseId = $courseId;
-
-    // Use the dedicated edit route — always ID
-    $response = $this->api->get("courses/{$courseId}/edit");
-
-    $course = $response['data'] ?? $response;
-
-    $this->fill([
-        'category_id' => $course['category_id'] ?? null,
-        'title'       => $course['title'] ?? '',
-        'description' => $course['description'] ?? '',
-        'type'        => $course['type'] ?? 'online',
-        'center_id'   => data_get($course, 'centers.0.id'),
-         'price_amount' => $course['current_price']['amount'] ?? '',
-        'publish'     => $course['publish'] ?? false,
-    ]);
-
-    $this->image_thumb = null;
-    $this->resetErrorBag();
-    $this->showModal = true;
-
-    $this->dispatch('open-edit-course-modal');
-}
-
-    public function updatedType($value)
+    public function mount() 
     {
-        if ($value === 'online') {
-            $this->center_id = null;
+        // Do nothing here. 
+        // The data will be filled by the openModal($courseId) listener.
+    }
+
+    // Listeners for Child components
+    #[On('categorySelected')]
+    public function setCategory($categoryId) {  // <-- Changed $id to $categoryId
+        $this->category_id = $categoryId;     // <-- Updated to use $categoryId
+    }
+
+    #[On('centerSelected')]
+    public function setCenter($centerId) {    // <-- Changed $id to $centerId (assuming similar dispatch)
+        $this->center_id = $centerId;         // <-- Updated to use $centerId
+    }
+
+    #[On('openEditCourseModal')]
+    public function openModal($courseId)
+    {
+        $this->courseId = $courseId;
+        $response = $this->api->get("courses/{$courseId}/edit");
+        $course = $response['data'] ?? $response;
+        // dd($course);
+        $this->fill([
+            'category_id'  => $course['category']['id'] ?? null,
+            'title'        => $course['title'] ?? '',
+            'description'  => $course['description'] ?? '',
+            'type'         => $course['type'] ?? 'online',
+            'center_id'    => data_get($course, 'centers.0.id'),
+            'price_amount' => $course['current_price']['amount'] ?? '',
+            'publish'      => (bool)($course['publish'] ?? false),
+            'current_image_url' => $course['image_thumbnail_url'] ?? null,
+        ]);
+
+        $this->resetErrorBag();
+        $this->image_thumb = null;
+        
+        // 1. Open the modal (Alpine picks this up via @entangle)
+        $this->showModal = true;
+
+        // 2. Synchronize the Category Search dropdown
+        $this->dispatch('update-selected-category', id: $this->category_id);
+    }
+
+    public function updateCourse()
+    {
+        $this->validate([
+            'category_id' => 'required',
+            'title' => 'required|max:100',
+            'description' => 'required',
+            'price_amount' => 'required|numeric',
+        ]);
+
+        // Build Payload
+        $formData = [
+            ['name' => '_method', 'contents' => 'PUT'],
+            ['name' => 'category_id', 'contents' => $this->category_id],
+            ['name' => 'title', 'contents' => $this->title],
+            ['name' => 'description', 'contents' => $this->description],
+            ['name' => 'type', 'contents' => $this->type],
+            ['name' => 'price_amount', 'contents' => $this->price_amount],
+            ['name' => 'publish', 'contents' => $this->publish ? 1 : 0],
+        ];
+
+        if ($this->image_thumb) {
+            $formData[] = [
+                'name' => 'image_thumb',
+                'contents' => fopen($this->image_thumb->getRealPath(), 'r'),
+                'filename' => $this->image_thumb->getClientOriginalName(),
+            ];
         }
+
+        $this->api->postWithFile("courses/{$this->courseId}/update", $formData);
+
+        // CLEANUP & NOTIFY
+        $this->showModal = false; // Closes modal
+        $this->dispatch('course-updated'); // Refreshes List
+        
+        $this->dispatch('toast', message: 'Course updated successfully!', type: 'success');
     }
 
-    public function getRules()
-    {
-        return [
-            'category_id' => 'required|integer',
-            'title' => 'required|string|max:100',
-            'description' => 'required|string',
-            'type' => 'required|in:physical,online',
-            'center_id' => $this->type === 'physical' ? 'required|integer' : 'nullable',
-            'publish' => 'boolean',
-            'price_amount' => 'required|numeric|min:0', // New: Validation for price
-            'image_thumb' => 'nullable|image|max:1024',
-        ];
-    }
-
-    public function setCategory($categoryId)
-    {
-        $this->category_id = $categoryId;
-    }
-
-    public function setCenter($centerId)
-    {
-        $this->center_id = $centerId;
-    }
-public function updateCourse()
-{
-    // 1. Validate the input fields
-    $this->validate($this->getRules());
-
-    // 2. Build form data: All fields will be sent as multipart form parts
-
-    $formData = [
-        // CRITICAL: Spoof the PUT method for Laravel's router to correctly handle the request
-        ['name' => '_method', 'contents' => 'PUT'], 
-
-        // Normal text fields
-        ['name' => 'category_id', 'contents' => $this->category_id],
-        ['name' => 'title',       'contents' => $this->title],
-        ['name' => 'description', 'contents' => $this->description],
-        ['name' => 'type',        'contents' => $this->type],
-        ['name' => 'price_amount', 'contents' => $this->price_amount], // New: Include price amount
-        ['name' => 'publish',     'contents' => $this->publish ? 1 : 0],
-    ];
-
-    if ($this->type === 'physical' && $this->center_id) {
-        $formData[] = ['name' => 'center_id', 'contents' => $this->center_id];
-    }
-
-    // Add file if exists
-    if ($this->image_thumb) {
-        $formData[] = [
-            'name'     => 'image_thumb',
-            // Pass the file stream content
-            'contents' => fopen($this->image_thumb->getRealPath(), 'r'),
-            'filename' => $this->image_thumb->getClientOriginalName(),
-        ];
-    }
-
-   // \Log::info('Sending update data (POST with _method=PUT):', $formData);
-
-    // 3. USE postWithFile to send the data as multipart/form-data
-    $response = $this->api->postWithFile("courses/{$this->courseId}/update", $formData);
-
-    // 4. Handle success
-    $this->showModal = false;
-    $this->dispatch('success-notification', message: 'Course updated successfully!');
-    $this->reset();
-}
-    public function render()
-    {
+    public function render() {
         return view('livewire.course.edit-course');
     }
 }

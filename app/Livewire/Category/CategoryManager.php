@@ -38,7 +38,7 @@ class CategoryManager extends Component
     public function checkAuth()
     {
         if (!Session::has('api_token')) {
-            return redirect()->route('login');
+            return redirect()->route('logins');
         }
     }
 

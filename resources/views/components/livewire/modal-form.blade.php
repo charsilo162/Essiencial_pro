@@ -1,34 +1,86 @@
-{{-- This uses the standard Livewire wire:model="showModal" to control visibility --}}
-<div x-data="{ open: @entangle('showModal') }" x-show="open" 
-     class="fixed inset-0 z-50 overflow-y-auto" 
-     style="display: none;" 
-     x-transition.duration.300ms>
+{{-- Reusable Livewire Modal Form --}}
+<div
+    x-data="{ open: @entangle('showModal') }"
+    x-show="open"
+    x-cloak
+    @keydown.escape.window="open = false"
+    x-transition.opacity
+    class="fixed inset-0 z-[9999]"
+>
 
-    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+    {{-- Backdrop --}}
+    <div
+        class="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        @click="open = false"
+    ></div>
 
-    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+    {{-- Modal Container --}}
+    <div class="relative flex min-h-screen items-center justify-center px-4 py-6">
+        <div
+            class="relative z-[10000] w-full max-w-xl
+                   rounded-xl bg-white
+                   border border-gray-300
+                   shadow-[0_20px_40px_-15px_rgba(0,0,0,0.35)]"
+            x-transition.scale.origin.center
+        >
 
-        <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-            <form wire:submit.prevent="{{ $submitAction }}">
-                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                    <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">
-                        {{ $title }}
-                    </h3>
-                    
-                    {{-- THIS IS THE SLOT FOR THE UNIQUE FORM FIELDS (Course or Center) --}}
-                    {{ $slot }} 
+            <form wire:submit.prevent="{{ $submitAction }}" class="flex flex-col">
 
-                </div>
-                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                    <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-black text-base font-medium text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black sm:ml-3 sm:w-auto sm:text-sm">
-                       
-                    {{ $submitButtonText ?? 'Submit' }}
+                {{-- HEADER --}}
+                <div class="flex items-center justify-between border-b border-gray-200 px-6 py-4">
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-900">
+                            {{ $title }}
+                        </h3>
+
+                        @isset($description)
+                            <p class="mt-1 text-sm text-gray-500">
+                                {{ $description }}
+                            </p>
+                        @endisset
+                    </div>
+
+                    <button
+                        type="button"
+                        @click="open = false"
+                        class="rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-700
+                               focus:outline-none focus:ring-2 focus:ring-black"
+                    >
+                        ✕
                     </button>
-                    <button type="button" wire:click="$set('showModal', false)" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                </div>
+
+                {{-- BODY --}}
+                <div class="px-6 py-6 space-y-6">
+                    {{ $slot }}
+                </div>
+
+                {{-- FOOTER --}}
+                <div class="flex flex-col-reverse sm:flex-row sm:justify-end gap-3
+                            border-t border-gray-200 bg-gray-50 px-6 py-4">
+
+                    <button
+                        type="button"
+                        wire:click="$set('showModal', false)"
+                        class="inline-flex justify-center rounded-md
+                               border border-gray-300 bg-white
+                               px-5 py-3 text-base font-medium text-gray-700
+                               hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-black"
+                    >
                         Cancel
                     </button>
+
+                    <button
+                        type="submit"
+                        class="inline-flex justify-center rounded-md
+                               bg-black px-6 py-3
+                               text-base font-medium text-white
+                               hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black"
+                    >
+                        {{ $submitButtonText ?? 'Save' }}
+                    </button>
                 </div>
+
             </form>
         </div>
     </div>

@@ -1,4 +1,4 @@
-<aside class="w-64 bg-slate-900 text-white hidden md:block">
+<aside class="w-64 bg-slate-900 text-white h-full">
     <div class="p-6 font-bold text-lg">
         etalent
     </div>

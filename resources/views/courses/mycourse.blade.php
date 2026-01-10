@@ -1,5 +1,5 @@
 <x-layouts.dashboard title="My Courses">
-
+ 
     {{-- Tabs --}}
     <x-dashboard.tabs active="courses" />
 
@@ -13,11 +13,11 @@
     </div>
 
     {{-- Courses Grid --}}
-    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+    <div class="w-full">
         {{-- Existing Livewire cards --}}
      <livewire:course.user-courses-list />
 
-    <livewire:course.edit-course />
+   
     </div>
 
 </x-layouts.dashboard>

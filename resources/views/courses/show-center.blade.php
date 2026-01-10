@@ -1,7 +1,4 @@
-<x-layouts.app :title="$course['title'] . ' | ' . $course['category']['name']">
-
-    <x-navigation.header-original />
-
+<x-layouts.app title="Center">
     {{-- 1. HERO SECTION - Detail Wrapper --}}
     <x-shared.detail-wrapper 
         :imageUrl="$course['image_thumbnail_url'] ?? 'https://placehold.co/1200x800/orange/white?text=Course'"
