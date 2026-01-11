@@ -2,7 +2,7 @@
     
     {{-- 1. Category Selector --}}
     <div class="mb-4">
-        <livewire:category-search-select :initialId="$category_id" />
+        <livewire:category.category-search-select :initialId="$category_id" />
         @error('category_id') <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span> @enderror
     </div>
     
@@ -48,7 +48,14 @@
         <textarea id="course-desc" wire:model.defer="description" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black sm:text-sm"></textarea>
         @error('description') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
     </div>
-    
+      <div>
+            <label for="course-price-edit" class="block text-sm font-medium text-gray-700">Price Amount (₦)</label>
+            <div class="relative mt-1">
+                <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500 text-sm">₦</span>
+                <input type="number" id="course-price-edit" wire:model.defer="price_amount" step="0.01" min="0" class="pl-7 block w-full rounded-md border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm">
+            </div>
+            @error('price_amount') <span class="text-red-500 text-sm mt-1">{{ $message }}</span> @enderror
+        </div>
     {{-- 5. Image Thumbnail Field --}}
     <div class="mb-4" x-data="{ isUploading: false, preview: null, file: null }" 
          x-on:livewire-upload-start="isUploading = true"

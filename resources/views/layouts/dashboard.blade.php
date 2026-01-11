@@ -22,7 +22,31 @@
         {{-- {{ $slot ?? '' }} --}}
         @yield('content')
     </div>
-
+{{-- Toast --}}
+<div
+    x-data="{ 
+        show: false, 
+        message: '', 
+        type: 'success',
+        showToast(event) {
+            this.message = event.detail.message;
+            this.type = event.detail.type || 'success';
+            this.show = true;
+            setTimeout(() => { this.show = false }, 3000);
+        }
+    }"
+    @toast.window="showToast($event)"
+    @success-notification.window="showToast($event)"
+    x-show="show"
+    x-transition
+    x-cloak
+    class="fixed bottom-5 right-5 z-[99999]"
+>
+    <div :class="type === 'success' ? 'bg-green-600' : 'bg-red-600'" 
+         class="text-white px-6 py-3 rounded-lg shadow-xl flex items-center gap-3">
+        <span x-text="message"></span>
+    </div>
+</div>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const toggleButton = document.querySelector("[data-hs-overlay]");

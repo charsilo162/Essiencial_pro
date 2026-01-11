@@ -94,24 +94,18 @@
                         </p>
                     @endif
                 </div>
- @if (session('user'))
-                <a href="{{ route('enroll.course', $course['slug']) }}" 
-                   class="relative px-10 py-5 bg-gradient-to-r from-orange-500 via-pink-500 to-yellow-400 
-                          text-white font-bold text-lg rounded-full shadow-2xl
-                          hover:shadow-orange-500/50 hover:scale-105
-                          hover:from-orange-600 hover:via-pink-600 hover:to-yellow-500
-                          transition-all duration-300 flex items-center gap-3 overflow-hidden">
-                    <span class="relative z-10">Enroll Now</span>
-                   
-                </a>
+            @if (session('user'))
+               <a href="{{ route('enroll.course', $course['slug']) }}"
+                    class="inline-flex items-center justify-center px-6 py-3 bg-orange-600 hover:bg-orange-700 text-white text-sm font-semibold rounded-xl transition">
+                    Enroll Now
+                    </a>
+
                 @else
- <a href="{{ route('logins') }}" class="relative px-5 py-3 bg-gradient-to-r from-orange-500 via-pink-500 to-yellow-400 
-                          text-white font-bold text-lg rounded-full shadow-2xl
-                          hover:shadow-orange-500/50 hover:scale-105
-                          hover:from-orange-600 hover:via-pink-600 hover:to-yellow-500
-                          transition-all duration-300 flex items-center gap-3 overflow-hidden">
-                    <span class="relative z-10">login to Enroll</span>
-              </a>
+                <a href="{{ route('logins') }}"
+                class="inline-flex items-center justify-center px-5 py-3 bg-gray-900 hover:bg-gray-800 text-white text-sm font-semibold rounded-xl transition">
+                Login to Enroll
+                </a>
+
                 @endif
             </div>
         </x-slot:footerArea>

@@ -2,9 +2,10 @@
     
     {{-- 1. Category Selector --}}
     <div class="mb-4">
-        <livewire:category-search-select :initialId="$category_id" />
+       <livewire:category.category-search-select :initialId="$category_id" 
+        wire:key="edit-course-category-select-{{ $courseId ?? 'new' }}"/>
         @error('category_id') <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span> @enderror
-    </div>
+       </div>
 
     {{-- Publish Toggle --}}
     <div class="mb-4">
