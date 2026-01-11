@@ -51,26 +51,40 @@
                     <img src="{{ $course['image_thumbnail_url'] ?? asset('storage/default_course.png') }}"
                          alt="{{ $course['title'] }} thumbnail" class="h-32 w-full object-cover">
                     <!-- Action Buttons -->
-                    <div class="absolute top-2 right-2 flex space-x-1 opacity-0 group-hover:opacity-100 transition">
-                        <!-- Edit Button -->
-                        <button
-                        wire:click="$dispatch('openEditCourseModal', {{ json_encode([$course['id']]) }})"
-                            {{-- wire:click="$dispatch('openEditCourseModal', [{{ $course['id'] }])]" --}}
-                            class="bg-white p-1 rounded-full shadow hover:bg-gray-100"
-                            title="Edit Course">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <!-- Action buttons -->
+                <div class="absolute top-3 right-3 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+                    @if($confirmingDelete !== $course['id'])
+                        <button wire:click="$dispatch('openEditCourseModal', { courseId: {{ $course['id'] }} })"
+                                class="bg-white p-2 rounded-full shadow hover:bg-gray-100 text-gray-700 hover:scale-110 transition" title="Edit Course">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M9 13l6.293-6.293a1 1 0 011.414 0l2.586 2.586a1 1 0 010 1.414L13 17H9v-4z" />
                             </svg>
                         </button>
-                        <!-- Delete Button -->
-                        <button
-                            class="bg-white p-1 rounded-full shadow hover:bg-gray-100"
-                            title="Delete Course">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </button>
+                    @endif
+                    <div class="flex items-center">
+                        @if($confirmingDelete === $course['id'])
+                            <div class="flex items-center bg-red-600 rounded-full px-2 py-1 shadow-lg border border-red-700 space-x-2 transition-all">
+                                <button wire:click="deleteCourse({{ $course['id'] }})" class="text-white hover:scale-125 transition" title="Confirm Delete">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                </button>
+                                <div class="w-px h-3 bg-red-400"></div>
+                                <button wire:click="$set('confirmingDelete', null)" class="text-white opacity-80 hover:opacity-100 hover:scale-125 transition" title="Cancel">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                            </div>
+                        @else
+                            <button wire:click="confirmDelete({{ $course['id'] }})" class="bg-white p-2 rounded-full shadow hover:bg-red-50 text-gray-600 hover:text-red-600 transition transform hover:scale-110" title="Delete Course">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                </svg>
+                            </button>
+                        @endif
                     </div>
+                </div>
                 </div>
                 <!-- Body -->
                 <div class="p-3">

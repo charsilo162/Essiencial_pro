@@ -1,5 +1,5 @@
 <?php
-namespace App\Livewire;
+namespace App\Livewire\Category;
 
 use App\Services\ApiService;
 use Livewire\Component;
