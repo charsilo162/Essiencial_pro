@@ -10,17 +10,37 @@
     
 </head>
 
-<body class="antialiased font-sans bg-gray-50 text-gray-800">
-    <!-- Include Header -->
+<body 
+    x-data="{ sidebarOpen: false }"
+    @toggle-sidebar.window="sidebarOpen = !sidebarOpen"
+    class="antialiased font-sans bg-gray-50 text-gray-800 min-h-screen"
+>
+    <!-- Header -->
     <x-layouts.dashboardheader />
 
-    <!-- Sidebar (Dynamic Section) -->
-    @yield('sidebar')
+    <div class="flex min-h-screen">
 
-    <!-- Main Content -->
-    <div class="w-full lg:ps-64 pt-4 px-4 sm:px-6 md:px-8">
-        {{-- {{ $slot ?? '' }} --}}
-        @yield('content')
+        <!-- Sidebar -->
+        <aside
+            class="fixed inset-y-0 left-0 z-50 w-64 bg-white border-e border-gray-200 transform transition-transform duration-300
+                   lg:static lg:translate-x-0"
+            :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'"
+        >
+            @yield('sidebar')
+        </aside>
+
+        <!-- Overlay -->
+        <div 
+            x-show="sidebarOpen"
+            @click="sidebarOpen = false"
+            x-cloak
+            class="fixed inset-0 bg-black/50 z-40 lg:hidden"
+        ></div>
+
+        <!-- Main content -->
+        <div class="flex-1 pt-4 px-4 sm:px-6 md:px-8">
+            @yield('content')
+        </div>
     </div>
 {{-- Toast --}}
 <div
@@ -61,4 +81,5 @@
         });
     </script>
 </body>
+
 </html>
