@@ -64,7 +64,7 @@ class CourseController extends Controller
    public function showOnline($slug)
 {
     $response = $this->api->get("courses/{$slug}");
-// dd($response);
+ dd($response);
     if (isset($response['message'])) {
         abort(404);
     }
