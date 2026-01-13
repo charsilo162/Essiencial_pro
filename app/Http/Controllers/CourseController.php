@@ -26,13 +26,14 @@ class CourseController extends Controller
   public function buy($slug)
 {
     $response = $this->api->get("courses/{$slug}");
+
     if (isset($response['message']) || empty($response['data']['id'])) {
         abort(404);
     }
 
     $course = $response['data'];
     $courseId = $course['id'];
-
+  
     try {
         $init = $this->api->initializePayment($courseId);
 
@@ -42,7 +43,8 @@ class CourseController extends Controller
                 ->route('courses.online', $slug)
                 ->with('error', $init['error']);
         }
-
+//         dump('yese');
+//   dd($init);
         // Success – redirect to Paystack auth URL
         if (isset($init['data']['authorization_url'])) {
             return redirect($init['data']['authorization_url']);
@@ -52,7 +54,7 @@ class CourseController extends Controller
 
     } catch (Exception $e) {
 
-        \Log::error("Paystack Initialization Error: " . $e->getMessage());
+        // \Log::error("Paystack Initialization Error: " . $e->getMessage());
 
         return redirect()
             ->route('courses.online', $slug)
@@ -61,27 +63,34 @@ class CourseController extends Controller
 }
 
 
-   public function showOnline($slug)
+public function showOnline($slug)
 {
     $response = $this->api->get("courses/{$slug}");
- dd($response);
+
     if (isset($response['message'])) {
         abort(404);
     }
 
     $course = $response['data'] ?? $response;
-
+        //dd($course);
     if ($course['type'] !== 'online') {
-        abort(404);
+        route('courses.center', [$course['id'],$course['slug']]);
     }
 
-    return view('courses.show', compact('course'));
+    // 👇 Capture messages from query string
+    $success = request()->query('success');
+    $error   = request()->query('error');
+// dd($success);
+    return view('courses.show', compact('course', 'success', 'error'));
 }
+
 
     public function showCenter($centerId, $slug)
     {
         $response = $this->api->get("courses/{$slug}");
-//  dd($response);
+      // 👇 Capture messages from query string
+    $success = request()->query('success');
+    $error   = request()->query('error');
         if (isset($response['message'])) {
             abort(404);
         }

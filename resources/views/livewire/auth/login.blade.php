@@ -82,7 +82,7 @@
                 <!-- Link -->
                 <p class="text-sm text-gray-600">
                     Don't have an account?
-                    <a href="#" class="font-semibold text-indigo-600 hover:text-indigo-700">Sign up</a>
+                    <a href="{{ route('signups') }}" class="font-semibold text-indigo-600 hover:text-indigo-700">Sign up</a>
                 </p>
 
             </form>

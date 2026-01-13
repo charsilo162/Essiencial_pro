@@ -40,7 +40,6 @@
     </div>
 
 </div>
-
 {{-- Toast --}}
 <div
     x-data="{ 

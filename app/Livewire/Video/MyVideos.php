@@ -5,16 +5,19 @@ namespace App\Livewire\Video;
 use App\Services\ApiService;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\WithFileUploads;
 
 class MyVideos extends Component
 {
-    use WithPagination;
+    use WithPagination, WithFileUploads;
 
     public $search = '';
     public $showEditModal = false;
     public $editVideoId = null;
     public $editTitle = '';
     public $editDuration = '';
+    public $editThumbnail;
+    public $editVideoFile;
 
     protected $queryString = ['search' => ['except' => '']];
     protected $listeners = ['video-updated' => 'refreshVideos', 'video-deleted' => 'refreshVideos'];
@@ -41,7 +44,6 @@ class MyVideos extends Component
         
         $response = $this->api->get("videos/{$videoId}");
         $video = $response['data'];
-
         $this->editVideoId = $video['id'];
         $this->editTitle = $video['title'];
         $this->editDuration = $video['duration'];
@@ -52,27 +54,54 @@ class MyVideos extends Component
     public function closeEditModal()
     {
         $this->showEditModal = false;
-        $this->reset(['editVideoId', 'editTitle', 'editDuration']);
+        $this->reset(['editVideoId', 'editTitle', 'editDuration', 'editThumbnail', 'editVideoFile']);
         $this->dispatch('close-modal', 'edit-video-modal');
     }
 
-    public function updateVideo()
-    {
-        $this->validate([
-            'editTitle' => 'required|string|max:255',
-            'editDuration' => 'nullable|integer|min:1',
-        ]);
+public function updateVideo()
+{
+    $this->validate([
+        'editTitle' => 'required|string|max:255',
+        'editDuration' => 'nullable|integer|min:1',
+        'editThumbnail' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+        'editVideoFile' => 'nullable|file|mimes:mp4,mov,avi,wmv|max:102400',
+    ]);
 
-        $this->api->put("videos/{$this->editVideoId}", [
-            'title' => $this->editTitle,
-            'duration' => $this->editDuration,
-        ]);
+    // 1. Prepare data in the structure your ApiService.multipartRequest expects
+    $data = [
+        ['name' => 'title', 'contents' => $this->editTitle],
+        ['name' => 'duration', 'contents' => $this->editDuration],
+    ];
 
-        $this->dispatch('toast', 'Video updated!');
+    // 2. Attach Thumbnail if exists
+    if ($this->editThumbnail) {
+        $data[] = [
+            'name'     => 'thumbnail_file',
+            'contents' => fopen($this->editThumbnail->getRealPath(), 'r'),
+            'filename' => $this->editThumbnail->getClientOriginalName(),
+        ];
+    }
+
+    // 3. Attach Video if exists
+    if ($this->editVideoFile) {
+        $data[] = [
+            'name'     => 'video_file',
+            'contents' => fopen($this->editVideoFile->getRealPath(), 'r'),
+            'filename' => $this->editVideoFile->getClientOriginalName(),
+        ];
+    }
+
+    // 4. CALL putWithFile (This uses multipart + method spoofing)
+    $response = $this->api->putWithFile("videos/{$this->editVideoId}", $data);
+
+    if (isset($response['error'])) {
+        $this->dispatch('toast', 'Update failed: ' . ($response['message'] ?? 'Error'));
+    } else {
+        $this->dispatch('toast', 'Video updated successfully!');
         $this->dispatch('video-updated');
         $this->closeEditModal();
     }
-
+}
     public function deleteVideo($videoId)
     {
         $this->api->delete("videos/{$videoId}");
@@ -93,7 +122,7 @@ public function render()
     }
 
     $response = $this->api->get('videos', $params);
- //dd($response );
+// dd($response );
     return view('livewire.video.my-videos', [
         'videos' => $response, // ← full response with 'data', 'links', 'meta'
     ]);

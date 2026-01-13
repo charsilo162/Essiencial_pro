@@ -110,7 +110,20 @@
             </div>
         </x-slot:footerArea>
     </x-shared.detail-wrapper>
-
+ @if (session('success'))
+<div x-data="{ show: true }" x-show="show"
+     class="mb-4 flex items-start justify-between rounded-lg bg-green-100 border border-green-300 text-green-700 px-4 py-3">
+    <span>{{ session('success') }}</span>
+    <button @click="show = false" class="font-bold">×</button>
+</div>
+@endif
+@if (session('error'))
+<div x-data="{ show: true }" x-show="show"
+     class="mb-4 flex items-start justify-between rounded-lg bg-red-100 border border-red-300 text-red-700 px-4 py-3">
+    <span>{{ session('error') }}</span>
+    <button @click="show = false" class="font-bold">×</button>
+</div>
+@endif
 
    
 

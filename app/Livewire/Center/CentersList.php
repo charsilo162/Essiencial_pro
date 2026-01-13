@@ -125,7 +125,7 @@ class CentersList extends Component
         ];
 
         $response = $this->api->get('centers', $params);
-
+//dd($response);
         $items = $response['data'] ?? [];
         $total = $response['total'] ?? 0;
 

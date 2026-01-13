@@ -25,7 +25,7 @@ class CourseWatchController extends Controller
         // dd($slug);
         // Fetch course from backend API using slug (similar to showOnline)
         $response = $this->api->get("courses/{$slug}");
-// dd($response);
+//dd($response);
         if (isset($response['message'])) {
             abort(404, 'Course not found.');
         }

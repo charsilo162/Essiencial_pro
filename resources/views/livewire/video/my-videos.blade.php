@@ -46,26 +46,39 @@
 @endif
 
         <!-- Edit Modal -->
-        @if ($showEditModal)
+       @if ($showEditModal)
             <x-modal name="edit-video-modal">
-                <div class="p-6">
+                <div class="p-6 bg-white rounded-lg">
                     <h3 class="text-lg font-semibold mb-4">Edit Video</h3>
                     <form wire:submit="updateVideo">
                         <div class="mb-4">
-                            <label class="block text-sm font-medium text-gray-700 mb-700 mb-1">Title</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Title</label>
                             <input type="text" wire:model="editTitle"
                                    class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500">
                             @error('editTitle') <span class="text-red-600 text-xs">{{ $message }}</span> @enderror
                         </div>
-                        <div class="mb-6">
+                        <div class="mb-4">
                             <label class="block text-sm font-medium text-gray-700 mb-1">Duration (seconds)</label>
                             <input type="number" wire:model="editDuration"
                                    class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500">
+                            @error('editDuration') <span class="text-red-600 text-xs">{{ $message }}</span> @enderror
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">New Thumbnail (optional)</label>
+                            <input type="file" wire:model="editThumbnail"
+                                   class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500">
+                            @error('editThumbnail') <span class="text-red-600 text-xs">{{ $message }}</span> @enderror
+                        </div>
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">New Video File (optional)</label>
+                            <input type="file" wire:model="editVideoFile"
+                                   class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500">
+                            @error('editVideoFile') <span class="text-red-600 text-xs">{{ $message }}</span> @enderror
                         </div>
                         <div class="flex justify-end space-x-3">
                             <button type="button"
                                     wire:click="closeEditModal"
-                                    class="px-4 py-2 bg-gray-300 text-gray-300 text-gray-800 rounded-lg hover:bg-gray-400">
+                                    class="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400">
                                 Cancel
                             </button>
                             <button type="submit"

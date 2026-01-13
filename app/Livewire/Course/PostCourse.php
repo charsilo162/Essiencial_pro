@@ -32,14 +32,28 @@ class PostCourse extends Component
         $this->api = app(ApiService::class);
     }
 
-    public function openModal()
-    {
-        $this->reset([
-            'category_id', 'title', 'price_amount','description', 'image_thumb', 'type', 'center_id'
-        ]);
-        $this->type = 'online';
-        $this->showModal = true;
-    }
+   public function openModal()
+        {
+            $this->reset([
+                'category_id',
+                'title',
+                'price_amount',
+                'description',
+                'image_thumb',
+                'type',
+                'center_id',
+            ]);
+
+            // Restore default values
+            $this->type = 'online';
+
+            // Clear validation + error states
+            $this->resetErrorBag();
+            $this->resetValidation();
+
+            $this->showModal = true;
+        }
+
 
     public function setCategory($categoryId)
     {
@@ -71,44 +85,63 @@ class PostCourse extends Component
         ];
     }
 
-    public function postCourse()
-    {
-        $this->validate();
+   public function postCourse()
+{
+    $this->validate();
 
-        // Data is constructed as an array of parts for multipart request
-        $data = [
-            ['name' => 'category_id', 'contents' => $this->category_id],
-            ['name' => 'title', 'contents' => $this->title],
-            ['name' => 'price_amount', 'contents' => $this->price_amount],
-            ['name' => 'description', 'contents' => $this->description],
-            ['name' => 'type', 'contents' => $this->type],
-        ];
+    // Multipart payload
+    $data = [
+        ['name' => 'category_id', 'contents' => $this->category_id],
+        ['name' => 'title', 'contents' => $this->title],
+        ['name' => 'price_amount', 'contents' => $this->price_amount],
+        ['name' => 'description', 'contents' => $this->description],
+        ['name' => 'type', 'contents' => $this->type],
+    ];
 
-        if ($this->type === 'physical' && $this->center_id) {
-            $data[] = ['name' => 'center_id', 'contents' => $this->center_id];
-        }
-
-        if ($this->image_thumb) {
-            $data[] = [
-                'name' => 'image_thumb',
-                'contents' => fopen($this->image_thumb->getRealPath(), 'r'),
-                'filename' => $this->image_thumb->getClientOriginalName(),
-            ];
-        }
-
-        try {
-            // CRITICAL CHANGE: Use postWithFile to handle file streams
-            // The previous call: $this->api->post('courses', $data, true); was causing the JSON error.
-            $this->api->postWithFile('courses', $data);
-            $this->dispatch('course-updated');
-            $this->dispatch('toast', message: 'Course posted successfully!', type: 'success');
-        } catch (\Exception $e) {
-            $this->dispatch('toast', message: 'Failed to post course: ' . $e->getMessage(), type: 'error');
-        }
-
-        $this->reset(['category_id', 'title', 'description', 'image_thumb', 'type', 'center_id']);
-        $this->showModal = false;
+    if ($this->type === 'physical' && $this->center_id) {
+        $data[] = ['name' => 'center_id', 'contents' => $this->center_id];
     }
+
+    if ($this->image_thumb) {
+        $data[] = [
+            'name'     => 'image_thumb',
+            'contents' => fopen($this->image_thumb->getRealPath(), 'r'),
+            'filename' => $this->image_thumb->getClientOriginalName(),
+        ];
+    }
+
+    try {
+        $this->api->postWithFile('courses', $data);
+
+        $this->dispatch('course-updated');
+        $this->dispatch('toast', message: 'Course posted successfully!', type: 'success');
+
+        // 🔥 FULL RESET AFTER SUCCESS
+        $this->reset([
+            'category_id',
+            'title',
+            'price_amount',
+            'description',
+            'image_thumb',
+            'type',
+            'center_id',
+        ]);
+
+        $this->type = 'online';
+        $this->resetErrorBag();
+        $this->resetValidation();
+
+        $this->showModal = false;
+
+    } catch (\Exception $e) {
+        $this->dispatch(
+            'toast',
+            message: 'Failed to post course: ' . $e->getMessage(),
+            type: 'error'
+        );
+    }
+}
+
 
     public function render()
     {

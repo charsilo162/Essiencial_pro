@@ -36,11 +36,11 @@
                 <a href="{{ route('category.list') }}" class="{{ $itemBase }}">
                     <span>Categories</span>
                 </a>
-
+ 
                 <a href="{{ route('my.course') }}" class="{{ $itemBase }}">
                     <span>My Courses</span>
                 </a>
-
+ 
                 <a href="{{ route('courses.no-video') }}" class="{{ $itemBase }}">
                     <span>Draft Courses</span>
                 </a>
@@ -71,3 +71,4 @@
 
     </nav>
 </div>
+ 

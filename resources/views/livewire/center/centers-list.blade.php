@@ -2,7 +2,7 @@
             bg-gradient-to-r from-[#6A3318] via-[#661437] to-[#6A4E0F]">
 
     <!-- Search Input -->
-    <div class="mb-8">
+    <div class="mb-8"> 
         <input
             wire:model.live.debounce.300ms="search"
             type="text"

@@ -1,5 +1,5 @@
 <div class="enrolled-courses-section p-8 min-h-screen 
-            bg-gray-600">
+             bg-gradient-to-r from-[#6A3318] via-[#661437] to-[#6A4E0F]">
 
     <h2 class="text-3xl font-extrabold mb-10 text-white tracking-wide drop-shadow">
         📚 Your Enrolled Courses

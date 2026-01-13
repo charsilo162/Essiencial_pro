@@ -63,20 +63,39 @@
         </div>
 
         <!-- Buttons -->
-        <div class="flex justify-end space-x-3 pt-4">
-            <button type="button"
-                    wire:click="$dispatch('close-modal', 'add-first-video-modal')"
-                    class="px-5 py-2.5 text-gray-700 bg-gray-200 rounded-xl 
-                           hover:bg-gray-300 transition">
-                Cancel
-            </button>
+       <div class="flex justify-end space-x-3 pt-4">
+                <button type="button"
+                        wire:click="$dispatch('close-modal', 'add-first-video-modal')"
+                        wire:loading.attr="disabled"
+                        class="px-5 py-2.5 text-gray-700 bg-gray-200 rounded-xl 
+                            hover:bg-gray-300 transition disabled:opacity-50 disabled:cursor-not-allowed">
+                    Cancel
+                </button>
 
-            <button type="submit"
-                    class="px-6 py-2.5 bg-orange-600 text-white rounded-xl
-                           hover:bg-orange-700 shadow-md transition">
-                Save Video
-            </button>
-        </div>
+                <button type="submit"
+                        wire:loading.attr="disabled"
+                        wire:target="save, video_file, thumbnail_file"
+                        class="relative px-6 py-2.5 bg-orange-600 text-white rounded-xl
+                            hover:bg-orange-700 shadow-md transition disabled:opacity-70 disabled:cursor-not-allowed">
+                    
+                    <span wire:loading.remove wire:target="save">
+                        Save Video
+                    </span>
+
+                    <span wire:loading wire:target="save" class="flex items-center gap-2">
+                        <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Saving...
+                    </span>
+                </button>
+            </div>
+
+            <div wire:loading wire:target="video_file" class="mt-2 text-sm text-orange-600 font-medium flex items-center gap-2">
+                <div class="w-4 h-4 border-2 border-orange-600 border-t-transparent rounded-full animate-spin"></div>
+                Uploading video to server...
+            </div>
 
     </form>
 </div>

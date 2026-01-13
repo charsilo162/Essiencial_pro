@@ -60,7 +60,7 @@ public function boot()
 
     try {
        
-      \Log::info('FILES:', $data);
+    //  \Log::info('FILES:', $data);
     // \Log::info('INPUT:', $request->all());
         $this->api->postWithFile('videos', $data);
         $this->reset(['title', 'video_file', 'thumbnail_file', 'duration']);

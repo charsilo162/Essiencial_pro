@@ -57,36 +57,55 @@
             @error('price_amount') <span class="text-red-500 text-sm mt-1">{{ $message }}</span> @enderror
         </div>
     {{-- 5. Image Thumbnail Field --}}
-    <div class="mb-4" x-data="{ isUploading: false, preview: null, file: null }" 
-         x-on:livewire-upload-start="isUploading = true"
-         x-on:livewire-upload-finish="isUploading = false"
-         x-on:livewire-upload-error="isUploading = false"
-         x-on:livewire-upload-progress="progress = $event.detail.progress">
+  <div 
+    class="mb-4"
+    x-data="{ isUploading: false, progress: 0, preview: null }"
+    x-on:livewire-upload-start="isUploading = true"
+    x-on:livewire-upload-finish="
+        isUploading = false;
+        progress = 100;
+    "
+    x-on:livewire-upload-error="isUploading = false"
+    x-on:livewire-upload-progress="progress = $event.detail.progress"
+>
+    <label class="block text-sm font-medium text-gray-700">
+        Image Thumbnail
+    </label>
 
-        <label for="course-thumb" class="block text-sm font-medium text-gray-700">Image Thumbnail</label>
-        
-        <input 
-            type="file" 
-            id="course-thumb" 
-            wire:model="image_thumb" 
-            x-on:change="
-                file = $event.target.files[0];
-                const reader = new FileReader();
-                reader.onload = (e) => { preview = e.target.result; };
-                reader.readAsDataURL(file);
-            "
-            class="mt-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
-        >
+    <input
+        type="file"
+        wire:model="image_thumb"
+        x-on:change="
+            const reader = new FileReader();
+            reader.onload = e => preview = e.target.result;
+            reader.readAsDataURL($event.target.files[0]);
+        "
+        class="mt-1 block w-full text-sm border border-gray-300 rounded-lg bg-gray-50"
+    >
 
-        @error('image_thumb') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-        
-        <div x-show="preview" class="mt-3 w-32 h-32 border border-gray-200 rounded-lg overflow-hidden">
-            <img :src="preview" alt="Thumbnail Preview" class="w-full h-full object-cover">
+    @error('image_thumb')
+        <span class="text-red-500 text-sm">{{ $message }}</span>
+    @enderror
+
+    <!-- Upload Progress -->
+    <div x-show="isUploading" class="mt-2">
+        <div class="w-full bg-gray-200 rounded-full h-2">
+            <div
+                class="bg-orange-500 h-2 rounded-full transition-all"
+                :style="`width: ${progress}%`"
+            ></div>
         </div>
-
-        <div x-show="isUploading" class="mt-2">
-            <progress max="100" :value="progress"></progress>
-        </div>
+        <p class="text-xs text-gray-500 mt-1">Uploading… <span x-text="progress"></span>%</p>
     </div>
+
+    <!-- Preview (User confirmation) -->
+    <div x-show="preview && !isUploading" class="mt-4">
+        <p class="text-xs text-green-600 font-medium mb-1">
+            ✔ Image uploaded successfully
+        </p>
+        <img :src="preview" class="w-32 h-32 rounded-lg object-cover border">
+    </div>
+</div>
+
     
 </x-livewire.modal-form>
