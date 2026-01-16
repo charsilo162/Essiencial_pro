@@ -30,7 +30,7 @@ class ContactForm extends Component
     public function sendMessage()
     {
         $this->validate();
-
+//dd('dd');
         // Convert message to HTML using Markdown
         $markdownMessage = Str::markdown($this->message);
 

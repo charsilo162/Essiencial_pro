@@ -6,6 +6,9 @@
     </button>
 
     @if ($showModal)
+        {{-- @php
+                                dd($courses);
+                            @endphp --}}
         <div class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
             <div class="bg-white rounded-xl max-w-lg w-full p-6 shadow-xl overflow-y-auto max-h-screen">
                 <h3 class="text-lg font-semibold mb-4">Add Video (Part {{ $order_index }})</h3>
@@ -17,9 +20,12 @@
                         <select wire:model.live="selectedCourseId"
                                 class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500">
                             <option value="">Choose a course...</option>
+                         
                             @foreach ($courses as $c)
+                           
                                 <option value="{{ $c['id'] }}">
-                                    {{ $c['title'] }} ({{ $c['video_count'] }} video{{ $c['video_count'] == 1 ? '' : 's' }})
+                                    {{ $c['title'] }} 
+                                    {{-- ({{ $c['next_order'] }} video{{ $c['video_count'] == 1 ? '' : 's' }}) --}}
                                 </option>
                             @endforeach
                         </select>

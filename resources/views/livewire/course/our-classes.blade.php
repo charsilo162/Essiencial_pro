@@ -17,7 +17,7 @@
                     {{ $data['description'] }} <span class="text-gray-400">({{ $data['count'] }} courses)</span>
                 </p>
                 <img 
-                    src="{{ $data['featured']['thumbnail_url'] ?? asset('storage/logo' . ($loop->index + 4) . '.jpg') }}" 
+                    src="{{ $data['featured']['thumbnail_url'] ?? asset('storage/edu' . ($loop->index + 1) . '.jpg') }}" 
                     class="w-full h-48 object-cover" 
                     alt="{{ $data['title'] }}" 
                 />

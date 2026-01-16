@@ -81,6 +81,9 @@ Route::get('/course/{course}', [CourseController::class, 'showOnline'])
     Route::view('profile2', 'profile2')
       ->middleware(['sessionauth', 'users'])
     ->name('profile2');
+    Route::view('/user-enroll', 'courses.userenroll')
+      ->middleware(['sessionauth', 'admin'])
+    ->name('enrolled.courses');
 
 
 

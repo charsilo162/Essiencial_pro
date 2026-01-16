@@ -80,7 +80,8 @@ public function showOnline($slug)
     // 👇 Capture messages from query string
     $success = request()->query('success');
     $error   = request()->query('error');
-// dd($success);
+    $course['tags'] = [$course['category']['name'], $course['type']];
+ //dd($course);
     return view('courses.show', compact('course', 'success', 'error'));
 }
 
@@ -102,7 +103,7 @@ public function showOnline($slug)
         if (!$center || !in_array($course['type'], ['physical', 'hybrid'])) {
             abort(404);
         }
-
+    //$course['tags'] = [$course['category']['name'], $course['type']];
         return view('courses.show-center', compact('course', 'center'));
     }
 }

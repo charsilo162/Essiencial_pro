@@ -14,11 +14,11 @@
         <div class="mt-12 flex justify-center flex-wrap gap-6 px-4">
 
             <!-- Left small -->
-            <img src="{{ asset('storage/img1.jpg') }}"
+            <img src="{{ asset('storage/edu1.jpg') }}"
                 class="w-32 h-40 object-cover rounded-xl shadow-lg transform rotate-[-4deg] float">
 
             <!-- Left medium -->
-            <img src="{{ asset('storage/img2.jpg') }}"
+            <img src="{{ asset('storage/edu2.jpg') }}"
                 class="w-36 h-52 object-cover rounded-xl shadow-lg transform rotate-[2deg] float">
 
             <!-- CENTER – LARGEST -->

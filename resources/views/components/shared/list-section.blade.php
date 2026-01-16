@@ -61,16 +61,16 @@
                     </div>
 
                     {{-- RATING — same layout, warmer badge --}}
-                    <div class="flex items-center text-yellow-500 mt-3 text-sm">
+                    {{-- <div class="flex items-center text-yellow-500 mt-3 text-sm"> --}}
                         {{-- {!! str_repeat('Star', (int) round($item['rating'] ?? 0)) !!}
                         {!! str_repeat('Star Outline', 5 - (int) round($item['rating'] ?? 0)) !!} --}}
-                        <span class="ml-2 text-gray-600 text-xs">
+                        {{-- <span class="ml-2 text-gray-600 text-xs">
                             {{ number_format($item['rating'] ?? 0, 1) }}/5 — 
                             <span class="font-medium text-orange-700">
                                 {{ $item['type'] ?? 'Unknown' }}
                             </span>
                         </span>
-                    </div>
+                    </div> --}}
 
                     {{-- ACTIONS — gradient button + same layout --}}
                     <div class="flex items-center justify-between mt-5">

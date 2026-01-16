@@ -43,89 +43,77 @@
     </div>
 
     <!-- Courses Grid -->
-    <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
-        @forelse ($courses as $course)
-            <div class="relative bg-gradient-to-br from-orange-50 via-yellow-50 to-blue-50 border-2 border-transparent rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition group ring-1 ring-offset-2 ring-orange-300 hover:ring-yellow-400">
-                <!-- Thumbnail -->
-                <div class="relative">
-                    <img src="{{ $course['image_thumbnail_url'] ?? asset('storage/default_course.png') }}"
-                         alt="{{ $course['title'] }} thumbnail" class="h-32 w-full object-cover">
-                    <!-- Action Buttons -->
-                    <!-- Action buttons -->
-                <div class="absolute top-3 right-3 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
-                    @if($confirmingDelete !== $course['id'])
-                        <button wire:click="$dispatch('openEditCourseModal', { courseId: {{ $course['id'] }} })"
-                                class="bg-white p-2 rounded-full shadow hover:bg-gray-100 text-gray-700 hover:scale-110 transition" title="Edit Course">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M9 13l6.293-6.293a1 1 0 011.414 0l2.586 2.586a1 1 0 010 1.414L13 17H9v-4z" />
-                            </svg>
-                        </button>
-                    @endif
-                    <div class="flex items-center">
-                        @if($confirmingDelete === $course['id'])
-                            <div class="flex items-center bg-red-600 rounded-full px-2 py-1 shadow-lg border border-red-700 space-x-2 transition-all">
-                                <button wire:click="deleteCourse({{ $course['id'] }})" class="text-white hover:scale-125 transition" title="Confirm Delete">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
-                                    </svg>
-                                </button>
-                                <div class="w-px h-3 bg-red-400"></div>
-                                <button wire:click="$set('confirmingDelete', null)" class="text-white opacity-80 hover:opacity-100 hover:scale-125 transition" title="Cancel">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
-                                </button>
-                            </div>
-                        @else
-                            <button wire:click="confirmDelete({{ $course['id'] }})" class="bg-white p-2 rounded-full shadow hover:bg-red-50 text-gray-600 hover:text-red-600 transition transform hover:scale-110" title="Delete Course">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                </svg>
-                            </button>
-                        @endif
-                    </div>
+<div class="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    @forelse ($courses as $course)
+        <div class="relative flex flex-col bg-gradient-to-br from-orange-50 via-yellow-50 to-blue-50
+                    rounded-2xl border border-orange-200 shadow-sm
+                    hover:shadow-lg transition group overflow-hidden">
+
+            <div class="relative h-48 w-full overflow-hidden bg-black">
+                <img
+                    src="{{ $course['image_thumbnail_url'] ?? asset('storage/default_course.png') }}"
+                    alt="{{ $course['title'] }}"
+                    class="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-300">
+
+                <div class="absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                    <button
+                        wire:click="$dispatch('openEditCourseModal', { courseId: {{ $course['id'] }} })"
+                        class="bg-white/90 backdrop-blur p-2 rounded-full shadow hover:bg-white text-gray-700">
+                        ✏️
+                    </button>
+
+                    <button
+                        wire:click="confirmDelete({{ $course['id'] }})"
+                        class="bg-white/90 backdrop-blur p-2 rounded-full shadow hover:bg-red-50 text-red-600">
+                        🗑️
+                    </button>
                 </div>
-                </div>
-                <!-- Body -->
-                <div class="p-3">
-                    <h3 class="text-md font-semibold text-gray-800 flex items-center gap-2" title="{{ $course['title'] }}">
-                        {{ Str::limit($course['title'], 40) }}
-                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium
-                            {{ $course['publish'] ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-600' }}">
-                            {{ $course['publish'] ? 'Live' : 'Draft' }}
-                        </span>
+            </div>
+
+            <div class="flex flex-col flex-1 p-4">
+                <div class="mb-3">
+                    <h3 class="text-sm font-bold text-gray-800 leading-tight line-clamp-2 h-10"
+                        title="{{ $course['title'] }}">
+                        {{ $course['title'] }}
                     </h3>
-                    <div class="mt-4 flex items-center justify-between">
+
+                    <span class="mt-2 inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider
+                        {{ $course['publish'] ? 'bg-green-100 text-green-700' : 'bg-gray-200 text-gray-600' }}">
+                        {{ $course['publish'] ? 'Live' : 'Draft' }}
+                    </span>
+                </div>
+
+                <div class="flex-1"></div>
+
+                <div class="pt-3 border-t border-orange-100 mt-auto">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
                         <button
                             wire:click="togglePublish({{ $course['id'] }})"
                             wire:loading.attr="disabled"
-                            class="px-3 py-1 text-xs font-medium rounded-full transition whitespace-nowrap
-                            {{ $course['publish'] ? 'bg-red-100 text-red-700 hover:bg-red-200' : 'bg-green-100 text-green-700 hover:bg-green-200' }}"
-                            title="{{ $course['publish'] ? 'Click to unpublish' : 'Click to publish' }}">
-                            <span wire:loading.remove wire:target="togglePublish({{ $course['id'] }})">
-                                {{ $course['publish'] ? 'Unpublish' : 'Publish' }}
-                            </span>
-                            <span wire:loading wire:target="togglePublish({{ $course['id'] }})">...</span>
+                            class="whitespace-nowrap px-3 py-1.5 text-[10px] sm:text-[11px] font-bold rounded-lg transition-colors min-w-[80px]
+                            {{ $course['publish']
+                                ? 'bg-red-50 text-red-600 hover:bg-red-100'
+                                : 'bg-green-50 text-green-600 hover:bg-green-100' }}">
+                            
+                            <span wire:loading wire:target="togglePublish({{ $course['id'] }})" class="mr-1">...</span>
+                            {{ $course['publish'] ? 'Unpublish' : 'Publish' }}
                         </button>
-                        <span class="text-gray-900 font-bold text-md">
+
+                        <span class="text-gray-900 font-extrabold text-xs sm:text-sm whitespace-nowrap ml-auto">
                             {{ $course['price_formatted'] ?? 'Free' }}
                         </span>
                     </div>
                 </div>
             </div>
-        @empty
-            <div class="col-span-full text-center py-12">
-                @if($search)
-                    <p class="text-gray-500 text-lg">No courses found matching "<strong>{{ $search }}</strong>".</p>
-                @else
-                    <p class="text-gray-500 text-lg">You haven't posted any courses yet.</p>
-                    <div class="mt-4">
-                        <livewire:course.post-course-button />
-                    </div>
-                @endif
-            </div>
-        @endforelse
-    </div>
+        </div>
+    @empty
+        <div class="col-span-full text-center py-12 text-gray-500 bg-white rounded-2xl border border-dashed border-gray-300">
+            <div class="text-4xl mb-3">📚</div>
+            <p>No courses found matching your criteria.</p>
+        </div>
+    @endforelse
+</div>
+
 
     <!-- Pagination Links -->
     @if($courses->hasPages())
