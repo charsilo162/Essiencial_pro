@@ -88,7 +88,20 @@
     </div>
 </x-slot:footerArea>
     </x-shared.detail-wrapper>
-
+@if (!empty($success))
+<div x-data="{ show: true }" x-show="show"
+     class="mb-4 flex items-start justify-between rounded-lg bg-green-100 border border-green-300 text-green-700 px-4 py-3">
+    <span>{{ $success }}</span>
+    <button @click="show = false" class="font-bold">×</button>
+</div>
+@endif
+@if (!empty($error))
+<div x-data="{ show: true }" x-show="show"
+     class="mb-4 flex items-start justify-between rounded-lg bg-red-100 border border-red-300 text-red-700 px-4 py-3">
+    <span>{{ $success}}</span>
+    <button @click="show = false" class="font-bold">×</button>
+</div>
+@endif
     {{-- 2. Course Description --}}
     <x-shared.content-description title="About This Course">
         <p>{{ $course['long_description_p1'] ?? 'Detailed course content coming soon...' }}</p>
@@ -112,6 +125,7 @@
 
     {{-- 5. Random Courses --}}
     <livewire:course.random-courses />
+    {{-- <livewire:course.random-courses /> --}}
 
     <x-navigation.footer />
 </x-layouts.app>

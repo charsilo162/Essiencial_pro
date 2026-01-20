@@ -27,14 +27,15 @@ class AddVideoToCourse extends Component
         $this->api = app(ApiService::class);
     }
 
-    protected $rules = [
-        'selectedCourseId' => 'required|exists:courses,id', // Note: Validation still assumes backend checks existence; if fully decoupled, consider removing or handling via API response
-        'title'            => 'required|string|max:255',
-        'video_file'       => 'required|file|mimes:mp4,mov,avi,wmv|max:102400',
-        'thumbnail_file'   => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-        'duration'         => 'nullable|integer|min:1',
-        'order_index'      => 'required|integer|min:1',
-    ];
+ protected $rules = [
+    // Change this line:
+    'selectedCourseId' => 'required|integer', 
+    'title'            => 'required|string|max:255',
+    'video_file'       => 'required|file|mimes:mp4,mov,avi,wmv|max:102400',
+    'thumbnail_file'   => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+    'duration'         => 'nullable|integer|min:1',
+    'order_index'      => 'required|integer|min:1',
+];
 
     protected $listeners = ['open-add-video-modal' => 'openWithCourse'];
 
@@ -104,15 +105,26 @@ class AddVideoToCourse extends Component
         if ($this->duration) {
             $data[] = ['name' => 'duration', 'contents' => $this->duration];
         }
+    try {
+        $response = $this->api->postWithFile('videos', $data);
 
-        try {
-            $this->api->postWithFile('videos', $data);
-            $this->dispatch('success-notification', message: "Video added as Part {$this->order_index}!", type: 'video');
+        // Check if the API returned validation errors
+        if (isset($response['error']) && $response['status'] === 422) {
+            foreach ($response['errors'] as $field => $messages) {
+                // Map 'course_id' from API back to 'selectedCourseId' in Livewire
+                $livewireField = ($field === 'course_id') ? 'selectedCourseId' : $field;
+                $this->addError($livewireField, $messages[0]);
+            }
+            return;
+        }
+
+            $this->dispatch('success-notification', message: "Video added!", type: 'video');
             $this->closeModal();
             $this->loadCourses();
+
         } catch (\Exception $e) {
-            $this->addError('video_file', 'Upload failed. Please try again.');
             Log::error('Video upload failed: ' . $e->getMessage());
+            $this->addError('video_file', 'Upload failed. Check your server file size limits.');
         }
     }
 

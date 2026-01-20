@@ -39,33 +39,45 @@ class EditCourse extends Component
         $this->center_id = $centerId;         // <-- Updated to use $centerId
     }
 
-    #[On('openEditCourseModal')]
-    public function openModal($courseId)
-    {
-        $this->courseId = $courseId;
-        $response = $this->api->get("courses/{$courseId}/edit");
-        $course = $response['data'] ?? $response;
-        // dd($course);
-        $this->fill([
-            'category_id'  => $course['category']['id'] ?? null,
-            'title'        => $course['title'] ?? '',
-            'description'  => $course['description'] ?? '',
-            'type'         => $course['type'] ?? 'online',
-            'center_id'    => data_get($course, 'centers.0.id'),
-            'price_amount' => $course['current_price']['amount'] ?? '',
-            'publish'      => (bool)($course['publish'] ?? false),
-            'current_image_url' => $course['image_thumbnail_url'] ?? null,
-        ]);
+ #[On('openEditCourseModal')]
+public function openModal($courseId)
+{
+    // FULL reset
+    $this->reset([
+        'category_id',
+        'title',
+        'description',
+        'type',
+        'center_id',
+        'price_amount',
+        'publish',
+        'current_image_url',
+        'image_thumb',
+    ]);
 
-        $this->resetErrorBag();
-        $this->image_thumb = null;
-        
-        // 1. Open the modal (Alpine picks this up via @entangle)
-        $this->showModal = true;
+    $this->resetErrorBag();
 
-        // 2. Synchronize the Category Search dropdown
-        $this->dispatch('update-selected-category', id: $this->category_id);
-    }
+    $this->courseId = $courseId;
+
+    $response = $this->api->get("courses/{$courseId}/edit");
+    $course = $response['data'] ?? $response;
+
+    $this->fill([
+        'category_id'       => $course['category']['id'] ?? null,
+        'title'             => $course['title'] ?? '',
+        'description'       => $course['description'] ?? '',
+        'type'              => $course['type'] ?? 'online',
+        'center_id'         => data_get($course, 'centers.0.id'),
+        'price_amount'      => $course['current_price']['amount'] ?? '',
+        'publish'           => (bool)($course['publish'] ?? false),
+        'current_image_url' => $course['image_thumbnail_url'] ?? null,
+    ]);
+
+    // 🔥 Reset Alpine preview explicitly
+   // $this->dispatchBrowserEvent('reset-image-preview');
+
+    $this->showModal = true;
+}
 
     public function updateCourse()
     {
@@ -96,7 +108,7 @@ class EditCourse extends Component
         }
 
         $this->api->postWithFile("courses/{$this->courseId}/update", $formData);
-
+        $this->reset(['courseId', 'category_id', 'title', 'description', 'image_thumb', 'price_amount', 'current_image_url']);
         // CLEANUP & NOTIFY
         $this->showModal = false; // Closes modal
         $this->dispatch('course-updated'); // Refreshes List

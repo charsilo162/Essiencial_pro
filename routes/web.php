@@ -81,22 +81,12 @@ Route::get('/category/{slug}', [CategoryController::class, 'show'])->name('categ
 */
 // Route::get('/courses', [CourseController::class, 'index'])
 //     ->name('courses.index');
-
+//http://127.0.0.1:8000/enroll/paystack/how-to-cook
 Route::middleware('apiauth')->group(function () {
     Route::get('/categories', CategoryManager::class)->name('categories');
 });
 
 // ONLINE course page
-// Route::get('/course/{course:slug}', [CourseController::class, 'showOnline'])
-//     ->name('courses.online');
-
-// // PHYSICAL course page
-// Route::get('/center/{center}/{course:slug}', [CourseController::class, 'showCenter'])
-//     ->name('courses.center');
-
-// Route::get('/course/{course}/watch', [CourseWatchController::class, 'CourseWatch'])
-//     ->middleware(['auth'])
-//     ->name('course.watch');
 Route::get('/course/{slug}/watch', [CourseWatchController::class, 'CourseWatch'])
     ->name('course.watch');
 Route::get('/course/{course}', [CourseController::class, 'showOnline'])

@@ -12,7 +12,7 @@
 
 <body class="bg-gray-50 text-gray-900">
 
-<div x-data="{ sidebarOpen: false }" class="min-h-screen flex relative">
+<div x-data="{ sidebarOpen: false }" class="min-h-screen flex">
 
     {{-- Mobile backdrop --}}
     <div
@@ -24,34 +24,36 @@
     ></div>
 
     {{-- Sidebar --}}
-    <div
+    <aside
         class="fixed md:static inset-y-0 left-0 z-50 w-64 bg-slate-900 text-white transform transition-transform duration-300"
         :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'"
     >
         <x-dashboard.sidebar />
-    </div>
+        
+    </aside>
 
-    {{-- Main Content --}}
-    <div class="flex-1 flex flex-col">
+    {{-- Main --}}
+    <div class="flex-1 flex flex-col min-w-0">
 
         {{-- Topbar --}}
         <x-dashboard.topbar />
 
-        
-        {{-- 🔑 GLOBAL LIVEWIRE MODALS (HIDDEN UNTIL OPENED) --}}
-        <livewire:course.post-course />
-        <livewire:post-center />
-         <livewire:course.edit-course />
-        {{-- <livewire:profile.edit-profile /> --}}
+        {{-- Modals --}}
+        @if((session('user.role') ?? session('user.type') ?? '') !== 'user')
+            <livewire:course.post-course />
+            <livewire:post-center />
+        @endif
+        <livewire:course.edit-course />
 
-        {{-- Page Content --}}
-        <main class="flex-1 p-6">
+        {{-- Content --}}
+        <main class="flex-1 p-6 w-full">
             {{ $slot }}
         </main>
     </div>
 
 </div>
-{{-- Global Toast Notification --}}
+
+{{-- Toast --}}
 <div
     x-data="{ 
         show: false, 
@@ -73,13 +75,10 @@
 >
     <div :class="type === 'success' ? 'bg-green-600' : 'bg-red-600'" 
          class="text-white px-6 py-3 rounded-lg shadow-xl flex items-center gap-3">
-        <template x-if="type === 'success'">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-        </template>
         <span x-text="message"></span>
     </div>
 </div>
-@livewireScripts
 
+@livewireScripts
 </body>
 </html>

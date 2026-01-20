@@ -4,7 +4,7 @@ $navLinks = [
     ['label' => 'Category', 'route' => 'category.index'],
     ['label' => 'About Us', 'route' => 'about-us'],
     ['label' => 'Contact Us', 'route' => 'contact_us'],
-    ['label' => 'FAQs', 'route' => 'faqs'],
+    // ['label' => 'FAQs', 'route' => 'faqs'],
 ];
 @endphp
 

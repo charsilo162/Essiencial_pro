@@ -36,4 +36,4 @@ class FeaturedVenues extends Component
     {
         return view('livewire.featured-venues');
     }
-}
+} 

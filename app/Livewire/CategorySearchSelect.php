@@ -32,6 +32,7 @@ class CategorySearchSelect extends Component
     public function loadInitialCategories()
     {
         $response = $this->api->get('categories', ['limit' => 10]);
+        //dd($response);
         $this->categories = $response['data'];
     }
 

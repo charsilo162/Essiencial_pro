@@ -18,11 +18,17 @@
             <ul class="space-y-1 text-sm">
                 @forelse ($videos as $video)
                     @php
-                        $isActive = $currentVideo && $currentVideo['id'] === $video['id'];
-                        $linkClasses = $isActive ? 'text-cyan-600 font-medium' : 'text-gray-600 hover:text-cyan-600';
-                        // FIX: Use null-safe operator to access pivot data safely
-                        $partNumber = (($video['pivot'] ?? [])['order_index'] ?? 'N/A');
-                    @endphp
+                    $isActive = $currentVideo && $currentVideo['id'] === $video['id'];
+                    $linkClasses = $isActive ? 'text-cyan-600 font-medium' : 'text-gray-600 hover:text-cyan-600';
+                    // Safely get order_index with fallback to 'N/A'
+                    $partNumber = (($video['pivot'] ?? [])['order_index'] ?? 'N/A');
+                    
+                    // If exactly 0, treat as part 1 (strict comparison for safety)
+                    if ($partNumber === 0) {
+                        $partNumber = '1';  // Or 1 as int if preferred
+                    }
+                    // No else needed—value remains unchanged otherwise
+                @endphp
                     <li>
                         <a href="#"
                             wire:click.prevent="setCurrentVideo({{ $video['id'] }})"

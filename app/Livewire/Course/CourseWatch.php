@@ -27,11 +27,11 @@ class CourseWatch extends Component
    public function mount(string $slug)
 {
     $response = $this->api->get("courses/{$slug}/watch");
-// dd($response);
+ //dd($response);
     if (isset($response['message']) && str_contains($response['message'], 'enrolled')) {
         return redirect()->route('category.index')->with('error', 'You must enroll to watch this course.');
     }
-
+//dd($response);
     $this->course = $response['data'];
     $this->videos = collect($this->course['videos'] ?? []);
 //dd($this->course);

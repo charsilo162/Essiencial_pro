@@ -1,55 +1,201 @@
-<div>
-    <h3 class="text-lg font-semibold mb-4">Add First Video</h3>
+<div class="relative">
+    {{-- Header --}}
+    <div class="mb-6">
+        <h3 class="text-xl font-semibold text-gray-900">
+            Add First Video
+        </h3>
+        <p class="mt-1 text-sm text-gray-500">
+            Upload the first lesson video for this course.
+        </p>
+    </div>
 
-    <form wire:submit.prevent="save" enctype="multipart/form-data">
-        <!-- Title -->
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700 mb-1">Video Title *</label>
-            <input type="text" 
-                   wire:model="title"
-                   class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500">
-            @error('title') <span class="text-red-600 text-xs">{{ $message }}</span> @enderror
+    <form wire:submit.prevent="save" enctype="multipart/form-data" class="space-y-6">
+
+        {{-- Video Title --}}
+        <div>
+            <label class="block text-sm font-medium text-gray-700">
+                Video Title <span class="text-red-500">*</span>
+            </label>
+            <input
+                type="text"
+                wire:model.defer="title"
+                placeholder="e.g. Introduction to HTML"
+                class="mt-1 w-full rounded-lg border-gray-300 shadow-sm
+                       focus:border-orange-500 focus:ring-orange-500"
+            >
+            @error('title')
+                <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+            @enderror
         </div>
 
-        <!-- Video Upload -->
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700 mb-1">Upload Video *</label>
-            <input type="file" 
-                   wire:model="video_file" 
-                   accept="video/*"
-                   class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500">
-            @error('video_file') <span class="text-red-600 text-xs">{{ $message }}</span> @enderror
+        {{-- Video Upload --}}
+        <div>
+    <label class="block text-sm font-medium text-gray-700">
+        Upload Video <span class="text-red-500">*</span>
+    </label>
+
+    {{-- Upload box --}}
+    @if (!$video_file)
+        <label
+            for="video-upload"
+            class="mt-1 flex cursor-pointer items-center justify-center
+                   rounded-lg border-2 border-dashed border-gray-300
+                   bg-gray-50 px-6 py-8 text-center
+                   hover:border-orange-400 hover:bg-orange-50 transition"
+        >
+            <div class="space-y-2">
+                <svg class="mx-auto h-8 w-8 text-gray-400" fill="none"
+                     stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M7 16V4a1 1 0 011-1h8a1 1 0 011 1v12m-9 4h8" />
+                </svg>
+
+                <p class="text-sm text-gray-600">
+                    Click to upload or drag and drop
+                </p>
+                <p class="text-xs text-gray-400">
+                    MP4, MOV, AVI
+                </p>
+            </div>
+        </label>
+    @endif
+
+    {{-- File input --}}
+    <input
+        id="video-upload"
+        type="file"
+        wire:model="video_file"
+        accept="video/*"
+        class="sr-only"
+    >
+
+    {{-- Upload progress --}}
+    <div wire:loading wire:target="video_file" class="mt-2">
+        <p class="text-xs text-gray-500 mb-1">Uploading video…</p>
+        <progress class="w-full h-2 rounded" max="100"></progress>
+    </div>
+
+    {{-- Uploaded file confirmation --}}
+    @if ($video_file)
+        <div class="mt-3 flex items-center justify-between
+                    rounded-lg border border-green-200
+                    bg-green-50 px-4 py-3">
+            <div class="flex items-center gap-3">
+                <svg class="h-6 w-6 text-green-600" fill="none"
+                     stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M5 13l4 4L19 7" />
+                </svg>
+
+                <div>
+                    <p class="text-sm font-medium text-gray-800">
+                        {{ $video_file->getClientOriginalName() }}
+                    </p>
+                    <p class="text-xs text-gray-500">
+                        {{ number_format($video_file->getSize() / 1048576, 2) }} MB
+                    </p>
+                </div>
+            </div>
+
+            <button
+                type="button"
+                wire:click="$set('video_file', null)"
+                class="text-sm font-medium text-red-600 hover:text-red-700"
+            >
+                Remove
+            </button>
+        </div>
+    @endif
+
+    @error('video_file')
+        <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+    @enderror
+</div>
+
+
+        {{-- Thumbnail --}}
+        <div>
+            <label class="block text-sm font-medium text-gray-700">
+                Thumbnail <span class="text-gray-400">(optional)</span>
+            </label>
+            <input
+                type="file"
+                wire:model="thumbnail_file"
+                accept="image/*"
+                class="mt-1 block w-full text-sm text-gray-700
+                       file:mr-4 file:rounded-md
+                       file:border-0
+                       file:bg-orange-50 file:px-4 file:py-2
+                       file:text-sm file:font-medium
+                       file:text-orange-700
+                       hover:file:bg-orange-100"
+            >
+            @error('thumbnail_file')
+                <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+            @enderror
         </div>
 
-        <!-- Thumbnail -->
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700 mb-1">Thumbnail (optional)</label>
-            <input type="file" 
-                   wire:model="thumbnail_file" 
-                   accept="image/*"
-                   class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500">
-            @error('thumbnail_file') <span class="text-red-600 text-xs">{{ $message }}</span> @enderror
+        {{-- Duration --}}
+        <div>
+            <label class="block text-sm font-medium text-gray-700">
+                Duration (seconds)
+            </label>
+            <input
+                type="number"
+                wire:model.defer="duration"
+                placeholder="e.g. 320"
+                min="1"
+                class="mt-1 w-full rounded-lg border-gray-300 shadow-sm
+                       focus:border-orange-500 focus:ring-orange-500"
+            >
         </div>
 
-        <!-- Duration -->
-        <div class="mb-6">
-            <label class="block text-sm font-medium text-gray-700 mb-1">Duration (seconds)</label>
-            <input type="number" 
-                   wire:model="duration"
-                   class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500">
-        </div>
+        {{-- Footer Actions --}}
+        <div class="flex items-center justify-end gap-3 pt-4 border-t border-gray-200">
 
-        <!-- Buttons -->
-        <div class="flex justify-end space-x-3">
-            <button type="button" 
-                    wire:click="$dispatch('close-modal', 'add-first-video-modal')"
-                    class="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400">
+            <button
+                type="button"
+                wire:click="$dispatch('close-modal', 'add-first-video-modal')"
+                wire:loading.attr="disabled"
+                wire:target="save"
+                class="inline-flex items-center justify-center
+                       rounded-lg border border-gray-300
+                       bg-white px-4 py-2
+                       text-sm font-medium text-gray-700
+                       hover:bg-gray-100
+                       disabled:opacity-60 disabled:cursor-not-allowed"
+            >
                 Cancel
             </button>
-            <button type="submit"
-                    class="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700">
-                Save Video
+
+            <button
+                type="submit"
+                wire:loading.attr="disabled"
+                wire:target="save"
+                class="inline-flex items-center justify-center gap-2
+                       rounded-lg bg-orange-600
+                       px-5 py-2.5
+                       text-sm font-semibold text-white
+                       hover:bg-orange-700
+                       disabled:opacity-60 disabled:cursor-not-allowed"
+            >
+                <span wire:loading.remove wire:target="save">
+                    Save Video
+                </span>
+
+                <span wire:loading wire:target="save" class="flex items-center gap-2">
+                    <svg class="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                        <circle class="opacity-25" cx="12" cy="12" r="10"
+                                stroke="currentColor" stroke-width="4"/>
+                        <path class="opacity-75" fill="currentColor"
+                              d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"/>
+                    </svg>
+                    Uploading…
+                </span>
             </button>
         </div>
+
     </form>
 </div>

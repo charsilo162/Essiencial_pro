@@ -2,6 +2,7 @@
  
     {{-- Tabs --}}
     <x-dashboard.tabs active="courses" />
+    
 
     {{-- Page Header --}}
     <div class="flex items-center justify-between mb-6">

@@ -69,11 +69,14 @@
         @error('price_amount') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
     </div>
     {{-- 6. Image Thumbnail Field --}}
-    <div class="mb-4" x-data="{ isUploading: false, preview: null, file: null }" 
-         x-on:livewire-upload-start="isUploading = true"
-         x-on:livewire-upload-finish="isUploading = false"
-         x-on:livewire-upload-error="isUploading = false"
-         x-on:livewire-upload-progress="progress = $event.detail.progress">
+  <div class="mb-4"
+     wire:key="edit-course-image-{{ $courseId ?? 'new' }}"
+     x-data="{ isUploading: false, preview: null }"
+     x-on:reset-image-preview.window="preview = null"
+     x-on:livewire-upload-start="isUploading = true"
+     x-on:livewire-upload-finish="isUploading = false"
+     x-on:livewire-upload-error="isUploading = false"
+>
 
         <label for="course-thumb-edit" class="block text-sm font-medium text-gray-700">Image Thumbnail</label>
         
@@ -101,11 +104,15 @@
         </div>
 
         {{-- FIXED: Use array syntax, not object --}}
-        @if (!empty($course['image_thumbnail_url']))
-            <div x-show="!preview" class="mt-3 w-32 h-32 border border-gray-200 rounded-lg overflow-hidden">
-                <img src="{{ asset('storage/' . $course['image_thumbnail_url']) }}" alt="Current Thumbnail" class="w-full h-full object-cover">
-            </div>
-        @endif
+       @if ($current_image_url)
+    <div x-show="!preview"
+         class="mt-3 w-32 h-32 border border-gray-200 rounded-lg overflow-hidden">
+        <img src="{{ $current_image_url }}"
+             alt="Current Thumbnail"
+             class="w-full h-full object-cover">
+    </div>
+@endif
+
 
         <div x-show="isUploading" class="mt-2">
             <progress max="100" :value="progress"></progress>

@@ -57,7 +57,7 @@
                     <h1 class="text-4xl md:text-5xl font-bold mb-4" x-text="slide.title"></h1>
                     <p class="text-lg md:text-xl mb-6" x-text="slide.text"></p>
 
-                    <a href="#"
+                    <a href="{{ route('category.index') }}"
                        class="inline-block px-6 py-3 rounded bg-sky-500 hover:bg-sky-600 transition">
                         Get Started
                     </a>

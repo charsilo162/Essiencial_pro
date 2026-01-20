@@ -1,8 +1,8 @@
-{{-- resources/views/livewire/featured-venues.blade.php --}}
 <div class="bg-gray-50 py-10">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        @if(count($venues) > 0)
         <h2 class="text-2xl font-semibold text-gray-800 mb-6">Featured Event Venues</h2>
-
+@endif
         @if($loading)
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 @for($i = 0; $i < 4; $i++)
@@ -68,12 +68,14 @@
                 @endforeach
             </div>
 
-            <div class="mt-8 text-center">
-                <a href="{{ route('venues') }}"
-                   class="inline-block px-8 py-3 bg-red-500 text-white font-semibold rounded-full hover:bg-red-600 transition">
-                    See More Venues
-                </a>
-            </div>
+            @if(count($venues) > 0)
+                <div class="mt-8 text-center">
+                    <a href="{{ route('venues') }}"
+                       class="inline-block px-8 py-3 bg-red-500 text-white font-semibold rounded-full hover:bg-red-600 transition">
+                        See More Venues
+                    </a>
+                </div>
+            @endif
         @endif
     </div>
 </div>

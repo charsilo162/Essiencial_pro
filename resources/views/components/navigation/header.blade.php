@@ -1,58 +1,57 @@
-<header class="sticky top-0 z-50 bg-slate-900 text-white shadow">
-    <nav x-data="{ open: false }"
-         class="w-full px-6 py-4 flex items-center">
-
+<header class="sticky top-0 z-[60] h-[72px] bg-slate-900 text-white shadow-md border-b border-slate-800">
+    <nav x-data="{ mobileMenuOpen: false }" class="h-full w-full px-6 flex items-center justify-between">
+        
         {{-- LEFT: Logo --}}
-        <div class="flex items-center w-1/4">
+        <div class="flex items-center">
             <x-shared.logo class="text-white" />
         </div>
 
-        {{-- CENTER: Main Nav --}}
-        <div class="hidden lg:flex justify-center w-2/4">
-            <x-navigation.main-menu />
-        </div>
+        {{-- RIGHT: Actions --}}
+        <div class="flex items-center gap-2">
+            
+            {{-- Desktop Menu --}}
+            <div class="hidden lg:block mr-4">
+                <x-navigation.main-menu class="flex gap-6" />
+            </div>
 
-        {{-- RIGHT: User + Toggle --}}
-        <div class="flex items-center justify-end gap-4 w-1/4">
-
-            {{-- User menu --}}
             <x-navigation.user-menu />
 
-            {{-- Mobile toggle --}}
-            <button
-                @click="open = !open"
-                class="lg:hidden inline-flex items-center justify-center
-                       w-10 h-10 rounded-md hover:bg-slate-800 focus:outline-none"
-            >
-                {{-- Hamburger --}}
-                <svg x-show="!open" xmlns="http://www.w3.org/2000/svg"
-                     class="w-6 h-6" fill="none"
-                     viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
+            {{-- BUTTON 1: Sidebar Toggle (Only shows if sidebar exists) --}}
+           {{-- Check if hasSidebar is true --}}
+@if($hasSidebar ?? false)
+    <button
+        {{-- This triggers the @toggle-sidebar listener in the body --}}
+        @click="window.dispatchEvent(new CustomEvent('toggle-sidebar'))"
+        class="lg:hidden p-2 rounded-md bg-slate-800 text-white"
+    >
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+    </button>
+@endif
 
-                {{-- Close --}}
-                <svg x-show="open" x-cloak xmlns="http://www.w3.org/2000/svg"
-                     class="w-6 h-6" fill="none"
-                     viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M6 18L18 6M6 6l12 12" />
+            {{-- BUTTON 2: Mobile Nav Toggle (For Home, About, etc.) --}}
+            <button 
+                @click="mobileMenuOpen = !mobileMenuOpen"
+                class="lg:hidden p-2 rounded-md hover:bg-slate-800"
+            >
+                <svg x-show="!mobileMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+                </svg>
+                <svg x-show="mobileMenuOpen" x-cloak class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
         </div>
 
-        {{-- Mobile menu --}}
-        <div x-show="open"
-             x-transition
+        {{-- Mobile Dropdown for Main Nav --}}
+        <div x-show="mobileMenuOpen" 
+             x-transition 
              x-cloak
-             class="absolute top-full left-0 w-full bg-slate-900 border-t border-slate-700 lg:hidden">
-            <div class="flex flex-col px-6 py-4 space-y-5">
-                <x-navigation.main-menu class="flex flex-col gap-6" />
+             class="absolute top-[72px] left-0 w-full bg-slate-900 border-b border-slate-700 lg:hidden z-[70]">
+            <div class="p-4 space-y-4">
+                <x-navigation.main-menu class="flex flex-col gap-4" />
             </div>
         </div>
-
     </nav>
 </header>

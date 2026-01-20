@@ -26,24 +26,25 @@ class CourseController extends Controller
   public function buy($slug)
 {
     $response = $this->api->get("courses/{$slug}");
-   
+
     if (isset($response['message']) || empty($response['data']['id'])) {
         abort(404);
     }
 
     $course = $response['data'];
     $courseId = $course['id'];
-
+  
     try {
         $init = $this->api->initializePayment($courseId);
-//  dd($init);
+
         // If API returned readable error
         if (!$init['success']) {
             return redirect()
                 ->route('courses.online', $slug)
                 ->with('error', $init['error']);
         }
-
+//         dump('yese');
+//   dd($init);
         // Success – redirect to Paystack auth URL
         if (isset($init['data']['authorization_url'])) {
             return redirect($init['data']['authorization_url']);
@@ -62,7 +63,7 @@ class CourseController extends Controller
 }
 
 
-   public function showOnline($slug)
+public function showOnline($slug)
 {
     $response = $this->api->get("courses/{$slug}");
 
@@ -73,11 +74,16 @@ class CourseController extends Controller
     $course = $response['data'] ?? $response;
 
     if ($course['type'] !== 'online') {
-        abort(404);
+        route('center.show', $course['id']);
     }
 
-    return view('courses.show', compact('course'));
+    // 👇 Capture messages from query string
+    $success = request()->query('success');
+    $error   = request()->query('error');
+
+    return view('courses.show', compact('course', 'success', 'error'));
 }
+
 
     public function showCenter($centerId, $slug)
     {

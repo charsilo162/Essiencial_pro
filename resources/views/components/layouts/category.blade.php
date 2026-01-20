@@ -9,57 +9,43 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
-
 <body
     x-data="{ sidebarOpen: false }"
     @toggle-sidebar.window="sidebarOpen = !sidebarOpen"
-    class="bg-gray-50 text-gray-900"
+    class="bg-gray-50 min-h-screen"
 >
 
-    {{-- Shared Top Nav --}}
-    <x-navigation.header />
+    {{-- Header --}}
+    <x-navigation.header :hasSidebar="true" />
 
-    <div class="flex w-full min-h-[calc(100vh-80px)] relative">
-
-        {{-- Mobile overlay --}}
-        <div
-            x-show="sidebarOpen"
-            x-transition.opacity
-            @click="sidebarOpen = false"
-            class="fixed inset-0 bg-black/40 z-40 lg:hidden"
-        ></div>
+    {{-- Main layout --}}
+    <div class="flex min-h-screen">
 
         {{-- Sidebar --}}
      <aside
-            class="fixed lg:static inset-y-0 left-0 z-50 w-72
-                bg-slate-900 text-white border-r border-slate-800
-                transform transition-transform duration-300
-                lg:translate-x-0"
-            :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
-        >
+    class="fixed inset-y-0 left-0 z-50 w-72 bg-slate-900
+           transition-transform duration-300
+           lg:static lg:translate-x-0 lg:block lg:sticky lg:top-[72px]"
+    :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'"
+    x-cloak
+>
+    <div class="h-full overflow-y-auto">
+        <livewire:category-sidebar />
+    </div>
+</aside>
 
-            <livewire:category-sidebar
-                :active-category-slug="$activeCategorySlug ?? null"
-            />
-        </aside>
 
-        {{-- Main Content --}}
-        <main class="flex-1 w-full p-6 bg-gray-50">
-            @if(session('error'))
-                <div class="bg-red-100 text-red-700 p-3 rounded mb-4">
-                    {{ session('error') }}
-                </div>
-            @endif
+        {{-- Overlay for mobile --}}
+        <div x-show="sidebarOpen"
+             x-cloak
+             @click="sidebarOpen = false"
+             class="fixed inset-0 bg-black/50 z-40 lg:hidden">
+        </div>
 
-            @if(session('success'))
-                <div class="bg-green-100 text-green-700 p-3 rounded mb-4">
-                    {{ session('success') }}
-                </div>
-            @endif
-
+        {{-- Main content --}}
+        <main class="flex-1 min-w-0 p-6 lg:p-8">
             {{ $slot }}
         </main>
-
     </div>
 
     @livewireScripts

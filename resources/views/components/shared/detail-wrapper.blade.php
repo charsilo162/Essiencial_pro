@@ -32,12 +32,12 @@
 
             <!-- Rating Section (Shared) -->
             <div class="flex items-center mb-4">
-                <span class="text-yellow-400 text-xl">
+                {{-- <span class="text-yellow-400 text-xl"> --}}
                     {{-- Assuming simple rounding for star count --}}
-                    {!! str_repeat('&#9733;', (int) round($rating)) !!}
+                    {{-- {!! str_repeat('&#9733;', (int) round($rating)) !!}
                     {!! str_repeat('&#9734;', 5 - (int) round($rating)) !!}
-                </span>
-                <span class="text-gray-600 text-sm ml-2">{{ number_format($rating, 2) }}</span>
+                </span> --}}
+                {{-- <span class="text-gray-600 text-sm ml-2">{{ number_format($rating, 2) }}</span> --}}
             </div>
 
             <!-- *** Dynamic Contact/Info Area (SLOT) *** -->

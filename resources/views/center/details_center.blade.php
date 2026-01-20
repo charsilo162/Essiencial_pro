@@ -1,12 +1,13 @@
 <x-layouts.app title="Center Details">
 
-    <x-layouts.dashboardheader />
 
-    <div class="max-w-7xl mx-auto px-4 py-10">
+
+
+  <div class="max-w-7xl mx-auto px-4 py-10">
         
         <!-- Banner -->
         <div class="w-full h-64 md:h-80 rounded-xl overflow-hidden shadow-lg">
-            <img src="{{ asset('storage/'.$center['image_url']) }}" 
+            <img src="{{ asset($center['image_url']) }}" 
                  alt="{{ $center['name'] }}"
                  class="w-full h-full object-cover">
         </div>
@@ -41,6 +42,12 @@
     <livewire:course.related-courses-by-center 
     :centerId="$center['id']" 
 />
+
+
+
+
+
+
     <x-navigation.footer />
 
 </x-layouts.app>
