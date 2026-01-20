@@ -39,45 +39,45 @@ class EditCourse extends Component
         $this->center_id = $centerId;         // <-- Updated to use $centerId
     }
 
- #[On('openEditCourseModal')]
-public function openModal($courseId)
-{
-    // FULL reset
-    $this->reset([
-        'category_id',
-        'title',
-        'description',
-        'type',
-        'center_id',
-        'price_amount',
-        'publish',
-        'current_image_url',
-        'image_thumb',
-    ]);
+    #[On('openEditCourseModal')]
+    public function openModal($courseId)
+    {
+        // FULL reset
+        $this->reset([
+            'category_id',
+            'title',
+            'description',
+            'type',
+            'center_id',
+            'price_amount',
+            'publish',
+            'current_image_url',
+            'image_thumb',
+        ]);
 
-    $this->resetErrorBag();
+        $this->resetErrorBag();
 
-    $this->courseId = $courseId;
+        $this->courseId = $courseId;
 
-    $response = $this->api->get("courses/{$courseId}/edit");
-    $course = $response['data'] ?? $response;
+        $response = $this->api->get("courses/{$courseId}/edit");
+        $course = $response['data'] ?? $response;
+    //dd($response);
+        $this->fill([
+            'category_id'       => $course['category']['id'] ?? null,
+            'title'             => $course['title'] ?? '',
+            'description'       => $course['description'] ?? '',
+            'type'              => $course['type'] ?? 'online',
+            'center_id'         => data_get($course, 'centers.0.id'),
+            'price_amount'      => $course['current_price']['amount'] ?? '',
+            'publish'           => (bool)($course['publish'] ?? false),
+            'current_image_url' => $course['image_thumbnail_url'] ?? null,
+        ]);
 
-    $this->fill([
-        'category_id'       => $course['category']['id'] ?? null,
-        'title'             => $course['title'] ?? '',
-        'description'       => $course['description'] ?? '',
-        'type'              => $course['type'] ?? 'online',
-        'center_id'         => data_get($course, 'centers.0.id'),
-        'price_amount'      => $course['current_price']['amount'] ?? '',
-        'publish'           => (bool)($course['publish'] ?? false),
-        'current_image_url' => $course['image_thumbnail_url'] ?? null,
-    ]);
+        // 🔥 Reset Alpine preview explicitly
+    // $this->dispatchBrowserEvent('reset-image-preview');
 
-    // 🔥 Reset Alpine preview explicitly
-   // $this->dispatchBrowserEvent('reset-image-preview');
-
-    $this->showModal = true;
-}
+        $this->showModal = true;
+    }
 
     public function updateCourse()
     {
@@ -95,6 +95,7 @@ public function openModal($courseId)
             ['name' => 'title', 'contents' => $this->title],
             ['name' => 'description', 'contents' => $this->description],
             ['name' => 'type', 'contents' => $this->type],
+            ['name' => 'center_id', 'contents' => $this->center_id],
             ['name' => 'price_amount', 'contents' => $this->price_amount],
             ['name' => 'publish', 'contents' => $this->publish ? 1 : 0],
         ];
@@ -108,13 +109,37 @@ public function openModal($courseId)
         }
 
         $this->api->postWithFile("courses/{$this->courseId}/update", $formData);
-        $this->reset(['courseId', 'category_id', 'title', 'description', 'image_thumb', 'price_amount', 'current_image_url']);
+        $this->resetForm();
         // CLEANUP & NOTIFY
         $this->showModal = false; // Closes modal
         $this->dispatch('course-updated'); // Refreshes List
         
         $this->dispatch('toast', message: 'Course updated successfully!', type: 'success');
     }
+
+    public function resetForm()
+        {
+            $this->reset([
+                'courseId',
+                'category_id',
+                'title',
+                'description',
+                'type',
+                'center_id',
+                'price_amount',
+                'publish',
+                'image_thumb',
+                'current_image_url',
+                'showModal',
+            ]);
+
+            $this->resetErrorBag();
+            $this->resetValidation();
+
+            // Force child components to reset
+            $this->dispatch('reset-center-select');
+        }
+
 
     public function render() {
         return view('livewire.course.edit-course');

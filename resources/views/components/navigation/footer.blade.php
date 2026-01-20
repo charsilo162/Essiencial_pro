@@ -1,69 +1,102 @@
-<footer class="bg-gray-900 text-gray-200 py-6 mt-16">
-    <div class="max-w-screen-xl mx-auto px-6 sm:px-8">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+<footer class="bg-gray-900 text-gray-300 mt-16">
+    <!-- Top -->
+    <div class="max-w-screen-xl mx-auto px-6 sm:px-8 py-14">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
 
-            <!-- Logo & Tagline -->
+            <!-- Brand -->
             <div>
-                <img src="{{ asset('storage/logo.png') }}" alt="Logo" class="w-20 mb-2" />
-                <p class="text-sm font-medium">Smart Learning and enhance your skills!!</p>
+                <img
+                    src="{{ asset('storage/logo.png') }}"
+                    alt="Company Logo"
+                    class="w-28 mb-4"
+                />
+
+                <p class="text-white text-lg font-semibold mb-3">
+                    Smart Hiring Starts Here
+                </p>
+
+                <p class="text-sm leading-relaxed text-gray-400">
+                    Connecting learners, centers, and opportunities through
+                    modern digital education.
+                </p>
             </div>
 
-            <!-- Useful Links -->
+            <!-- Links -->
             <div>
-                <h4 class="text-sm font-semibold mb-2">Useful Links</h4>
-                <ul class="space-y-1 text-xs">
+                <h4 class="text-white text-sm font-semibold uppercase tracking-wide mb-4">
+                    Useful Links
+                </h4>
+
+                <ul class="space-y-3 text-sm">
                     <li>
-                        <a href="{{ route('category.index') }}" class="hover:text-blue-400 transition-colors">Category</a>
+                        <a href="{{ route('homes') }}" class="hover:text-blue-400 transition">
+                            Home
+                        </a>
                     </li>
                     <li>
-                        <a href="{{ route('about-us') }}" class="hover:text-blue-400 transition-colors">About US</a>
+                        <a href="{{ route('about-us') }}" class="hover:text-blue-400 transition">
+                            About Us
+                        </a>
                     </li>
                     <li>
-                        <a href="{{ route('contact_us') }}" class="hover:text-blue-400 transition-colors">Contact Us</a>
+                        <a href="{{ route('category.index') }}" class="hover:text-blue-400 transition">
+                            Categories
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('faqs') }}" class="hover:text-blue-400 transition">
+                            FAQs
+                        </a>
                     </li>
                 </ul>
             </div>
 
-            <!-- Contact Info -->
+            <!-- Contact -->
             <div>
-                <h4 class="text-sm font-semibold mb-2">Contact</h4>
-                <p class="text-xs">3 Walker Street, Edinburgh, EH3 7JY</p>
-                <p class="text-xs mt-1">Email: info@example.com</p>
-                <p class="text-xs mt-1">Phone: +44 1234 567890</p>
+                <h4 class="text-white text-sm font-semibold uppercase tracking-wide mb-4">
+                    Contact
+                </h4>
+
+                <p class="text-sm leading-relaxed text-gray-400">
+                    3 Walker Street<br />
+                    Edinburgh, EH3 7JY
+                </p>
+
+                <p class="text-sm mt-3">
+                    <a href="mailto:support@example.com" class="hover:text-blue-400 transition">
+                        support@example.com
+                    </a>
+                </p>
             </div>
 
-            <!-- Premium / Modal Section -->
-            {{-- <div class="flex flex-col space-y-2">
-                <h4 class="text-sm font-semibold mb-2">Premium Access</h4>
-                <button 
-                    class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium py-2 px-4 rounded transition"
-                    onclick="openPremiumModal()"
-                >
-                    Upgrade Now
-                </button>
-                <button 
-                    class="bg-gray-700 hover:bg-gray-600 text-white text-xs font-medium py-2 px-4 rounded transition"
-                    onclick="openModal('newsletter')"
-                >
-                    Subscribe
-                </button>
-            </div> --}}
+            <!-- Social -->
+            <div>
+                <h4 class="text-white text-sm font-semibold uppercase tracking-wide mb-4">
+                    Follow Us
+                </h4>
 
-        </div>
+                <div class="flex items-center gap-4">
+                    <a href="#" class="hover:text-blue-400 transition">Twitter</a>
+                    <a href="#" class="hover:text-blue-400 transition">LinkedIn</a>
+                    <a href="#" class="hover:text-blue-400 transition">Facebook</a>
+                </div>
+            </div>
 
-        <!-- Optional copyright -->
-        <div class="mt-6 text-center text-xs text-gray-500">
-            &copy; {{ date('Y') }} Essencial. All rights reserved.
         </div>
     </div>
-</footer>
 
-{{-- <script>
-    function openPremiumModal() {
-        // trigger your premium modal here
-        console.log('Open Premium Modal');
-    }
-    function openModal(type) {
-        console.log('Open Modal:', type);
-    }
-</script> --}}
+    <!-- Divider -->
+    <div class="border-t border-gray-800"></div>
+
+    <!-- Bottom -->
+    <div class="max-w-screen-xl mx-auto px-6 sm:px-8 py-6 flex flex-col sm:flex-row items-center justify-between text-sm text-gray-500">
+        <p>
+            © {{ date('Y') }} {{ config('app.name') }}. All rights reserved.
+        </p>
+{{-- 
+        <div class="flex gap-6 mt-4 sm:mt-0">
+            <a href="#" class="hover:text-blue-400 transition">Privacy Policy</a>
+            <a href="#" class="hover:text-blue-400 transition">Terms of Service</a>
+        </div> --}}
+    </div>
+</footer>

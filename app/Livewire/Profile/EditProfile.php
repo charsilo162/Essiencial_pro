@@ -34,7 +34,6 @@ class EditProfile extends Component
 
     public function openModal()
     {
-      //  dd('ee');
         $user = Session::get('user');
 
         // Optional: fetch fresh data from API if you have a dedicated edit endpoint
@@ -100,6 +99,30 @@ class EditProfile extends Component
 
         $response = $this->api->postWithFile('me/profile', $payload); // adjust endpoint as needed
 
+      if (isset($response['user'])) {
+        // 1. UPDATE THE SESSION: Overwrite the old "user" data with the new response
+        Session::put('user', $response['user']);
+
+        // 2. UPDATE COMPONENT STATE: So the modal looks correct if reopened
+        $this->currentUser = $response['user'];
+        $this->currentPhotoUrl = $response['user']['photo_path'] ?? null;
+
+        $this->showModal = false;
+
+        // 3. TELL THE REST OF THE PAGE: 
+        // This sends a signal to other components (like your Header) to refresh
+        $this->dispatch('profile-updated'); 
+        
+        $this->dispatch('success-notification', message: 'Profile updated!');
+        return redirect(request()->header('Referer'));
+        }
+
+
+
+
+
+
+
         if (isset($response['errors']) || isset($response['error'])) {
             foreach ($response['errors'] ?? [] as $field => $messages) {
                 $this->addError($field, is_array($messages) ? $messages[0] : $messages);
@@ -109,11 +132,11 @@ class EditProfile extends Component
         }
 
         // Update session
-        Session::put('user', $response['user'] ?? $response['data'] ?? $response);
+        // Session::put('user', $response['user'] ?? $response['data'] ?? $response);
 
-        $this->showModal = false;
-        $this->dispatch('success-notification', message: 'Profile updated successfully!');
-        $this->dispatch('profile-updated'); // optional for other components
+        // $this->showModal = false;
+        // $this->dispatch('success-notification', message: 'Profile updated successfully!');
+        // $this->dispatch('profile-updated'); // optional for other components
     }
 
     public function render()

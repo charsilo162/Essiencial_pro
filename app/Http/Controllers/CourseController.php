@@ -96,7 +96,7 @@ public function showOnline($slug)
         $course = $response['data'] ?? $response;
 
         $center = collect($course['centers'] ?? [])->firstWhere('id', $centerId);
-
+//dd($this->api->get("courses/{$slug}"));
         if (!$center || !in_array($course['type'], ['physical', 'hybrid'])) {
             abort(404);
         }

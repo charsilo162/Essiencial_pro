@@ -39,9 +39,9 @@
         </div>
 
     </div>
-    <livewire:course.related-courses-by-center 
+    {{-- <livewire:course.related-courses-by-center 
     :centerId="$center['id']" 
-/>
+/> --}}
 
 
 

@@ -39,7 +39,7 @@ class Register extends Component
             }
             return;
         }
-
+//dd($response);
         // Save auth data
         Session::put('api_token', $response['token']);
         Session::put('user', $response['user']);

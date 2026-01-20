@@ -29,7 +29,7 @@ public function render()
     ]);
 
     $courses = $response['data'];
-
+dd($response);
     return view('livewire.course.related-courses-by-center', [
         'courses' => $courses,
         'title' => 'Courses Offered by This Center',

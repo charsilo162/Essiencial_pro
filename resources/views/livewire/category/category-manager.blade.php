@@ -65,55 +65,57 @@
     </div>
 
     <!-- Modal -->
-    @if($showModal)
-        <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div class="bg-white rounded-lg max-w-md w-full p-6">
-                <h3 class="text-xl font-semibold mb-6">
-                    {{ $editingId ? 'Edit Category' : 'Create New Category' }}
-                </h3>
+   @if($showModal)
+    <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-lg max-w-md w-full p-6">
+            <h3 class="text-xl font-semibold mb-6">
+                {{ $editingId ? 'Edit Category' : 'Create New Category' }}
+            </h3>
 
-                <form wire:submit="save">
-                    <div class="mb-5">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Name</label>
-                        <input type="text" wire:model="name"
-                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
-                        @error('name') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
-                    </div>
+            <form wire:submit="save">
+                <div class="mb-5">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Name</label>
+                    <input type="text" wire:model="name"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                    @error('name') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                </div>
 
-                    <div class="mb-5">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Thumbnail</label>
-                        <input type="file" wire:model="thumbnail"
-                               class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
-                        @error('thumbnail') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
-                    </div>
-                    @if($editingId)
-                        @php
-                            $currentCategory = collect($categories)->firstWhere('id', $editingId);
-                        @endphp
+                <div class="mb-5">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Thumbnail</label>
+                    <input type="file" wire:model="thumbnail"
+                           class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
+                    @error('thumbnail') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                </div>
+                @if($editingId)
+                    @php
+                        $currentCategory = collect($categories)->firstWhere('id', $editingId);
+                    @endphp
 
-                        @if($currentCategory && $currentCategory['thumbnail_url'])
-                            <div class="mb-5">
-                                <p class="text-sm text-gray-600 mb-2">Current thumbnail:</p>
-                                <img src="{{ $currentCategory['thumbnail_url'] }}"
-                                    class="h-20 w-20 rounded-full object-cover border border-gray-300 shadow-sm"
-                                    alt="Current thumbnail">
-                            </div>
-                        @endif
+                    @if($currentCategory && $currentCategory['thumbnail_url'])
+                        <div class="mb-5">
+                            <p class="text-sm text-gray-600 mb-2">Current thumbnail:</p>
+                            <img src="{{ $currentCategory['thumbnail_url'] }}"
+                                 class="h-20 w-20 rounded-full object-cover border border-gray-300 shadow-sm"
+                                 alt="Current thumbnail">
+                        </div>
                     @endif
-                    <div class="flex justify-end gap-3 mt-8">
-                        <button type="button" wire:click="closeModal"
-                                class="px-5 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
-                            Cancel
-                        </button>
-                        <button type="submit"
-                                class="px-5 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
-                            {{ $editingId ? 'Update' : 'Create' }}
-                        </button>
-                    </div>
-                </form>
-            </div>
+                @endif
+                <div class="flex justify-end gap-3 mt-8">
+                    <button type="button" wire:click="closeModal"
+                            class="px-5 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
+                        Cancel
+                    </button>
+                    <button type="submit"
+                            class="px-5 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
+                            wire:loading.attr="disabled">
+                        <span wire:loading.remove wire:target="save">{{ $editingId ? 'Update' : 'Create' }}</span>
+                        <span wire:loading wire:target="save">Saving...</span>
+                    </button>
+                </div>
+            </form>
         </div>
-    @endif
+    </div>
+@endif
 
     <!-- Toast Notification -->
     <div x-data="{ message: '', show: false }"

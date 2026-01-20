@@ -1,102 +1,98 @@
 <x-layouts.app title="Center">
     {{-- 1. HERO SECTION - Detail Wrapper --}}
-    <x-shared.detail-wrapper 
-        :imageUrl="$course['image_thumbnail_url'] ?? 'https://placehold.co/1200x800/orange/white?text=Course'"
-        :title="$course['title']"
-        :description="$course['description']"
-        :rating="$course['rating'] ?? 4.5"
-        :tagLabels="array_filter([
-        ucfirst($course['type'] ?? 'online'),
-        $course['category']['name'] ?? 'Uncategorized',
+<x-course.detail
+    :image="$course['image_thumbnail_url'] ?? 'https://placehold.co/1200x800?text=Course'"
+    :title="$course['title']"
+    :description="$course['description']"
+    :rating="$course['rating'] ?? null"
+    :tags="array_filter([
+        ucfirst($course['type'] ?? null),
+        $course['category']['name'] ?? null,
         $course['badge'] ? 'Featured' : null
     ])"
-        :badgeText="$course['badge'] ?? null"
-    >
+    :badge="$course['badge'] ?? null"
+>
 
-        {{-- Share Panel --}}
-        <x-slot:shareBlock>
-            <div class="mt-6">
-                <livewire:share-panel 
-                    :resource-id="$course['id']" 
-                    :resource-type="\App\Models\Course::class" 
-                />
-            </div>
-        </x-slot:shareBlock>
+    {{-- STATS --}}
+    <x-slot:interactionStats>
+        <x-shared.resource-stats
+            :commentsCount="$course['comments_count'] ?? 0"
+            :viewsCount="$course['views_count'] ?? 0"
+            :likesCount="$course['likes_count'] ?? 0"
+            :sharesCount="$course['shares_count'] ?? 0"
+            :timeElapsed="\Carbon\Carbon::parse(
+                data_get($course, 'videos.0.created_at', $course['created_at'])
+            )->diffForHumans()"
+        />
+    </x-slot>
 
-        {{-- Likes / Dislikes / Comments --}}
-        <x-slot:thumbsBlock>
-            @livewire('interaction-panel', [
-                'resourceId' => $course['id'],
-                'resourceType' => 'App\Models\Course'
-            ])
-        </x-slot:thumbsBlock>
+    {{-- THUMBS --}}
+    <x-slot:thumbs>
+        @livewire('interaction-panel', [
+            'resourceId' => $course['id'],
+            'resourceType' => \App\Models\Course::class
+        ])
+    </x-slot>
 
-        {{-- Interaction Stats --}}
-        <x-slot:interactionStats>
-            <x-shared.resource-stats 
-                :commentsCount="$course['comments_count']"
-                :viewsCount="$course['views_count'] ?? 0"
-                :likesCount="$course['likes_count']"
-                :sharesCount="$course['shares_count'] ?? 0"
-                :timeElapsed="\Carbon\Carbon::parse($course['videos'][0]['created_at'] ?? now())->diffForHumans()"
-            />
-        </x-slot:interactionStats>
+    {{-- SHARE --}}
+    <x-slot:share>
+        <livewire:share-panel
+            :resource-id="$course['id']"
+            :resource-type="\App\Models\Course::class"
+        />
+    </x-slot>
 
-        {{-- Contact / Center Info --}}
-        <x-slot:contactArea>
-            <div class="space-y-6">
-                @foreach ($course['centers'] as $center)
-                    <div class="p-5 bg-gradient-to-r from-orange-50 to-pink-50 rounded-2xl border-2 border-orange-200/50">
-                        <div class="flex items-center gap-4 mb-4">
-                            <div class="w-16 h-16 bg-gray-200 border-2 border-dashed rounded-xl"></div>
-                            <div>
-                                <h3 class="font-bold text-lg text-gray-900">
-                                    {{ $center['name'] }}
-                                </h3>
-                                <p class="text-sm text-gray-600">
-                                    {{ $center['city'] }}
-                                </p>
-                            </div>
-                        </div>
-                       
-                    </div>
-                @endforeach
-            </div>
-        </x-slot:contactArea>
-
-        {{-- Footer: Price + Enroll Button --}}
-        <x-slot:footerArea>
-            <div class="flex items-center justify-between flex-wrap gap-6">
-                <div>
-                 <span class="text-4xl font-extrabold text-blue-600">
-                    {{ $course['price_formatted'] }}
-                </span>
-
-                    @if($course['registered_count'] > 0)
-                        <p class="text-sm text-gray-600 mt-1">
-                            {{ $course['registered_count'] }} students enrolled
+    {{-- 👇 THIS IS THE ONLY DIFFERENCE --}}
+    <x-slot:extra>
+        <div class="space-y-4">
+            @foreach ($course['centers'] as $center)
+                <div class="flex items-center gap-4 p-4 border rounded-xl bg-gray-50">
+                    <div class="w-12 h-12 bg-gray-200 rounded-lg"></div>
+                    <div>
+                        <h3 class="text-sm font-semibold text-gray-900">
+                            {{ $center['name'] }}
+                        </h3>
+                        <p class="text-xs text-gray-600">
+                            {{ $center['city'] }}
                         </p>
-                    @endif
+                    </div>
                 </div>
-                      @if (session('user'))
-            <a href="{{ route('enroll.course', $course['slug']) }}" 
-                            class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-full inline-block">
+            @endforeach
+        </div>
+    </x-slot>
 
-                    <span class="relative z-10">Enroll Now</span>
-                    <span class="relative z-10">🚀</span>
-                </a>
+    {{-- FOOTER --}}
+    <x-slot:footer>
+        <div>
+            <span class="text-2xl font-semibold text-blue-600">
+                {{ $course['price_formatted'] }}
+            </span>
 
-                    @else
-            <a href="{{ route('logins') }}"
-            class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-full inline-block">
-            Login to Enroll
+            @if($course['registered_count'] > 0)
+                <p class="text-xs text-gray-600 mt-1">
+                    {{ $course['registered_count'] }} students enrolled
+                </p>
+            @endif
+        </div>
+
+        @if(session('user'))
+            <a
+                href="{{ route('enroll.course', $course['slug']) }}"
+                class="px-6 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium"
+            >
+                Enroll
             </a>
+        @else
+            <a
+                href="{{ route('logins') }}"
+                class="px-6 py-2 border rounded-lg text-sm"
+            >
+                Login to Enroll
+            </a>
+        @endif
+    </x-slot>
 
-
-                @endif
-            </div>
-        </x-slot:footerArea>
-    </x-shared.detail-wrapper>
+</x-course.detail>
 
 
  
@@ -112,6 +108,6 @@
         'resourceId' => $course['id'],
         'resourceType' => 'App\Models\Course'
     ])
-
+ <livewire:course.random-courses />
     <x-navigation.footer />
 </x-layouts.app>

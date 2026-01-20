@@ -1,93 +1,71 @@
 <x-layouts.app title="Course Details">
 
     {{-- 1. Hero Section --}}
-    <x-shared.detail-wrapper 
-   x
+   <x-course.detail
+    :image="$course['image_thumbnail_url'] ?? asset('storage/img3.png')"
+    :title="$course['title']"
+    :description="$course['description']"
+    :rating="$course['rating'] ?? null"
+    :tags="array_filter([
+        ucfirst($course['type'] ?? null),
+        $course['category']['name'] ?? null
+    ])"
+    :badge="$course['badge'] ?? null"
+>
 
-       :imageUrl="$course['image_thumbnail_url'] ?? asset('storage/img3.png')"
-        :title="$course['title']"
-        :description="$course['description']"
-        :rating="$course['rating'] ?? 4.5"
-        :tagLabels="$course['tags'] ?? ['Beginner', 'Programming']"
-        badgeText="{{ $course['category']['name'] ?? 'Category' }}"
-    > 
-        <x-slot:thumbsBlock>
-            @livewire('interaction-panel', [
-                'resourceId' => $course['id'],
-                'resourceType' => 'App\\Models\\Course'
-            ])
-        </x-slot:thumbsBlock>
+    <x-slot:interactionStats>
+        <x-shared.resource-stats
+            :commentsCount="$course['comments_count'] ?? 0"
+            :viewsCount="$course['views_count'] ?? 0"
+            :likesCount="$course['likes_count'] ?? 0"
+            :sharesCount="$course['shares_count'] ?? 0"
+            :timeElapsed="\Carbon\Carbon::parse($course['created_at'])->diffForHumans()"
+        />
+    </x-slot>
 
-        <x-slot:shareBlock>
-            <div class="mt-6">
-                <livewire:share-panel 
-                    :resource-id="$course['id']"
-                    :resource-type="'App\\Models\\Course'"
-                />
-            </div>
-        </x-slot:shareBlock>
+    <x-slot:thumbs>
+        @livewire('interaction-panel', [
+            'resourceId' => $course['id'],
+            'resourceType' => \App\Models\Course::class
+        ])
+    </x-slot>
 
-        <x-slot:interactionStats>
-            <x-shared.resource-stats 
-                :commentsCount="$course['comments_count'] ?? 0"
-                :viewsCount="$course['views_count'] ?? 1250"
-                :likesCount="$course['likes_count'] ?? 0"
-                :sharesCount="$course['shares_count'] ?? 50"
-                timeElapsed="{{ $course['created_at'] ?? '2 weeks ago' }}"
-            />
-        </x-slot:interactionStats>
+    <x-slot:share>
+        <livewire:share-panel
+            :resource-id="$course['id']"
+            :resource-type="\App\Models\Course::class"
+        />
+    </x-slot>
 
-        <x-slot:contactArea>
-            <div class="mb-4 p-4 border rounded-lg bg-gray-50">
-                @if (!empty($course['assigned_tutor']))
-                    <div class="flex items-center mb-4">
-                        <img class="w-10 h-10 rounded-full mr-3 object-cover" 
-                             src="{{ $course['assigned_tutor']['user']['profile_photo_url'] ?? 'https://via.placeholder.com/40' }}" 
-                             alt="{{ $course['assigned_tutor']['user']['name'] ?? 'Instructor' }}">
-                        <div>
-                            <h3 class="font-semibold text-gray-800">
-                                Primary Instructor: {{ $course['assigned_tutor']['user']['name'] ?? 'Unknown' }}
-                            </h3>
-                            <p class="text-xs text-gray-500">
-                                Certified instructor with {{ $course['assigned_tutor']['experience_years'] ?? 'many' }} years experience.
-                            </p>
-                        </div>
-                    </div>
-                @else
-                    <h3 class="font-semibold text-gray-800">Taught by: <span class="text-gray-500">Platform Instructor</span></h3>
-                @endif
-            </div>
-        </x-slot:contactArea>
+    <x-slot:footer>
+        <div>
+            <span class="text-2xl font-semibold text-blue-600">
+                {{ $course['price_formatted'] ?? '$99.00' }}
+            </span>
+        </div>
 
-       <x-slot:footerArea>
-    <div class="flex items-center justify-between">
-        <span class="text-3xl font-extrabold text-blue-600">
-            ${{ number_format($course['current_price']['amount'] ?? 99.00, 2) }}
-        </span>
-            {{-- {{ session('user') ? 'Send' : 'Login to Comment' }} --}}
-              @if (session('user'))
-        <a href="{{ route('enroll.course', $course['slug']) }}" 
-           class="bg-blue-600 text-white py-3 px-8 text-lg font-semibold rounded-xl hover:bg-blue-700 transition-colors shadow-lg">
-            Enroll Now
-        </a>
+        @if(session('user'))
+            <a
+                href="{{ route('enroll.course', $course['slug']) }}"
+                class="px-6 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium"
+            >
+                Enroll
+            </a>
+        @else
+            <a
+                href="{{ route('logins') }}"
+                class="px-6 py-2 border rounded-lg text-sm"
+            >
+                Login to Enroll
+            </a>
         @endif
-  @if (session('success'))
-<div x-data="{ show: true }" x-show="show"
-     class="mb-4 flex items-start justify-between rounded-lg bg-green-100 border border-green-300 text-green-700 px-4 py-3">
-    <span>{{ session('success') }}</span>
-    <button @click="show = false" class="font-bold">×</button>
-</div>
-@endif
-@if (session('error'))
-<div x-data="{ show: true }" x-show="show"
-     class="mb-4 flex items-start justify-between rounded-lg bg-red-100 border border-red-300 text-red-700 px-4 py-3">
-    <span>{{ session('error') }}</span>
-    <button @click="show = false" class="font-bold">×</button>
-</div>
-@endif
-    </div>
-</x-slot:footerArea>
-    </x-shared.detail-wrapper>
+    </x-slot>
+
+    <x-slot:extra>
+        {{-- instructor OR center info --}}
+    </x-slot>
+
+</x-course.detail>
 @if (!empty($success))
 <div x-data="{ show: true }" x-show="show"
      class="mb-4 flex items-start justify-between rounded-lg bg-green-100 border border-green-300 text-green-700 px-4 py-3">
