@@ -92,6 +92,7 @@ class PostCenter extends Component
             message: '🥳 Success! Your training center has been posted.',
             type: 'center'
         );
+        $this->dispatch('center-added');
     }
 
     public function render()

@@ -84,6 +84,12 @@
                     Don't have an account?
                     <a href="{{ route('signups') }}" class="font-semibold text-indigo-600 hover:text-indigo-700">Sign up</a>
                 </p>
+                                    <div class="text-right">
+                        <a href="{{ route('password.request') }}"
+                        class="text-sm text-gray-600 hover:text-black">
+                            Forgot password?
+                        </a>
+                    </div>
 
             </form>
 

@@ -8,6 +8,7 @@ use Livewire\WithFileUploads;
 use App\Services\ApiService;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\URL;
+use Livewire\Attributes\On;
 
 class CentersList extends Component
 {
@@ -35,7 +36,12 @@ class CentersList extends Component
     {
         $this->resetPage();
     }
-
+    #[On('center-added')]
+    public function refreshList()
+    {
+        // This will force the render() method to run and fetch fresh API data
+        $this->resetPage(); 
+    }
     public function openEdit($centerId)
     {
         $this->editingId = $centerId;
@@ -87,7 +93,7 @@ class CentersList extends Component
             ];
         }
 
-        \Log::info('Sending update data (POST with _method=PUT):', $formData);
+        // \Log::info('Sending update data (POST with _method=PUT):', $formData);
 
         $response = $this->api->postWithFile("centers/{$this->editingId}", $formData);
 
@@ -125,7 +131,7 @@ class CentersList extends Component
         ];
 
         $response = $this->api->get('centers', $params);
-//dd($response);
+
         $items = $response['data'] ?? [];
         $total = $response['total'] ?? 0;
 

@@ -32,7 +32,7 @@
 
                 {{-- IMAGE — exact same h-48 and behavior --}}
                 <div class="overflow-hidden">
-                    <img src="{{ $item['thumbnail_url'] ?? asset('storage/img2.jpg') }}"
+                    <img src="{{ $item['image_thumbnail_url'] ?? asset('storage/img2.jpg') }}"
                          class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110"
                          alt="{{ $item['title'] }}">
                 </div>

@@ -4,9 +4,12 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CenterController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CourseWatchController;
+use App\Http\Controllers\DetailsCenterController;
 use App\Http\Controllers\MyVideosController;
+use App\Livewire\Auth\ForgotPassword;
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
+use App\Livewire\Auth\ResetPassword;
 use App\Livewire\Category\CategoryManager;
 use App\Livewire\PopularCategoryCards;
 use App\Livewire\SimpleCategoryGrid;
@@ -15,7 +18,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/categorys', function () {
     return view('category');
 })->name('category');
+Route::get('/reset-password/{token}', ResetPassword::class)->name('password.reset');
 
+Route::get('/forgot-password', ForgotPassword::class)->name('password.request');
 Route::get('/login', Login::class)->name('logins');
 // Route::get('/register', Login::class)->name('register');
 Route::get('/register', Register::class)->name('signups');
@@ -65,6 +70,7 @@ Route::get('/course/{slug}/watch', [CourseWatchController::class, 'CourseWatch']
 Route::get('/course/{course}', [CourseController::class, 'showOnline'])
     ->name('courses.online')
     ->where('course', '[a-z0-9-]+'); // slug format: my-course-slug
+Route::get('/details-center/{slug}', [DetailsCenterController::class, 'details_center'])->name('center.show');
 
 
     Route::get('/my-course', [CourseController::class, 'mycourse'])
