@@ -27,7 +27,7 @@
     'title' => 'Whatever your industry, whatever the position, or skill eTraining will work for you',
     'text' => 'The qualities needed for a car mechanic will differ enormously from those for the matron in a care home, or a senior manager in a pharmaceutical company, or a barista in a small coffee shop. From tour guides to technical writers, to jewellers, lawyers to labourers, pharmacists to farmers, we can help.',
     'ctaText' => 'Get started',
-    'ctaHref' => '#'
+     'ctaHref' => session('user') ? route('category.index') : route('logins'),
 ])
 
 <section class="max-w-7xl mx-auto px-4 py-12 bg-gray-50">

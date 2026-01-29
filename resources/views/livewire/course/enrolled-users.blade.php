@@ -14,7 +14,9 @@
     {{-- Courses --}}
 
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-
+<div class="space-y-6 col-span-1 sm:col-span-2 lg:col-span-3 xl:col-span-4">
+<p class="text-gray-600">Here are the enrolled users for each course:</p>
+    </div>
     @foreach($courses as $item)
         @php
             $courseData = $item['course']; 
@@ -46,7 +48,7 @@
                     </p>
 
                     {{-- Button (moved down) --}}
-                    <div class="mt-3 flex justify-end">
+                   <div class="mt-3 flex justify-start sm:justify-end">
                         <button 
                             @click="open = !open"
                             class="px-4 py-2 rounded-xl bg-indigo-600 text-white text-sm hover:bg-indigo-700 transition"
@@ -56,7 +58,7 @@
                     </div>
 
                     {{-- Stats --}}
-                    <div class="flex gap-6 mt-4 text-sm">
+                    <div class="mt-4 flex flex-wrap items-start gap-3 text-sm">
                         <div class="bg-gray-100 px-4 py-2 rounded-xl">
                             👥 {{ $totalStudents }} Students
                         </div>

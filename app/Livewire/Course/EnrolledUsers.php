@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Livewire\Course;
 
 use Livewire\Component;
@@ -48,7 +47,7 @@ class EnrolledUsers extends Component
  public function fetchCourses()
     {
         $response = $this->api->get('instructor/enrollments');
-        //dd($response);
+       
         if (isset($response['data'])) {
             // 1. Store the FULL data for the Blade @foreach loop
             $this->courses = $response['data'];
@@ -82,7 +81,7 @@ class EnrolledUsers extends Component
         ]);
 
         $response = $this->api->get('instructor/enrollments', $params);
-
+// dd($response);
         $this->courses = $response['data'] ?? [];
         // Store the pagination meta (current_page, last_page, links, etc.)
         $this->pagination = $response['meta'] ?? []; 

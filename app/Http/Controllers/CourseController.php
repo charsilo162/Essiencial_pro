@@ -36,7 +36,7 @@ class CourseController extends Controller
   
     try {
         $init = $this->api->initializePayment($courseId);
-
+  //dd($init);
         // If API returned readable error
         if (!$init['success']) {
             return redirect()
@@ -44,7 +44,7 @@ class CourseController extends Controller
                 ->with('error', $init['error']);
         }
 //         dump('yese');
-//   dd($init);
+ 
         // Success – redirect to Paystack auth URL
         if (isset($init['data']['authorization_url'])) {
             return redirect($init['data']['authorization_url']);
@@ -83,7 +83,7 @@ public function showOnline($slug)
 
     return view('courses.show', compact('course', 'success', 'error'));
 }
-
+ 
 
     public function showCenter($centerId, $slug)
     {
@@ -96,7 +96,7 @@ public function showOnline($slug)
         $course = $response['data'] ?? $response;
 
         $center = collect($course['centers'] ?? [])->firstWhere('id', $centerId);
-//dd($this->api->get("courses/{$slug}"));
+       // dd($course);
         if (!$center || !in_array($course['type'], ['physical', 'hybrid'])) {
             abort(404);
         }

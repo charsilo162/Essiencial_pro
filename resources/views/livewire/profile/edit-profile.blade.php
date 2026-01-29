@@ -108,10 +108,16 @@
             @error('photo') <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span> @enderror
 
             <!-- New photo preview -->
-            <div x-show="preview" class="mt-4 w-32 h-32 mx-auto">
-                <img :src="preview" alt="New photo preview"
-                     class="w-full h-full rounded-full object-cover border border-gray-300">
+            <div x-show="preview" class="mt-4 flex justify-center">
+                <div class="w-28 h-28 shrink-0">
+                    <img
+                        :src="preview"
+                        alt="New photo preview"
+                        class="w-full h-full rounded-full object-cover border border-gray-300"
+                    >
+                </div>
             </div>
+
         </div>
 
     </x-livewire.modal-form>

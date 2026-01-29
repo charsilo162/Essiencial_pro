@@ -13,9 +13,10 @@
                     transition-all duration-300"
             />
         </div>
-
-
-    <!-- Centers Grid -->
+<div class="mb-6 flex justify-end bg-blue-100 p-4 rounded-lg px-6">
+<livewire:post-center-button />
+</div>
+ <!-- Centers Grid -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
        @foreach ($centers as $center)
     <div

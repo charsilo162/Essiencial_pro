@@ -13,6 +13,7 @@ class CommentSection extends Component
     public $resourceId;
     public $resourceType;
     public $newCommentText = '';
+    public bool $comment = true;
 
     protected $rules = [
         'newCommentText' => 'required|string|min:3|max:500',

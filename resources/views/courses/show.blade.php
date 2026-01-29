@@ -31,10 +31,10 @@
     </x-slot>
 
     <x-slot:share>
-        <livewire:share-panel
+        {{-- <livewire:share-panel
             :resource-id="$course['id']"
             :resource-type="\App\Models\Course::class"
-        />
+        /> --}}
     </x-slot>
 
     <x-slot:footer>
@@ -43,6 +43,11 @@
                 {{ $course['price_formatted'] ?? '$99.00' }}
             </span>
         </div>
+            @if(session('error'))
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                    {{ session('error') }}
+                </div>
+            @endif
 
         @if(session('user'))
             <a
@@ -91,6 +96,7 @@
     @livewire('comment-section', [
         'resourceId' => $course['id'],
         'resourceType' => 'App\\Models\\Course'
+         'comment' => false,
     ])
 
     {{-- 4. Related Courses by Tutor --}}

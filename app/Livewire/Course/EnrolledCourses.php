@@ -17,11 +17,21 @@ class EnrolledCourses extends Component
 
     // Public property for the search input
     public $search = '';
+    public string $type = 'online'; // default
+   
 
     // Pagination-related: Resets the page when the search term changes
     public function updatedSearch()
     {
         $this->resetPage();
+    }
+
+    
+    public function setType(string $type)
+    {
+        $this->type = $type;
+        $this->resetPage();
+        $this->reset('search');
     }
 
     protected $api;
@@ -30,7 +40,10 @@ class EnrolledCourses extends Component
     {
         $this->api = new ApiService();
     }
-
+    public function mount(string $type = 'online')
+    {
+        $this->type = $type;
+    }
     /**
      * @param array $course
      * @return array|null
@@ -51,32 +64,38 @@ class EnrolledCourses extends Component
      * Render method to fetch the filtered and paginated data.
      */
     public function render()
-    {
-        $params = [];
-        if ($this->search) {
-            $params['search'] = $this->search;
+        {
+            $params = [
+                'type' => $this->type,
+                'page' => $this->getPage(),
+            ];
+
+            if ($this->search) {
+                $params['search'] = $this->search;
+            }
+
+            $response = $this->api->get('me/enrolled-courses', $params);
+                //dd($response);
+            $items = collect($response['data'] ?? []);
+            $total = $response['meta']['total'] ?? 0;
+            $perPage = $response['meta']['per_page'] ?? 9;
+            $currentPage = $response['meta']['current_page'] ?? 1;
+
+            $courses = new LengthAwarePaginator(
+                $items,
+                $total,
+                $perPage,
+                $currentPage,
+                ['path' => \Illuminate\Pagination\Paginator::resolveCurrentPath()]
+            );
+
+            $courses->withQueryString();
+                // 👇 Capture messages from query string
+                $success = request()->query('success');
+                $error   = request()->query('error');
+
+            return view('livewire.course.enrolled-courses', [
+                'courses' => $courses, 'success' => $success, 'error' => $error
+            ]);
         }
-        // Include the current page from Livewire's pagination state
-        $params['page'] = $this->getPage();
-
-        $response = $this->api->get('me/enrolled-courses', $params);
-
-        // Convert the API response to a LengthAwarePaginator for seamless integration with Livewire and the view
-        $items = collect($response['data'] ?? []);
-        $total = $response['meta']['total'] ?? 0;
-        $perPage = $response['meta']['per_page'] ?? 9;
-        $currentPage = $response['meta']['current_page'] ?? 1;
-
-        $courses = new LengthAwarePaginator($items, $total, $perPage, $currentPage, [
-            'path' => \Illuminate\Pagination\Paginator::resolveCurrentPath(),
-            'pageName' => 'page',
-        ]);
-
-        // Optionally set the query string for search persistence in pagination links
-        $courses->withQueryString();
-
-        return view('livewire.course.enrolled-courses', [
-            'courses' => $courses,
-        ]);
-    }
 }

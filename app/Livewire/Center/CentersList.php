@@ -25,6 +25,9 @@ class CentersList extends Component
     public $center_thumbnail;
 
     protected $api;
+    protected $listeners = [
+            'center-created' => '$refresh',
+        ];
 
     public function boot()
     {

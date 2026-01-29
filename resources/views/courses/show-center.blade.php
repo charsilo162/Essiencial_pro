@@ -28,10 +28,10 @@
 
     {{-- THUMBS --}}
     <x-slot:thumbs>
-        @livewire('interaction-panel', [
+        {{-- @livewire('interaction-panel', [
             'resourceId' => $course['id'],
             'resourceType' => \App\Models\Course::class
-        ])
+        ]) --}}
     </x-slot>
 
     {{-- SHARE --}}
@@ -40,6 +40,8 @@
             :resource-id="$course['id']"
             :resource-type="\App\Models\Course::class"
         />
+        
+
     </x-slot>
 
     {{-- 👇 THIS IS THE ONLY DIFFERENCE --}}
@@ -74,14 +76,28 @@
                 </p>
             @endif
         </div>
+            @if(session('error'))
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                    {{ session('error') }}
+                </div>
+            @endif
 
         @if(session('user'))
-            <a
+        @if ($course['price_formatted'] === 'Free')
+              <a
+                href="{{ route('course.watch', $course['slug']) }}"
+                class="px-6 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium"
+            >
+               Watch Now
+            </a>
+       @else
+           <a
                 href="{{ route('enroll.course', $course['slug']) }}"
                 class="px-6 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium"
             >
                 Enroll
             </a>
+             @endif
         @else
             <a
                 href="{{ route('logins') }}"
@@ -106,7 +122,8 @@
     {{-- 4. Comments Section --}}
     @livewire('comment-section', [
         'resourceId' => $course['id'],
-        'resourceType' => 'App\Models\Course'
+        'resourceType' => 'App\Models\Course',
+        'comment' => false,
     ])
  <livewire:course.random-courses />
     <x-navigation.footer />

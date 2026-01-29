@@ -7,13 +7,13 @@
 @props([
     'slideGroups' => [
         [
-            ['img' => 'img1.png', 'title' => 'Back to School', 'text' => 'Get 20% off all supplies'],
-            ['img' => 'img5.png', 'title' => 'New Arrivals', 'text' => 'Fresh styles for everyone'],
+            ['img' => 'p1.jpg', 'title' => 'Back to School', 'text' => 'Get 20% off all supplies'],
+            ['img' => 'i1.jpg', 'title' => 'New Arrivals', 'text' => 'Fresh styles for everyone'],
             ['img' => 'img7.png', 'title' => 'Limited Offer', 'text' => 'Up to 50% discount!'],
         ],
         [
-            ['img' => 'img8.jpg', 'title' => 'Back to School', 'text' => 'Get 20% off all supplies'],
-            ['img' => 'logo1.jpg', 'title' => 'New Arrivals', 'text' => 'Fresh styles for everyone'],
+            ['img' => 'p1.jpg', 'title' => 'Back to School', 'text' => 'Get 20% off all supplies'],
+            ['img' => 'i3.jpg', 'title' => 'New Arrivals', 'text' => 'Fresh styles for everyone'],
             ['img' => 'img1.jpg', 'title' => 'Limited Offer', 'text' => 'Up to 50% discount!'],
         ],
     ]
@@ -37,7 +37,7 @@
      @mouseleave="start()"
      class="relative w-full max-w-7xl mx-auto overflow-hidden py-8 px-4 sm:px-6 lg:px-8 mt-12 rounded-lg shadow-lg bg-gray-200">
 
-    <h2 class="text-2xl font-semibold text-gray-800 mb-6">Up Coming Tutorials</h2>
+    <h2 class="text-2xl font-semibold text-gray-800 mb-6">Place an Ads</h2>
 
     <!-- Slides -->
     <template x-for="(slide, index) in slides" :key="index">

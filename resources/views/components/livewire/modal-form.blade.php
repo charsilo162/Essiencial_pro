@@ -5,7 +5,8 @@
     x-cloak
     @keydown.escape.window="open = false"
     x-transition.opacity
-    class="fixed inset-0 z-[9999]"
+    class="fixed inset-0 z-[9999] overflow-y-auto"
+
 >
 
     {{-- Backdrop --}}
@@ -15,14 +16,16 @@
     ></div>
 
     {{-- Modal Container --}}
-    <div class="relative flex min-h-screen items-center justify-center px-4 py-6">
+<div class="relative flex min-h-full w-full items-start justify-center px-4 py-6">
         <div
-            class="relative z-[10000] w-full max-w-xl
-                   rounded-xl bg-white
-                   border border-gray-300
-                   shadow-[0_20px_40px_-15px_rgba(0,0,0,0.35)]"
-            x-transition.scale.origin.center
-        >
+             class="relative z-[10000] w-full max-w-xl
+            flex flex-col
+            rounded-xl bg-white
+            border border-gray-300
+            shadow-[0_20px_40px_-15px_rgba(0,0,0,0.35)]"
+                x-transition.scale.origin.center
+            >
+
 
             <form wire:submit.prevent="{{ $submitAction }}" class="flex flex-col">
 
@@ -52,6 +55,8 @@
 
                 {{-- BODY --}}
                 <div class="px-6 py-6 space-y-6">
+
+
                     {{ $slot }}
                 </div>
 

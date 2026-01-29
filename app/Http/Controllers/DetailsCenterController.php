@@ -15,7 +15,7 @@ class DetailsCenterController extends Controller
         $this->api = new ApiService();
         $response = $this->api->get("centers/{$id}");
         $center = $response['data']; // Extract the inner array
-// dd($center);
+        // dd($center);
         // $center = Center::findOrFail($id); // Uncomment if switching back to model
 
         return view('center.details_center', ['center' => $center]);

@@ -41,18 +41,29 @@
             <div class="flex flex-wrap items-center text-xs text-gray-600 gap-x-4 gap-y-2 mt-2">
                 <x-stats.interaction-stat icon="comment" :count="$item['comments_count'] ?? 0" label="comments" />
                 <x-stats.interaction-stat icon="heart" :count="$item['likes_count'] ?? 0" label="Likes" />
-                <x-stats.interaction-stat icon="eye" :count="$item['views_count'] ?? 0" label="views" />
+                {{-- <x-stats.interaction-stat icon="eye" :count="$item['views_count'] ?? 0" label="views" /> --}}
                 <x-stats.interaction-stat icon="share" :count="$item['shares_count'] ?? 0" label="shares" />
             </div>
-            
-            {{-- Rating --}}
-            <div class="flex items-center mt-2">
-                <span class="text-yellow-400 text-lg">
-                    {!! str_repeat('&#9733;', (int) round($item['rating'] ?? 0)) !!}
-                    {!! str_repeat('&#9734;', 5 - (int) round($item['rating'] ?? 0)) !!}
-                </span>
-                <span class="text-xs text-gray-600 ml-1">{{ number_format($item['rating'] ?? 0, 2) }}</span>
-            </div>
+          {{-- Rating --}}
+                @php
+                    $avgRating = $item['rating']['average'] ?? 0;
+                    $ratingCount = $item['rating']['count'] ?? 0;
+                @endphp
+
+                <div class="flex items-center mt-2">
+                    <span class="text-yellow-400 text-lg">
+                        {!! str_repeat('&#9733;', (int) floor($avgRating)) !!}
+                        {!! str_repeat('&#9734;', 5 - (int) floor($avgRating)) !!}
+                    </span>
+
+                    <span class="text-xs text-gray-600 ml-2">
+                        {{ number_format($avgRating, 1) }}
+                        @if ($ratingCount > 0)
+                            ({{ $ratingCount }})
+                        @endif
+                    </span>
+                </div>
+
         </div>
     </div>
     

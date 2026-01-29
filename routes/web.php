@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,6 +13,7 @@ use App\Http\Controllers\DetailsCenterController;
 use App\Http\Controllers\MyVideosController;
 use App\Http\Controllers\PaystackController;
 use App\Http\Controllers\ProfileController;
+use App\Livewire\Admin\AdminCentersList;
 use App\Livewire\Category\CategoryManager;
 use App\Livewire\Category\CategorynewManager;
 use App\Livewire\Course\NoVideoCourses;
@@ -19,8 +21,13 @@ use App\Livewire\CourseWatch;
 use App\Livewire\VenueList;
 use App\Livewire\VenueDetail;
 use App\Livewire\Auth\Login;
+use App\Livewire\Auth\ForgotPassword;
+use App\Livewire\Auth\ResetPassword;
 use App\Livewire\Auth\Register;
-
+use App\Livewire\Admin\AdminCourseList;
+use App\Livewire\Admin\AdminDashboard;
+use App\Livewire\Admin\AdminUserList;
+use App\Livewire\Admin\AdminVideoList;
 
 
 /*
@@ -28,6 +35,10 @@ use App\Livewire\Auth\Register;
 | STATIC PAGES (Public)
 |--------------------------------------------------------------------------
 */
+
+Route::get('/reset-password/{token}', ResetPassword::class)->name('password.reset');
+
+Route::get('/forgot-password', ForgotPassword::class)->name('password.request');
 Route::get('/clear-session', function () {
     session()->flush();
     return redirect('/')->with('message', 'You have been logged out.');
@@ -142,6 +153,9 @@ Route::get('/venues/{slug}', VenueDetail::class)->name('venues.show');
 | AUTHENTICATED USER ROUTES
 |--------------------------------------------------------------------------
 */
+ Route::view('/user-enroll', 'courses.userenroll')
+      ->middleware(['sessionauth', 'admin'])
+    ->name('enrolled.courses');
 
 Route::middleware(['sessionauth'])->group(function () {
 
@@ -153,7 +167,7 @@ Route::middleware(['sessionauth'])->group(function () {
     ->name('profile2');
 
     Route::get('/my-course', [CourseController::class, 'mycourse'])
-     ->middleware(['sessionauth'])
+     ->middleware(['sessionauth', 'admin'])
     ->name('my.course');
 
     Route::get('/my-videos', [MyVideosController::class, 'index'])
@@ -168,6 +182,32 @@ Route::middleware(['sessionauth'])->group(function () {
   ->name('center.centers');
 });
 
+
+
+
+// Import other components as needed...
+
+Route::prefix('admin')->middleware(['sessionauth', 'admin'])->group(function () {
+    
+    // Dashboard (Optional)
+Route::get('/dashboard', AdminDashboard::class)->name('admin.dashboard');
+
+    // Course Moderation Route
+    Route::get('/courses', [AdminController::class, 'course'])
+        ->name('admin.courses.index');
+
+    Route::get('/centers', [AdminController::class, 'center'])
+        ->name('admin.centers.index');
+
+    // Video Moderation Route (The piece we just built)
+    Route::get('/videos', [AdminController::class, 'video'])
+        ->name('admin.videos.index');
+
+    Route::get('/users', [AdminController::class, 'users'])
+        ->name('admin.users.index');
+
+    // Add more routes here for Users, Settings, etc.
+});
 
 
 /*

@@ -10,6 +10,8 @@
                 {{ session('message') }}
             </div>
         @endif
+@if ($comment)
+    
 
         <form wire:submit="postComment" class="flex flex-col sm:flex-row gap-3 mb-10">
             {{-- <input
@@ -33,7 +35,7 @@
     {{ session('user') ? 'Send' : 'Login to Comment' }}
 </button>
         </form>
-
+@endif
         @error('newCommentText')
             <p class="text-sm text-red-500 mb-4">{{ $message }}</p>
         @enderror

@@ -119,7 +119,7 @@ class UserCoursesList extends Component
                 'query' => request()->query(),
             ]
         );
-
+//dd($paginator);
         return view('livewire.course.user-courses-list', [
             'courses' => $paginator,
         ]);

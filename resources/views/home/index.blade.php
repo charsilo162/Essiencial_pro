@@ -90,7 +90,7 @@
 
     {{-- Banner CTA --}}
     <x-banner.overlay
-        image="img3.png"
+        image="i2.jpg"
         title="Be engaged with the best Tutors Nationwide"
         subtitle="with experiences from different parts of the Globe"
         :button="['text' => 'Apply', 'href' => '#']"
@@ -98,7 +98,7 @@
 
     {{-- Training Promo --}}
     <x-training-promo
-        image="img3.png"
+        image="p2.jpg"
         title="It's not magic. It's training"
         :features="[
             'Your online and Offline training in one place',
@@ -116,7 +116,7 @@
     <livewire:featured-venues />
 
     {{-- Clients --}}
-    <x-clients-section :logos="['logo4.png', 'logo3.png', 'logo5.png', 'logo1.jpg', 'logo2.jpg']" />
+    <x-clients-section :logos="['l1.jpg', 'l2.jpg', 'l3.jpg', 'l4.jpg', 'l5.jpg']" />
 
     {{-- Footer --}}
     <x-navigation.footer />

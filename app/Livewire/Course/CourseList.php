@@ -123,13 +123,13 @@ class CourseList extends Component
                 ]
             );
         }
-
+      // dd($courses);
         return view('livewire.course.course-list', [
             'items'        => $items,
             'courses'      => $courses,
             'sectionTitle' => $this->calculateTitle(),
         ]);
-    }
+    } 
 
     private function calculateTitle(): string
     {
