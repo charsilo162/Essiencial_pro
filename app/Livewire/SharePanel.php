@@ -11,6 +11,7 @@ class SharePanel extends Component
 {
     public $shareableId;
     public $shareableType;
+    public $shareUrl;
 
     public $shareCount = 0;
     public $userHasShared = false;
@@ -33,70 +34,66 @@ class SharePanel extends Component
 
 
   public function mount($resourceId, $resourceType)
-{
-  
-    $this->shareableId = $resourceId;
-    $this->shareableType = $resourceType;
-    $this->refreshShareCount();
-}
-
-
-public function share($platform)
-{
-    // \Log::alert('SHARE FUNCTION EXECUTED!', [
-    //     'platform' => $platform,
-    //     'component_id' => $this->id,
-    //     'time' => now()->format('H:i:s'),
-    // ]);
-    if (!session('user')) {
-        $this->dispatch('toast', message: 'Please log in to share.');
-        return;
-    }
-
-    try {
-        $this->api->post('shares', [
-            'resource_type' => $this->shareableType,
-            'resource_id'   => $this->shareableId,
-            'platform'      => $platform,
-        ]);
-
-        $this->refreshShareCount();
-        $this->dispatch('toast', message: "Shared on {$this->platforms[$platform]['name']}!");
-
-        if ($platform === 'copy') {
-            $this->dispatch('copy-to-clipboard', url: url()->current());
-        } else {
-            $url = $this->generateShareUrl($platform);
-            $this->dispatch('open-share-window', url: $url);
-        }
-    } catch (\Exception $e) {
-        $this->dispatch('toast', message: 'Share failed.');
-    }
-}
-
-
-public function refreshShareCount()
-{
-    $response = $this->api->get('shares/count', [ // ← REMOVED .withToken()
-        'resource_type' => $this->shareableType,
-        'resource_id'   => $this->shareableId,
-    ]);
-
-    $this->shareCount = $response['count'] ?? 0;
-    $this->userHasShared = $response['user_shared'] ?? false;
-}
-
-    protected function generateShareUrl($platform)
     {
-        $url = urlencode(url()->current());
+    
+        $this->shareableId = $resourceId;
+        $this->shareableType = $resourceType;
+        $this->shareUrl = url()->current();
+        $this->refreshShareCount();
+    }
+
+
+        public function share($platform)
+            {
+                if (!session('user')) {
+                    $this->dispatch('toast', message: 'Please log in to share.');
+                    return;
+                }
+
+                try {
+                    $this->api->post('shares', [
+                        'resource_type' => $this->shareableType,
+                        'resource_id' => $this->shareableId,
+                        'platform' => $platform,
+                    ]);
+
+                    $this->refreshShareCount();
+                    $this->dispatch('toast', message: "Shared on {$this->platforms[$platform]['name']}!");
+
+                    if ($platform === 'copy') {
+                        $this->dispatch('copy-to-clipboard', url: $this->shareUrl); // ← Use stored URL
+                    } else {
+                        $url = $this->generateShareUrl($platform);
+                        $this->dispatch('open-share-window', url: $url);
+                    }
+                } catch (\Exception $e) {
+                    $this->dispatch('toast', message: 'Share failed.');
+                }
+            }
+
+
+    public function refreshShareCount()
+        {
+            $response = $this->api->get('shares/count', [
+                'resource_type' => $this->shareableType,
+                'resource_id' => $this->shareableId,
+            ]);
+            $this->shareCount = $response['count'] ?? 0;
+            $this->userHasShared = $response['user_shared'] ?? false;
+        }
+
+
+  protected function generateShareUrl($platform)
+    {
+        $url = urlencode($this->shareUrl); // ← Use stored URL
         $title = urlencode("Check out this course!");
 
         return match ($platform) {
             'facebook' => "https://www.facebook.com/sharer/sharer.php?u={$url}",
-            'twitter'  => "https://twitter.com/intent/tweet?url={$url}&text={$title}",
+            'twitter' => "https://twitter.com/intent/tweet?url={$url}&text={$title}",
             'linkedin' => "https://www.linkedin.com/sharing/share-offsite/?url={$url}",
             'whatsapp' => "https://wa.me/?text={$title}%20{$url}",
-            default => $url,
+            default => $this->shareUrl,
         };
     }
 

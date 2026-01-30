@@ -96,7 +96,7 @@
 
         <!-- RIGHT SIDE — STATIC BANNER IMAGE -->
         <div class="hidden md:flex items-center justify-center">
-            <img src="{{ asset('storage/img3.png') }}"
+            <img src="{{ asset('storage/t4.jpg') }}"
                  class="w-full h-auto rounded-xl shadow-md object-cover" alt="Signup Banner">
         </div>
 

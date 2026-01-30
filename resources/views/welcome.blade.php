@@ -22,15 +22,15 @@
                 class="w-36 h-52 object-cover rounded-xl shadow-lg transform rotate-[2deg] float">
 
             <!-- CENTER – LARGEST -->
-            <img src="{{ asset('storage/img3.jpg') }}"
+            <img src="{{ asset('storage/t4.jpg') }}"
                 class="w-44 h-64 object-cover rounded-xl shadow-xl transform rotate-[0deg] float">
 
             <!-- Right medium -->
-            <img src="{{ asset('storage/img4.jpg') }}"
+            <img src="{{ asset('storage/t2.jpg') }}"
                 class="w-36 h-52 object-cover rounded-xl shadow-lg transform rotate-[-2deg] float">
 
             <!-- Right small -->
-            <img src="{{ asset('storage/img6.jpg') }}"
+            <img src="{{ asset('storage/t1.jpg') }}"
                 class="w-32 h-40 object-cover rounded-xl shadow-lg transform rotate-[3deg] float">
         </div>
     </section>

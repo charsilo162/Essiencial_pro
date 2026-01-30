@@ -103,6 +103,7 @@ public function showOnline($slug)
         if (!$center || !in_array($course['type'], ['physical', 'hybrid'])) {
             abort(404);
         }
+      //  dd($course, $center);
     //$course['tags'] = [$course['category']['name'], $course['type']];
         return view('courses.show-center', compact('course', 'center'));
     }

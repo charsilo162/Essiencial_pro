@@ -23,7 +23,8 @@
                 {{-- PART badge --}}
                 <div class="absolute top-4 right-8 transform rotate-6 bg-[#661437] p-2 shadow-xl rounded-md">
                     <span class="text-white text-3xl font-bold uppercase">
-                        PART {{ (($currentVideo['pivot'] ?? [])['order_index'] ?? 'N/A') }}
+                        PART {{ $currentVideo['order_index'] }}
+                  
                     </span>
                 </div>
             </div>
@@ -48,7 +49,7 @@
                             $isActive = $currentVideo && $currentVideo['id'] === $video['id'];
                             $linkClasses = $isActive ? 'block px-3 py-2 bg-[#6A3318]/10 text-[#661437] font-semibold rounded-md' : 'block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-md';
                             // FIX: Use null-safe operator to access pivot data safely
-                            $partNumber = (($video['pivot'] ?? [])['order_index'] ?? 'N/A');
+                            $partNumber = $video['order_index'];
                         @endphp
                         <li>
                             <a href="#"
@@ -72,7 +73,7 @@
         {{-- Main Course Title --}}
         <div class="mb-4">
             <h1 class="text-gray-800 text-sm font-normal tracking-wide uppercase leading-none">
-                {{ Str::upper(Str::before($course['title'], ' ')) }}
+                {{-- {{ Str::upper(Str::before($course['title'], ' ')) }} --}}
                 <span class="block">{{ Str::upper(Str::after($course['title'], ' ')) }}</span>
             </h1>
         </div>
@@ -84,7 +85,7 @@
                         $isActive = $currentVideo && $currentVideo['id'] === $video['id'];
                         $linkClasses = $isActive ? 'block px-3 py-2 bg-[#6A3318]/10 text-[#661437] font-semibold rounded-md' : 'block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-md';
                         // FIX: Use null-safe operator to access pivot data safely
-                        $partNumber = (($video['pivot'] ?? [])['order_index'] ?? 'N/A');
+                       $partNumber = $video['order_index'];
                     @endphp
                     <li>
                         <a href="#"
@@ -92,6 +93,7 @@
                             class="{{ $linkClasses }}"
                         >
                             Part {{ $partNumber }}: {{ $video['title'] }}
+                            
                         </a>
                     </li>
                 @empty
@@ -119,7 +121,8 @@
                 {{-- PART badge --}}
                 <div class="absolute top-4 right-8 transform rotate-6 bg-[#661437] p-2 shadow-xl rounded-md">
                     <span class="text-white text-3xl font-bold uppercase">
-                        PART {{ (($currentVideo['pivot'] ?? [])['order_index'] ?? 'N/A') }}
+                        {{-- PART {{ (($currentVideo['pivot'] ?? [])['order_index'] ?? 'N/A') }} --}}
+                             PART {{ $currentVideo['order_index'] }}
                     </span>
                 </div>
                 {{-- Header Bar (Video Title) - Positioned above the video for desktop, themed to match nav --}}
@@ -134,6 +137,14 @@
                             'resourceId' => $currentVideo['id'],
                             'resourceType' => \App\Models\Video::class
                         ], key('video-vote-'.$currentVideo['id']))
+                        
+
+                             {{-- <livewire:rating-panel
+                            :resource-id="$course['id']"
+                            :resource-type="\App\Models\Course::class"
+                            :key="'course-rating-'.$course['id']"
+                        /> --}}
+
                     </div>
                 </div>
             @else

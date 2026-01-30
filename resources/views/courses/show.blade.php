@@ -3,6 +3,20 @@
   {{-- <x-layouts.dashboardheader /> --}}
 
     {{-- 1. Hero Section --}}
+     @if (session('success'))
+        <div x-data="{ show: true }" x-show="show"
+            class="mb-4 flex items-start justify-between rounded-lg bg-green-100 border border-green-300 text-green-700 px-4 py-3">
+            <span>{{ session('success') }}</span>
+            <button @click="show = false" class="font-bold">×</button>
+        </div>
+        @endif
+        @if (session('error'))
+        <div x-data="{ show: true }" x-show="show"
+            class="mb-4 flex items-start justify-between rounded-lg bg-red-100 border border-red-300 text-red-700 px-4 py-3">
+            <span>{{ session('error') }}</span>
+            <button @click="show = false" class="font-bold">×</button>
+        </div>
+        @endif
     <x-shared.detail-wrapper 
         :imageUrl="$course['image_thumbnail_url'] ?? ''"
         :title="$course['title']"
@@ -11,11 +25,12 @@
         :tagLabels="$course['tags'] ?? ['Beginner', 'Programming']"
         badgeText="{{ $course['category']['name'] ?? 'Category' }}"
         >
+        
         <x-slot:thumbsBlock>
-            @livewire('interaction-panel', [
+            {{-- @livewire('interaction-panel', [
                 'resourceId' => $course['id'],
                 'resourceType' => 'App\\Models\\Course'
-            ])
+            ]) --}}
         </x-slot:thumbsBlock>
 
         <x-slot:shareBlock>
@@ -66,25 +81,21 @@
         </span>
             {{-- {{ session('user') ? 'Send' : 'Login to Comment' }} --}}
               @if (session('user'))
+              @if ($course['price_formatted'] === 'Free')
+              <a
+                href="{{ route('course.watch', $course['slug']) }}"
+                class="px-6 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium"
+            >
+               Watch Now
+            </a>
+              @else
         <a href="{{ route('enroll.course', $course['slug']) }}" 
            class="bg-blue-600 text-white py-3 px-8 text-lg font-semibold rounded-xl hover:bg-blue-700 transition-colors shadow-lg">
             Enroll Now
         </a>
         @endif
-        @if (session('success'))
-        <div x-data="{ show: true }" x-show="show"
-            class="mb-4 flex items-start justify-between rounded-lg bg-green-100 border border-green-300 text-green-700 px-4 py-3">
-            <span>{{ session('success') }}</span>
-            <button @click="show = false" class="font-bold">×</button>
-        </div>
         @endif
-        @if (session('error'))
-        <div x-data="{ show: true }" x-show="show"
-            class="mb-4 flex items-start justify-between rounded-lg bg-red-100 border border-red-300 text-red-700 px-4 py-3">
-            <span>{{ session('error') }}</span>
-            <button @click="show = false" class="font-bold">×</button>
-        </div>
-        @endif
+       
      </div>
         </x-slot:footerArea>
     </x-shared.detail-wrapper>

@@ -55,12 +55,14 @@
                     alt="{{ $course['title'] }}"
                     class="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-300">
 
-                <div class="absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+             <div class="absolute top-3 right-3 flex gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 
+                     transition-opacity z-10">
                     <button
                         wire:click="$dispatch('openEditCourseModal', { courseId: {{ $course['id'] }} })"
-                        class="bg-white/90 backdrop-blur p-2 rounded-full shadow hover:bg-white text-gray-700">
+                        class="bg-white/90 backdrop-blur p-3 md:p-2 rounded-full shadow hover:bg-white text-gray-700">
                         ✏️
-                    </button>
+                        </button>
+
 
                     <button
                         wire:click="confirmDelete({{ $course['id'] }})"

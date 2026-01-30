@@ -24,11 +24,11 @@
                 <div class="mt-10 flex flex-col sm:flex-row justify-center gap-6 fade-in animation-delay-1000">
                     <div class="flex items-center justify-center gap-3 bg-white/10 backdrop-blur-sm rounded-full px-8 py-4">
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>
-                        <span class="font-medium">support@youracademy.com</span>
+                        <span class="font-medium">essentialnews65@gmail.com</span>
                     </div>
                     <div class="flex items-center justify-center gap-3 bg-white/10 backdrop-blur-sm rounded-full px-8 py-4">
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7 2a1 1 0 00-.707 1.707L7 4.414v3.172a3 3 0 01-.879 2.12l-3.828 3.83a1 1 0 001.414 1.414l3.828-3.83a3 3 0 012.12-.879h3.172l.707.707a1 1 0 101.414-1.414L14.586 9H11.414a1 1 0 00-.707.293l-3.828 3.83a1 1 0 101.414 1.414l3.828-3.83A3 3 0 0014 9.586V6.414l.707-.707A1 1 0 1016.414 4L15 5.414V4a1 1 0 00-1-1H7z" clip-rule="evenodd"/></svg>
-                        <span class="font-medium">+1 (555) 123-4567</span>
+                        <span class="font-medium">+234 123-4567</span>
                     </div>
                 </div>
             </div>

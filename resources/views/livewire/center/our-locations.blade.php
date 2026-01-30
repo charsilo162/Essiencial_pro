@@ -11,13 +11,13 @@
                     <h3 class="text-lg font-bold text-gray-900 mb-1">{{ $center['name'] }}</h3>
                     
                     {{-- Rating: Hardcoded as in template since no rating field in model; can be dynamic if added later --}}
-                    <div class="flex items-center space-x-1 text-yellow-500 mb-3">
+                    {{-- <div class="flex items-center space-x-1 text-yellow-500 mb-3">
                         <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 2l3.09 6.31 6.91.99-5 4.88 1.18 6.93L12 18.27l-6.18 3.24 1.18-6.93-5-4.88 6.91-.99L12 2z"/></svg>
                         <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 2l3.09 6.31 6.91.99-5 4.88 1.18 6.93L12 18.27l-6.18 3.24 1.18-6.93-5-4.88 6.91-.99L12 2z"/></svg>
                         <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 2l3.09 6.31 6.91.99-5 4.88 1.18 6.93L12 18.27l-6.18 3.24 1.18-6.93-5-4.88 6.91-.99L12 2z"/></svg>
                         <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 2l3.09 6.31 6.91.99-5 4.88 1.18 6.93L12 18.27l-6.18 3.24 1.18-6.93-5-4.88 6.91-.99L12 2z"/></svg>
                         <span class="text-sm text-gray-600">4.34</span>
-                    </div>
+                    </div> --}}
                     
                     {{-- Contact/Address: Using address and city since phone/email not in model; description could be used if it contains contact info --}}
                     <p class="text-sm text-gray-700 leading-relaxed mb-3">

@@ -23,7 +23,7 @@
         {{-- HEADER --}}
         <div class="px-6 py-4 border-b border-black/10 dark:border-white/10">
             <span class="text-lg font-semibold tracking-wide">
-                Essiencial
+                Essential
             </span>
         </div>
 

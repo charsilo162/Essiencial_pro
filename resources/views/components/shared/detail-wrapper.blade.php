@@ -9,8 +9,9 @@
 
 @php
     $tags = collect($tagLabels);
-    $fullStars = (int) round($rating);
-    $emptyStars = 5 - $fullStars;
+    // dd($rating);
+    // $fullStars = (int) round($rating);
+    // $emptyStars = 5 - $fullStars;
 @endphp
 
 <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

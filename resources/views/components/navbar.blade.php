@@ -6,9 +6,11 @@
 
     {{-- LEFT: LOGO --}}
     <div class="flex items-center">
-        <img src="https://via.placeholder.com/40"
+        <a href="{{ route('home') }}">
+        <img src="{{ asset('storage/edu2.jpg') }}"
              class="w-10 h-10 rounded-full shadow-sm"
              alt="Logo" />
+             </a>
     </div>
 
     {{-- CENTER: LINKS (DESKTOP) --}}
@@ -129,8 +131,8 @@
                 <div x-data="{ open: false, loggingOut: false }" class="relative">
                     <button @click="open = !open" @click.outside="open = false"
                             class="flex items-center gap-3 px-5 py-2.5 rounded-full bg-white/20 backdrop-blur-md
-                                   border border-white/40 text-white font-medium text-sm
-                                   hover:bg-white/30 transition-all duration-300 shadow-lg">
+                                   border border-white/40 text-white font-medium text-sm bg-zinc-800
+                                   hover:bg-gray-700 transition-all duration-300 shadow-lg">
                         <span class="truncate max-w-32">{{ session('user.name') }}</span>
                         <svg class="w-4 h-4 transition-transform duration-200" 
                              :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -30,10 +30,10 @@
         {{-- Likes / Dislikes / Comments --}}
          @if (session('user'))
         <x-slot:thumbsBlock>
-            @livewire('interaction-panel', [
+            {{-- @livewire('interaction-panel', [
                 'resourceId' => $course['id'],
                 'resourceType' => 'App\Models\Course'
-            ])
+            ]) --}}
         </x-slot:thumbsBlock>
  @endif
         {{-- Interaction Stats --}}
@@ -95,11 +95,19 @@
                     @endif
                 </div>
             @if (session('user'))
+             @if ($course['price_formatted'] === 'Free')
+              <a
+                href="{{ route('center.show', $center['id']) }}"
+                class="px-6 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium"
+            >
+              Get Started
+            </a>
+            @else
                <a href="{{ route('enroll.course', $course['slug']) }}"
                     class="inline-flex items-center justify-center px-6 py-3 bg-orange-600 hover:bg-orange-700 text-white text-sm font-semibold rounded-xl transition">
                     Enroll Now
                     </a>
-
+                @endif
                 @else
                 <a href="{{ route('logins') }}"
                 class="inline-flex items-center justify-center px-5 py-3 bg-gray-900 hover:bg-gray-800 text-white text-sm font-semibold rounded-xl transition">
