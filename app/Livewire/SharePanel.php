@@ -34,53 +34,53 @@ class SharePanel extends Component
 
 
   public function mount($resourceId, $resourceType)
-{
-  
-    $this->shareableId = $resourceId;
-    $this->shareableType = $resourceType;
-    $this->shareUrl = url()->current();
-    $this->refreshShareCount();
-}
-
-
-    public function share($platform)
-        {
-            if (!session('user')) {
-                $this->dispatch('toast', message: 'Please log in to share.');
-                return;
-            }
-
-            try {
-                $this->api->post('shares', [
-                    'resource_type' => $this->shareableType,
-                    'resource_id' => $this->shareableId,
-                    'platform' => $platform,
-                ]);
-
-                $this->refreshShareCount();
-                $this->dispatch('toast', message: "Shared on {$this->platforms[$platform]['name']}!");
-
-                if ($platform === 'copy') {
-                    $this->dispatch('copy-to-clipboard', url: $this->shareUrl); // ← Use stored URL
-                } else {
-                    $url = $this->generateShareUrl($platform);
-                    $this->dispatch('open-share-window', url: $url);
-                }
-            } catch (\Exception $e) {
-                $this->dispatch('toast', message: 'Share failed.');
-            }
-        }
-
-
-  public function refreshShareCount()
     {
-        $response = $this->api->get('shares/count', [
-            'resource_type' => $this->shareableType,
-            'resource_id' => $this->shareableId,
-        ]);
-        $this->shareCount = $response['count'] ?? 0;
-        $this->userHasShared = $response['user_shared'] ?? false;
+    
+        $this->shareableId = $resourceId;
+        $this->shareableType = $resourceType;
+        $this->shareUrl = url()->current();
+        $this->refreshShareCount();
     }
+
+
+        public function share($platform)
+            {
+                if (!session('user')) {
+                    $this->dispatch('toast', message: 'Please log in to share.');
+                    return;
+                }
+
+                try {
+                    $this->api->post('shares', [
+                        'resource_type' => $this->shareableType,
+                        'resource_id' => $this->shareableId,
+                        'platform' => $platform,
+                    ]);
+
+                    $this->refreshShareCount();
+                    $this->dispatch('toast', message: "Shared on {$this->platforms[$platform]['name']}!");
+
+                    if ($platform === 'copy') {
+                        $this->dispatch('copy-to-clipboard', url: $this->shareUrl); // ← Use stored URL
+                    } else {
+                        $url = $this->generateShareUrl($platform);
+                        $this->dispatch('open-share-window', url: $url);
+                    }
+                } catch (\Exception $e) {
+                    $this->dispatch('toast', message: 'Share failed.');
+                }
+            }
+
+
+    public function refreshShareCount()
+        {
+            $response = $this->api->get('shares/count', [
+                'resource_type' => $this->shareableType,
+                'resource_id' => $this->shareableId,
+            ]);
+            $this->shareCount = $response['count'] ?? 0;
+            $this->userHasShared = $response['user_shared'] ?? false;
+        }
 
 
   protected function generateShareUrl($platform)

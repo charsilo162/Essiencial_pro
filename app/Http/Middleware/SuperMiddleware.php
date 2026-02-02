@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Closure;
 use Illuminate\Support\Facades\Session;
 
-class AdminMiddleware
+class SuperMiddleware
 {
     public function handle($request, Closure $next)
     {
@@ -20,8 +20,8 @@ class AdminMiddleware
         if ($user['type'] === 'user') {
             return redirect()->route('profile2');
         }
-        if ($user['type'] === 'super') {
-            return redirect()->route('admin.courses.index');
+        if ($user['type'] != 'super') {
+            return redirect()->route('my.course');
         }
 // dd($request);
         return $next($request);

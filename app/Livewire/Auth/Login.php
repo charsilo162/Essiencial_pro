@@ -28,7 +28,7 @@ public function login()
             'email' => $this->email,
             'password' => $this->password,
         ]);
-// dd($response);
+// dd($response['message']);
 if (isset($response['token'])) {
     // Store BOTH token AND user in session
     Session::put('api_token', $response['token']);

@@ -19,13 +19,13 @@ class AdminCourseList extends Component
         $this->api = new ApiService();
     }
 
-    public function togglePublish($courseId)
+   public function toggleActive($courseId)
     {
-        // Hits the admin-specific toggle endpoint
-        $response = $this->api->patch("admin/courses/{$courseId}/toggle-publish", []);
-
+        // Hits the admin-specific toggle-active endpoint
+        $response = $this->api->put("admin/courses/{$courseId}/toggle-active", []);
+        //dd($response);
         if (isset($response['error'])) {
-            $this->dispatch('error-notification', message: 'Failed to update course status');
+            $this->dispatch('error-notification', message: 'Failed to update administrative status');
         } else {
             $this->dispatch('success-notification', message: 'Course visibility updated');
         }

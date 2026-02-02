@@ -63,32 +63,33 @@ class CourseController extends Controller
 }
 
 
-public function showOnline($slug)
-{
-    $response = $this->api->get("courses/{$slug}");
+    public function showOnline($slug)
+    {
+        $response = $this->api->get("courses/{$slug}");
 
-    if (isset($response['message'])) {
-        abort(404);
+        if (isset($response['message'])) {
+            abort(404);
+        }
+
+        $course = $response['data'] ?? $response;
+
+        // Fixed the redirect logic here
+        if ($course['type'] !== 'online') {
+            return redirect()->route('center.show', $course['id']);
+        }
+
+        // Capture messages from query string
+        $success = request()->query('success');
+        $error   = request()->query('error');
+
+        return view('courses.show', compact('course', 'success', 'error'));
     }
-
-    $course = $response['data'] ?? $response;
-
-    if ($course['type'] !== 'online') {
-        route('center.show', $course['id']);
-    }
-
-    // 👇 Capture messages from query string
-    $success = request()->query('success');
-    $error   = request()->query('error');
-
-    return view('courses.show', compact('course', 'success', 'error'));
-}
  
 
     public function showCenter($centerId, $slug)
     {
         $response = $this->api->get("courses/{$slug}");
-
+        //dd($response);
         if (isset($response['message'])) {
             abort(404);
         }

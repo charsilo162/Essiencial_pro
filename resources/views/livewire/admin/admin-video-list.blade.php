@@ -32,7 +32,7 @@
             </thead>
             <tbody class="divide-y divide-gray-100">
                 @forelse($videos as $video)
-                    <tr class="hover:bg-gray-50/80 transition-colors">
+                    <tr class="hover:bg-gray-50/80 transition-colors" wire:key="video-{{ $video['id'] }}">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-4">
                                 <div class="relative h-12 w-20 rounded bg-gray-200 overflow-hidden flex-shrink-0">
@@ -44,14 +44,14 @@
                                 </div>
                                 <div>
                                     <div class="text-sm font-semibold text-gray-900 leading-tight">{{ $video['title'] }}</div>
-                                    <div class="text-xs text-gray-500 mt-0.5">ID: {{ $video['id'] }} • Added {{ $video['created_at'] }}</div>
+                                    <div class="text-xs text-gray-500 mt-0.5 font-medium">ID: {{ $video['id'] }} • Added {{ $video['created_at'] }}</div>
                                 </div>
                             </div>
                         </td>
                         <td class="px-6 py-4">
-                            @if(count($video['courses']) > 0)
+                            @if(!empty($video['courses']))
                                 @foreach($video['courses'] as $course)
-                                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800">
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-blue-50 text-blue-700 border border-blue-100 mb-1">
                                         {{ $course['title'] }}
                                     </span>
                                 @endforeach
@@ -59,29 +59,38 @@
                                 <span class="text-xs italic text-gray-400">Unassigned</span>
                             @endif
                         </td>
-                        <td class="px-6 py-4 text-sm text-gray-600 text-center">
+                        <td class="px-6 py-4 text-sm text-gray-600 text-center font-medium">
                             {{ $video['duration'] }}s
                         </td>
+                        
                         <td class="px-6 py-4 text-center">
-                            @if($video['publish'])
-                                <span class="px-2 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full bg-green-100 text-green-700">Published</span>
+                            @if($video['is_active'])
+                                <span class="px-2 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full bg-green-100 text-green-700 border border-green-200">Active</span>
                             @else
-                                <span class="px-2 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full bg-amber-100 text-amber-700">Draft / Hidden</span>
+                                <span class="px-2 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full bg-red-100 text-red-700 border border-red-200">Blocked</span>
                             @endif
                         </td>
+
                         <td class="px-6 py-4 text-right">
                             <button 
-                                wire:click="togglePublish({{ $video['id'] }})"
+                                wire:click="toggleActive({{ $video['id'] }})"
                                 wire:loading.attr="disabled"
-                                class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-semibold rounded-md shadow-sm text-white transition-all {{ $video['publish'] ? 'bg-red-500 hover:bg-red-600' : 'bg-green-600 hover:bg-green-700' }}"
+                                wire:target="toggleActive({{ $video['id'] }})"
+                                class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-bold rounded-md shadow-sm text-white transition-all 
+                                {{ $video['is_active'] ? 'bg-red-500 hover:bg-red-600' : 'bg-green-600 hover:bg-green-700' }}"
                             >
-                                {{ $video['publish'] ? 'Unpublish' : 'Approve' }}
+                                <span wire:loading.remove wire:target="toggleActive({{ $video['id'] }})">
+                                    {{ $video['is_active'] ? 'Block' : 'Approve' }}
+                                </span>
+                                <span wire:loading wire:target="toggleActive({{ $video['id'] }})">
+                                    Updating...
+                                </span>
                             </button>
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5" class="px-6 py-12 text-center text-gray-500">No videos found matching your search.</td>
+                        <td colspan="5" class="px-6 py-12 text-center text-gray-500 italic">No videos found matching your search.</td>
                     </tr>
                 @endforelse
             </tbody>

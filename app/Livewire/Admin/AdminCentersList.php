@@ -21,8 +21,8 @@ class AdminCentersList extends Component
 
     // Toggle Active Status via Admin API
     public function toggleStatus($centerId) {
-        $response = $this->api->patch("admin/centers/{$centerId}/toggle", []);
-        
+        $response = $this->api->put("admin/centers/{$centerId}/toggle", []);
+        //dd($response);
         if (!empty($response['error'])) {
             $this->dispatch('error-notification', message: 'Failed to update status');
         } else {

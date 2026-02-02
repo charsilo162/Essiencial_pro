@@ -45,24 +45,44 @@
                 <x-stats.interaction-stat icon="share" :count="$item['shares_count'] ?? 0" label="shares" />
             </div>
           {{-- Rating --}}
-                @php
-                    $avgRating = $item['rating']['average'] ?? 0;
+               @php
+                    $avgRating = round($item['rating']['average'] ?? 0, 1);
                     $ratingCount = $item['rating']['count'] ?? 0;
                 @endphp
 
-                <div class="flex items-center mt-2">
-                    <span class="text-yellow-400 text-lg">
-                        {!! str_repeat('&#9733;', (int) floor($avgRating)) !!}
-                        {!! str_repeat('&#9734;', 5 - (int) floor($avgRating)) !!}
-                    </span>
+                <div
+                    x-data="{ hover: false }"
+                    class="flex items-center mt-2 group"
+                >
+                    {{-- Stars --}}
+                    <div
+                        class="flex text-lg transition-transform duration-200"
+                        :class="hover ? 'scale-105' : ''"
+                        @mouseenter="hover = true"
+                        @mouseleave="hover = false"
+                    >
+                        @for ($i = 1; $i <= 5; $i++)
+                            <span
+                                class="
+                                    transition-all duration-200
+                                    {{ $avgRating >= $i ? 'text-yellow-400' : 'text-gray-300' }}
+                                    group-hover:drop-shadow-[0_0_6px_rgba(250,204,21,0.6)]
+                                "
+                            >
+                                ★
+                            </span>
+                        @endfor
+                    </div>
 
-                    <span class="text-xs text-gray-600 ml-2">
+                    {{-- Rating text --}}
+                    <span class="text-xs text-gray-600 ml-2 transition-opacity group-hover:opacity-100 opacity-80">
                         {{ number_format($avgRating, 1) }}
                         @if ($ratingCount > 0)
                             ({{ $ratingCount }})
                         @endif
                     </span>
                 </div>
+
 
         </div>
     </div>

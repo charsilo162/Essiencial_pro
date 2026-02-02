@@ -33,7 +33,7 @@ class AdminUserList extends Component
     public function deleteUser($userId)
     {
         $response = $this->api->delete("admin/users/{$userId}");
-
+        //dd($response);
         if (isset($response['error'])) {
             $this->dispatch('error-notification', message: $response['error']);
         } else {

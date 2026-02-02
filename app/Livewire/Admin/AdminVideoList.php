@@ -19,17 +19,19 @@ class AdminVideoList extends Component
         $this->api = new ApiService();
     }
 
-    public function togglePublish($videoId)
-    {
-        // Hits the admin-specific toggle endpoint for videos
-        $response = $this->api->put("admin/videos/{$videoId}/toggle-publish", []);
+   // In AdminVideoList.php
 
-        if (isset($response['error'])) {
-            $this->dispatch('error-notification', message: 'Failed to update video status');
-        } else {
-            $this->dispatch('success-notification', message: 'Video visibility updated');
+    public function toggleActive($videoId)
+        {
+            // We now target the 'is-active' endpoint instead of 'toggle-publish'
+            $response = $this->api->put("admin/videos/{$videoId}/toggle-active", []);
+           // dd($response);
+            if (isset($response['error'])) {
+                $this->dispatch('error-notification', message: 'Failed to update administrative status');
+            } else {
+                $this->dispatch('success-notification', message: 'Global visibility updated');
+            }
         }
-    }
 
     public function render()
     {

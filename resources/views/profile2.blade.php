@@ -3,13 +3,13 @@
     <div class="container mx-auto py-8">
 
         {{-- Tabs --}}
-        <div class="mb-6 border-b border-gray-200">
+        {{-- <div class="mb-6 border-b border-gray-200">
             <nav class="flex gap-6">
                 <button
                     wire:click="$set('type', 'online')"
                     class="pb-2 border-b-2 font-medium"
                 >
-                    Online
+                    Onliness
                 </button>
 
                 <button
@@ -26,7 +26,7 @@
                     Hybrid
                 </button>
             </nav>
-        </div>
+        </div> --}}
 
         {{-- Single Livewire Instance --}}
         <livewire:course.enrolled-courses />

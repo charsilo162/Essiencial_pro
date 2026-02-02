@@ -187,7 +187,7 @@ Route::middleware(['sessionauth'])->group(function () {
 
 // Import other components as needed...
 
-Route::prefix('admin')->middleware(['sessionauth', 'admin'])->group(function () {
+Route::prefix('admin')->middleware(['sessionauth', 'super'])->group(function () {
     
     // Dashboard (Optional)
 Route::get('/dashboard', AdminDashboard::class)->name('admin.dashboard');

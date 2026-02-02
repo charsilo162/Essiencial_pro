@@ -54,34 +54,107 @@
                                    class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500">
                             @error('editTitle') <span class="text-red-600 text-xs">{{ $message }}</span> @enderror
                         </div>
-                        <div class="mb-4">
+                        <div class="mb-4"> 
                             <label class="block text-sm font-medium text-gray-700 mb-1">Duration (seconds)</label>
                             <input type="number" wire:model="editDuration"
                                    class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500">
                             @error('editDuration') <span class="text-red-600 text-xs">{{ $message }}</span> @enderror
                         </div>
-                        <div class="mb-4">
-                            <label class="block text-sm font-medium text-gray-700 mb-1">New Thumbnail (optional)</label>
-                            <input type="file" wire:model="editThumbnail"
-                                   class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500">
-                            @error('editThumbnail') <span class="text-red-600 text-xs">{{ $message }}</span> @enderror
-                        </div>
-                        <div class="mb-6">
-                            <label class="block text-sm font-medium text-gray-700 mb-1">New Video File (optional)</label>
-                            <input type="file" wire:model="editVideoFile"
-                                   class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500">
-                            @error('editVideoFile') <span class="text-red-600 text-xs">{{ $message }}</span> @enderror
-                        </div>
+                      
+                        
+
+
+
+
+
+
+                        
+                        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="mb-4" 
+     x-data="{ uploading: false, progress: 0 }" 
+     x-on:livewire-upload-start="uploading = true" 
+     x-on:livewire-upload-finish="uploading = false" 
+     x-on:livewire-upload-error="uploading = false" 
+     x-on:livewire-upload-progress="progress = $event.detail.progress">
+    
+    <label class="block text-sm font-medium text-gray-700 mb-1">New Thumbnail (optional)</label>
+    <input type="file" wire:model="editThumbnail"
+           class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500">
+    
+    <div x-show="uploading" class="mt-2">
+        <div class="w-full bg-gray-200 rounded-full h-2.5">
+            <div class="bg-orange-500 h-2.5 rounded-full transition-all duration-300" :style="`width: ${progress}%`"></div >
+        </div>
+        <span class="text-xs text-gray-500" x-text="progress + '% uploaded...'"></span>
+    </div>
+    
+    @error('editThumbnail') <span class="text-red-600 text-xs">{{ $message }}</span> @enderror
+</div>
+
+<div class="mb-6" 
+     x-data="{ uploading: false, progress: 0 }" 
+     x-on:livewire-upload-start="uploading = true" 
+     x-on:livewire-upload-finish="uploading = false" 
+     x-on:livewire-upload-error="uploading = false" 
+     x-on:livewire-upload-progress="progress = $event.detail.progress">
+    
+    <label class="block text-sm font-medium text-gray-700 mb-1">New Video File (optional)</label>
+    <input type="file" wire:model="editVideoFile"
+           class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500">
+
+    <div x-show="uploading" class="mt-2">
+        <div class="w-full bg-gray-200 rounded-full h-2.5">
+            <div class="bg-blue-600 h-2.5 rounded-full transition-all duration-300" :style="`width: ${progress}%`"></div >
+        </div>
+        <span class="text-xs text-gray-500" x-text="progress + '% uploaded...'"></span>
+    </div>
+
+    @error('editVideoFile') <span class="text-red-600 text-xs">{{ $message }}</span> @enderror
+</div>
+
+
+
+
+
+
+
+
+
+
                         <div class="flex justify-end space-x-3">
                             <button type="button"
                                     wire:click="closeEditModal"
                                     class="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400">
                                 Cancel
                             </button>
-                            <button type="submit"
-                                    class="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700">
-                                Update
-                            </button>
+                           <button type="submit" 
+                                wire:loading.attr="disabled" 
+                                x-bind:disabled="uploading"
+                                class="px-4 py-2 bg-orange-600 text-white rounded-lg disabled:opacity-50">
+                            Update
+                        </button>
                         </div>
                     </form>
                 </div>

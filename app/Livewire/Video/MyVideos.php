@@ -43,6 +43,7 @@ class MyVideos extends Component
     {
         
         $response = $this->api->get("videos/{$videoId}");
+        //dd($response);
         $video = $response['data'];
         $this->editVideoId = $video['id'];
         $this->editTitle = $video['title'];
