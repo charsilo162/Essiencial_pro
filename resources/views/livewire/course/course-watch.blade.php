@@ -56,27 +56,41 @@
             @if ($currentVideo)
 
                 {{-- Header --}}
-                <div class="flex items-center justify-between bg-white border-b-2 border-cyan-500 px-4 py-2">
-                    <span class="text-gray-700 font-normal">
-                        {{ $currentVideo['title'] }}
-                    </span>
+                <div class="bg-white border-b-2 border-cyan-500 px-4 py-3">
 
-                    @livewire('interaction-panel', [
-                        'resourceId'   => $currentVideo['id'],
-                        'resourceType'=> \App\Models\Video::class
-                    ], key('video-vote-'.$currentVideo['id']))
+                    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
 
-                      {{-- @livewire('rating-panel', [
-                        'resourceId'   => $currentVideo['id'],
-                        'resourceType' => \App\Models\Video::class
-                    ], key('video-rating-'.$currentVideo['id'])) --}}
+                        {{-- Title --}}
+                        <span class="text-gray-800 font-medium text-sm sm:text-base">
+                            {{ $currentVideo['title'] }}
+                        </span>
 
-                            <livewire:rating-panel
-                            :resource-id="$course['id']"
-                            :resource-type="\App\Models\Course::class"
-                            :key="'course-rating-'.$course['id']"
-                        />
+                        {{-- Actions (Likes + Rating) --}}
+                        <div class="flex flex-col sm:flex-row gap-3 sm:items-center">
 
+                            {{-- Likes / Interaction --}}
+                            <div class="flex items-center justify-between sm:justify-start gap-4 bg-gray-50 sm:bg-transparent px-3 py-2 sm:p-0 rounded-xl sm:rounded-none shadow-sm sm:shadow-none">
+
+                                @livewire('interaction-panel', [
+                                    'resourceId'   => $currentVideo['id'],
+                                    'resourceType'=> \App\Models\Video::class
+                                ], key('video-vote-'.$currentVideo['id']))
+
+                            </div>
+
+                            {{-- Rating --}}
+                            <div class="flex items-center justify-between sm:justify-start gap-4 bg-gray-50 sm:bg-transparent px-3 py-2 sm:p-0 rounded-xl sm:rounded-none shadow-sm sm:shadow-none">
+
+                                <livewire:rating-panel
+                                    :resource-id="$course['id']"
+                                    :resource-type="\App\Models\Course::class"
+                                    :key="'course-rating-'.$course['id']"
+                                />
+
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
 
                 {{-- Video --}}

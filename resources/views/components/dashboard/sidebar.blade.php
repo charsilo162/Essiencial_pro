@@ -31,5 +31,27 @@
                 <x-dashboard.nav-link label="Categories" url="{{ route('category.index') }}" />
             @endif
 
+            <div class="mt-auto pt-10">
+    <a href="#" 
+       onclick="event.preventDefault(); logoutUser();" 
+       class="flex items-center px-4 py-2 text-gray-300 hover:bg-red-500 hover:text-white rounded-md transition">
+        <span>Logout</span>
+    </a>
+</div>
+
     </nav>
 </aside>
+<script>
+function logoutUser() {
+    fetch('http://127.0.0.1:8001/api/logout', {
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer {{ session('api_token') }}',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            'Accept': 'application/json'
+        }
+    }).finally(() => {
+        window.location = '/clear-session';
+    });
+}
+</script>

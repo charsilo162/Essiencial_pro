@@ -85,10 +85,10 @@
         @if(session('user'))
         @if ($course['price_formatted'] === 'Free')
               <a
-                href="{{ route('course.watch', $course['slug']) }}"
+                href="{{ route('center.show', $center['id']) }}"
                 class="px-6 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium"
             >
-               Watch Now
+               View Details
             </a>
        @else
            <a

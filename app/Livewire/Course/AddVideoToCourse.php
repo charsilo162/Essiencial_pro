@@ -47,7 +47,8 @@ class AddVideoToCourse extends Component
     public function loadCourses()
     {
         try {
-            $response = $this->api->get('courses'); // Assume API endpoint '/courses' returns a list of courses with 'id', 'title', 'videos_count'
+            $response = $this->api->get('admin/courses'); // Assume API endpoint '/courses' returns a list of courses with 'id', 'title', 'videos_count'
+           // dd($response);
             $this->courses = collect($response['data'] ?? $response)
                 ->map(function ($c) {
                     return [

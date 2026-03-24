@@ -97,7 +97,7 @@ class CourseController extends Controller
         $course = $response['data'] ?? $response;
 
         $center = collect($course['centers'] ?? [])->firstWhere('id', $centerId);
-       // dd($course);
+       // dd($center);
         if (!$center || !in_array($course['type'], ['physical', 'hybrid'])) {
             abort(404);
         }

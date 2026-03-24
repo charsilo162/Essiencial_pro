@@ -32,36 +32,41 @@ class RatingPanel extends Component
         $this->refresh();
     }
 
-    public function refresh()
-    {
-        $data = $this->api->get('ratings', [
-            'resource_type' => $this->rateableType,
-            'resource_id'   => $this->rateableId,
-        ]);
+public function refresh()
+{
+    $data = $this->api->get('ratings/loginshow', [
+        'resource_type' => $this->rateableType,
+        'resource_id'   => $this->rateableId,
+    ]);
 
-        $this->average    = $data['average'] ?? 0;
-        $this->count      = $data['count'] ?? 0;
-        $this->userRating = $data['user_rating'] ?? null;
-    }
+    //dd($data); // check response
+
+    $this->average    = $data['average'] ?? 0;
+    $this->count      = $data['count'] ?? 0;
+    $this->userRating = $data['user_rating'] ?? null;
+}
+
 
     public function rate($value)
-    {
-        // dd($value);
-        if (!session('user')) {
-            $this->dispatch('toast', 'Please log in to rate.');
-            return;
+        {
+            if (!session('user')) {
+                $this->dispatch('toast', 'Please log in to rate.');
+                return;
+            }
+
+            $this->api->post('ratings/rate', [
+                'resource_type' => $this->rateableType,
+                'resource_id'   => $this->rateableId,
+                'rating'        => $value,
+            ]);
+
+            // instantly update UI
+            $this->userRating = $value;
+
+            $this->refresh();
+
+            $this->dispatch('toast', 'Thanks for rating!');
         }
-
-      $dd =  $this->api->post('ratings/rate', [
-            'resource_type' => $this->rateableType,
-            'resource_id'   => $this->rateableId,
-            'rating'        => $value,
-        ]);
-//  dd($dd);
-        $this->refresh();
-        $this->dispatch('toast', 'Thanks for rating!');
-    }
-
     public function render()
     {
         return view('livewire.rating-panel');
