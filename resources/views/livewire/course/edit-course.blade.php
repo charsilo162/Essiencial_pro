@@ -1,115 +1,146 @@
 <x-livewire.modal-form title="Edit Course" submit-action="updateCourse" submit-button-text="Update">
-    
+   
     {{-- 1. Category Selector --}}
-    <div class="mb-4">
-       <livewire:category.category-search-select :initialId="$category_id" 
+    <div class="mb-5">
+       <livewire:category.category-search-select :initialId="$category_id"
         wire:key="edit-course-category-select-{{ $courseId ?? 'new' }}"/>
         @error('category_id') <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span> @enderror
-       </div>
+    </div>
 
     {{-- Publish Toggle --}}
-    <div class="mb-4">
+    <div class="mb-5">
         <label class="flex items-center space-x-3">
-            <input type="checkbox" 
-                   wire:model.live="publish" 
-                   class="w-5 h-5 text-orange-600 rounded focus:ring-orange-500">
+            <input type="checkbox" wire:model.live="publish" class="w-5 h-5 text-orange-600 rounded focus:ring-orange-500">
             <span class="text-sm font-medium text-gray-700">Publish Course</span>
         </label>
         <p class="mt-1 text-xs text-gray-500">
             @if($publish)
-                This course is <span class="font-semibold text-green-600">published</span> and visible to users.
+                This course is <span class="font-semibold text-green-600">published</span>
             @else
-                This course is <span class="font-semibold text-gray-600">draft</span> and hidden.
+                This course is <span class="font-semibold text-gray-600">draft</span>
             @endif
         </p>
     </div>
 
-    {{-- 2. Title Field --}}
-    <div class="mb-4">
-        <label for="course-title-edit" class="block text-sm font-medium text-gray-700">Title</label>
-        <input type="text" id="course-title-edit" wire:model.defer="title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black sm:text-sm">
+    {{-- 2. Title --}}
+    <div class="mb-5">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Title</label>
+        <input type="text" wire:model.defer="title" 
+               class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 py-3 px-4 text-base">
         @error('title') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
     </div>
-   <div class="mb-4">
-        <label for="course-price-edit" class="block text-sm font-medium text-gray-700">Price Amount (₦)</label>
-        <input type="number" id="course-price-edit" wire:model.defer="price_amount" step="0.01" min="0" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black sm:text-sm">
+
+    {{-- Price --}}
+    <div class="mb-5">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Price Amount (₦)</label>
+        <input type="number" wire:model.defer="price_amount" step="0.01" min="0"
+               class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 py-3 px-4 text-base">
         @error('price_amount') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
     </div>
-    {{-- 3. Course Type --}}
-    <div class="mb-4">
+
+    {{-- Course Type --}}
+    <div class="mb-5">
         <label class="block text-sm font-medium text-gray-700 mb-2">Course Type</label>
-        <div class="flex items-center space-x-4">
+        <div class="flex items-center space-x-6">
             <label class="inline-flex items-center">
-                <input type="radio" wire:model.live="type" value="online" class="form-radio text-black focus:ring-black h-4 w-4">
-                <span class="ml-2 text-gray-700">Online</span>
+                <input type="radio" wire:model.live="type" value="online" class="form-radio text-orange-500 h-5 w-5">
+                <span class="ml-2 text-gray-700 text-base">Online</span>
             </label>
             <label class="inline-flex items-center">
-                <input type="radio" wire:model.live="type" value="physical" class="form-radio text-black focus:ring-black h-4 w-4">
-                <span class="ml-2 text-gray-700">Physical</span>
+                <input type="radio" wire:model.live="type" value="physical" class="form-radio text-orange-500 h-5 w-5">
+                <span class="ml-2 text-gray-700 text-base">Physical</span>
             </label>
         </div>
-        @error('type') <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span> @enderror
     </div>
 
-    {{-- 4. Center Selector (Conditional) --}}
+    {{-- Center Selector --}}
     @if ($type === 'physical')
-        <div class="mb-4" wire:ignore>
-            <livewire:center-search-select :initialId="$center_id" />
+        <div class="mb-5" wire:ignore>
+            <livewire:center-search-select :initialId="$center_id" wire:key="center-select-{{ $courseId }}"/>
         </div>
-        @error('center_id') 
-            <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span>
-        @enderror
+        @error('center_id') <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span> @enderror
     @endif
 
-    {{-- 5. Description Field --}}
-    <div class="mb-4">
-        <label for="course-desc-edit" class="block text-sm font-medium text-gray-700">Description</label>
-        <textarea id="course-desc-edit" wire:model.defer="description" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-black focus:ring-black sm:text-sm"></textarea>
+    {{-- Description --}}
+    <div class="mb-5">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+        <textarea wire:model.defer="description" rows="4"
+                  class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 py-3 px-4 text-base resize-y"></textarea>
         @error('description') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
     </div>
-    
-    {{-- 6. Image Thumbnail Field --}}
-    <div class="mb-4" x-data="{ isUploading: false, preview: null, file: null }" 
-         x-on:livewire-upload-start="isUploading = true"
-         x-on:livewire-upload-finish="isUploading = false"
-         x-on:livewire-upload-error="isUploading = false"
-         x-on:livewire-upload-progress="progress = $event.detail.progress">
 
-        <label for="course-thumb-edit" class="block text-sm font-medium text-gray-700">Image Thumbnail</label>
+    {{-- 🔥 ABOUT THIS COURSE (Dynamic) --}}
+    <div class="mb-6">
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+            About This Course <span class="text-red-500">*</span>
+        </label>
         
-        <input 
-            type="file" 
-            id="course-thumb-edit" 
-            wire:model="image_thumb" 
-            x-on:change="
-                file = $event.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = (e) => { preview = e.target.result; };
-                    reader.readAsDataURL(file);
-                } else {
-                    preview = null;
-                }
-            "
-            class="mt-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
-        >
-
-        @error('image_thumb') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-        
-        <div x-show="preview" class="mt-3 w-32 h-32 border border-gray-200 rounded-lg overflow-hidden">
-            <img :src="preview" alt="New Thumbnail Preview" class="w-full h-full object-cover">
+        <div class="space-y-4">
+            @foreach($about_course as $index => $point)
+                <div class="flex gap-3 items-start">
+                    <div class="flex-1">
+                        <textarea 
+                            wire:model="about_course.{{ $index }}"
+                            rows="2"
+                            placeholder="e.g. Learn modern UI/UX design principles with real projects"
+                            class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 py-3 px-4 text-base resize-y min-h-[52px]">
+                        </textarea>
+                        @error("about_course.{$index}")
+                            <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    
+                    <button 
+                        type="button"
+                        wire:click="removeAboutPoint({{ $index }})"
+                        class="mt-2 text-red-500 hover:text-red-700"
+                        @if(count($about_course) === 1) disabled @endif>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6h12v12" />
+                        </svg>
+                    </button>
+                </div>
+            @endforeach
         </div>
 
-        {{-- FIXED: Use array syntax, not object --}}
-        @if (!empty($course['image_thumbnail_url']))
-            <div x-show="!preview" class="mt-3 w-32 h-32 border border-gray-200 rounded-lg overflow-hidden">
-                <img src="{{ asset('storage/' . $course['image_thumbnail_url']) }}" alt="Current Thumbnail" class="w-full h-full object-cover">
+        <button 
+            type="button"
+            wire:click="addAboutPoint"
+            class="mt-4 inline-flex items-center gap-2 text-orange-600 hover:text-orange-700 font-medium">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+            Add Another Point
+        </button>
+
+        @error('about_course') 
+            <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span> 
+        @enderror
+    </div>
+
+    {{-- Image Thumbnail --}}
+    <div class="mb-4" x-data="{ isUploading: false, preview: null }">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Image Thumbnail</label>
+        
+        <input type="file" wire:model="image_thumb"
+               class="block w-full text-base border border-gray-300 rounded-lg bg-gray-50 py-3 px-4">
+
+        @error('image_thumb') 
+            <span class="text-red-500 text-sm">{{ $message }}</span> 
+        @enderror
+
+        <!-- Current Image -->
+        @if($current_image_url && !$image_thumb)
+            <div class="mt-3">
+                <p class="text-xs text-gray-500 mb-1">Current Image:</p>
+                <img src="{{ $current_image_url }}" class="w-40 h-32 object-cover rounded-lg border">
             </div>
         @endif
 
-        <div x-show="isUploading" class="mt-2">
-            <progress max="100" :value="progress"></progress>
+        <!-- New Preview -->
+        <div x-show="preview" class="mt-3">
+            <img :src="preview" class="w-40 h-32 object-cover rounded-lg border">
         </div>
     </div>
-    
+
 </x-livewire.modal-form>

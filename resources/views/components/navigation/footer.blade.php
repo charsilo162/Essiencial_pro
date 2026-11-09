@@ -24,7 +24,7 @@
 
             <div>
                 <h4 class="text-lg font-semibold mb-4">Contact</h4>
-                <p class="text-sm">3 Walker Street, Edinburgh, EH3 7JY</p>
+                <p class="text-sm">Address: 24 Iyalla Street, Lagos State.</p>
             </div>
 
       

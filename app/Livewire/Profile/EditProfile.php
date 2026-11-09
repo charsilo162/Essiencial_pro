@@ -115,7 +115,7 @@ class EditProfile extends Component
         // 2. UPDATE COMPONENT STATE: So the modal looks correct if reopened
         $this->currentUser = $response['user'];
         $this->currentPhotoUrl = $response['user']['photo_path'] ?? null;
-
+       //dd( $response['user']);
         $this->showModal = false;
 
         // 3. TELL THE REST OF THE PAGE: 

@@ -24,11 +24,11 @@
                 <div class="mt-10 flex flex-col sm:flex-row justify-center gap-6 fade-in animation-delay-1000">
                     <div class="flex items-center justify-center gap-3 bg-white/10 backdrop-blur-sm rounded-full px-8 py-4">
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>
-                        <span class="font-medium">essentialnews65@gmail.com</span>
+                        <span class="font-medium">Etrainingacademy@gmail.com</span>
                     </div>
                     <div class="flex items-center justify-center gap-3 bg-white/10 backdrop-blur-sm rounded-full px-8 py-4">
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7 2a1 1 0 00-.707 1.707L7 4.414v3.172a3 3 0 01-.879 2.12l-3.828 3.83a1 1 0 001.414 1.414l3.828-3.83a3 3 0 012.12-.879h3.172l.707.707a1 1 0 101.414-1.414L14.586 9H11.414a1 1 0 00-.707.293l-3.828 3.83a1 1 0 101.414 1.414l3.828-3.83A3 3 0 0014 9.586V6.414l.707-.707A1 1 0 1016.414 4L15 5.414V4a1 1 0 00-1-1H7z" clip-rule="evenodd"/></svg>
-                        <span class="font-medium">+234 123-4567</span>
+                        <span class="font-medium">09055556666</span>
                     </div>
                 </div>
             </div>
@@ -82,24 +82,38 @@
                     </div>
 
                     <!-- Social Card – unchanged but clean -->
+                    <!-- Social Card – Updated with target link links -->
                     <div class="bg-white rounded-3xl p-8 shadow-2xl border border-gray-100">
                         <h3 class="text-2xl font-bold text-gray-900 mb-8">Follow Us</h3>
                         <div class="grid grid-cols-3 gap-6">
+                            
+                            {{-- Facebook --}}
                             <a href="#" class="group text-center transform hover:scale-110 transition">
-                                <div class="w-16 h-16 mx-auto bg-gradient-to-br from-[#6A3318] to-[#6A4E0F] rounded-2xl flex items-center justify-center shadow-lg"><span class="text-2xl text-white font-bold">f</span></div>
-                                <p class="mt-3 text-sm text-gray-600">Facebook</p>
+                                <div class="w-16 h-16 mx-auto bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl flex items-center justify-center shadow-lg">
+                                    <span class="text-2xl text-blue-600 font-bold">f</span>
+                                </div>
+                                <p class="mt-3 text-sm text-gray-600 group-hover:text-blue-600 font-medium transition-colors">Facebook</p>
                             </a>
-                            <a href="#" class="group text-center transform hover:scale-110 transition">
-                                <div class="w-16 h-16 mx-auto bg-gradient-to-br from-[#661437] to-pink-600 rounded-2xl flex items-center justify-center shadow-lg"><span class="text-2xl text-white font-bold">IG</span></div>
-                                <p class="mt-3 text-sm text-gray-600">Instagram</p>
+
+                            {{-- X (Twitter) --}}
+                            <a href="https://x.com/essentialacademyng" target="_blank" rel="noopener noreferrer" class="group text-center transform hover:scale-110 transition">
+                                <div class="w-16 h-16 mx-auto bg-gradient-to-br from-slate-900 to-black rounded-2xl flex items-center justify-center shadow-lg">
+                                    <span class="text-2xl text-gray-600 font-bold">X</span>
+                                </div>
+                                <p class="mt-3 text-sm text-gray-600 group-hover:text-black font-medium transition-colors">X App</p>
                             </a>
-                            <a href="#" class="group text-center transform hover:scale-110 transition">
-                                <div class="w-16 h-16 mx-auto bg-gradient-to-br from-[#6A3318] to-[#6A4E0F] rounded-2xl flex items-center justify-center shadow-lg"><span class="text-2xl text-white font-bold">YT</span></div>
-                                <p class="mt-3 text-sm text-gray-600">YouTube</p>
+
+                            {{-- Instagram Reel --}}
+                            <a href="https://www.instagram.com/reel/DZ4VCJYtOUi/?igsh=MXE4a3Y4ZmlyeWJxcg==" target="_blank" rel="noopener noreferrer" class="group text-center transform hover:scale-110 transition">
+                                <div class="w-16 h-16 mx-auto bg-gradient-to-br from-[#833AB4] via-[#E1306C] to-[#FCAF45] rounded-2xl flex items-center justify-center shadow-lg">
+                                    <span class="text-2xl text-gray-600 font-bold">IG</span>
+                                </div>
+                                <p class="mt-3 text-sm text-gray-600 group-hover:text-pink-600 font-medium transition-colors">Instagram</p>
                             </a>
+                            
                         </div>
                     </div>
-                </div>
+                 </div>
             </div>
         </div>
     </div>

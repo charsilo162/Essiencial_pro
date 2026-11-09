@@ -1,7 +1,7 @@
 <div>
-    <!-- Search Box -->
-    <div class="mb-6">
-        <div class="relative max-w-md mx-auto">
+    <div class="mb-6 flex flex-col md:flex-row gap-4 items-center justify-between max-w-4xl mx-auto">
+        
+        <div class="relative w-full md:flex-1">
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
@@ -12,14 +12,13 @@
                 type="text" 
                 wire:model.live.debounce.300ms="search"
                 wire:keydown.enter.prevent
-                class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl 
+                class="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-xl 
                        focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent
                        shadow-sm text-gray-900 placeholder-gray-500
                        transition duration-200"
                 placeholder="Search your courses by title..."
                 autocomplete="off"
             >
-            <!-- Clear button when search has value -->
             @if($search)
                 <button 
                     wire:click="$set('search', '')"
@@ -31,93 +30,109 @@
             @endif
         </div>
 
-        <!-- Search results count -->
-        @if($search)
-            <div class="mt-2 text-center text-sm text-gray-600">
-                Searching for: <span class="font-semibold text-orange-600">"{{ $search }}"</span>
-                <span class="ml-2">
-                    ({{ $courses->total() }} {{ Str::plural('result', $courses->total()) }})
-                </span>
-            </div>
-        @endif
+        <div class="w-full md:w-48">
+            <select 
+                wire:model.live="publishStatus"
+                class="block w-full px-3 py-3 border border-gray-300 rounded-xl 
+                       focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent
+                       shadow-sm text-gray-900 bg-white cursor-pointer
+                       transition duration-200"
+            >
+                <option value="">All Statuses</option>
+                <option value="published">Live / Published</option>
+                <option value="unpublished">Draft / Unpublished</option>
+            </select>
+        </div>
     </div>
 
-    <!-- Courses Grid -->
-<div class="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6">
-    @forelse ($courses as $course)
-        <div class="relative flex flex-col bg-gradient-to-br from-orange-50 via-yellow-50 to-blue-50
-                    rounded-2xl border border-orange-200 shadow-sm
-                    hover:shadow-lg transition group overflow-hidden">
+    @if($search || $publishStatus)
+        <div class="mb-4 text-center text-sm text-gray-600">
+            @if($search)
+                Searching for: <span class="font-semibold text-orange-600">"{{ $search }}"</span>
+            @endif
+            @if($publishStatus)
+                <span class="{{ $search ? 'ml-2' : '' }}">
+                    Status: <span class="font-semibold text-orange-600">{{ ucfirst($publishStatus) }}</span>
+                </span>
+            @endif
+            <span class="ml-2 text-gray-500">
+                ({{ $courses->total() }} {{ Str::plural('result', $courses->total()) }} found)
+            </span>
+        </div>
+    @endif
 
-            <div class="relative h-48 w-full overflow-hidden bg-black">
-                <img
-                    src="{{ $course['image_thumbnail_url'] ?? asset('storage/default_course.png') }}"
-                    alt="{{ $course['title'] }}"
-                    class="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-300">
+    <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        @forelse ($courses as $course)
+            <div class="relative flex flex-col bg-gradient-to-br from-orange-50 via-yellow-50 to-blue-50
+                        rounded-2xl border border-orange-200 shadow-sm
+                        hover:shadow-lg transition group overflow-hidden">
 
-             <div class="absolute top-3 right-3 flex gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 
-                     transition-opacity z-10">
-                    <button
-                        wire:click="$dispatch('openEditCourseModal', { courseId: {{ $course['id'] }} })"
-                        class="bg-white/90 backdrop-blur p-3 md:p-2 rounded-full shadow hover:bg-white text-gray-700">
-                        ✏️
-                        </button>
+                <div class="relative h-48 w-full overflow-hidden bg-black">
+                    <img
+                        src="{{ $course['image_thumbnail_url'] ?? asset('storage/default_course.png') }}"
+                        alt="{{ $course['title'] }}"
+                        class="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-300">
 
-
-                    <button
-                        wire:click="confirmDelete({{ $course['id'] }})"
-                        class="bg-white/90 backdrop-blur p-2 rounded-full shadow hover:bg-red-50 text-red-600">
-                        🗑️
-                    </button>
-                </div>
-            </div>
-
-            <div class="flex flex-col flex-1 p-4">
-                <div class="mb-3">
-                    <h3 class="text-sm font-bold text-gray-800 leading-tight line-clamp-2 h-10"
-                        title="{{ $course['title'] }}">
-                        {{ $course['title'] }}
-                    </h3>
-
-                    <span class="mt-2 inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider
-                        {{ $course['publish'] ? 'bg-green-100 text-green-700' : 'bg-gray-200 text-gray-600' }}">
-                        {{ $course['publish'] ? 'Live' : 'Draft' }}
-                    </span>
-                </div>
-
-                <div class="flex-1"></div>
-
-                <div class="pt-3 border-t border-orange-100 mt-auto">
-                    <div class="flex flex-wrap items-center justify-between gap-2">
+                    <div class="absolute top-3 right-3 flex gap-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 
+                                 transition-opacity z-10">
                         <button
-                            wire:click="togglePublish({{ $course['id'] }})"
-                            wire:loading.attr="disabled"
-                            class="whitespace-nowrap px-3 py-1.5 text-[10px] sm:text-[11px] font-bold rounded-lg transition-colors min-w-[80px]
-                            {{ $course['publish']
-                                ? 'bg-red-50 text-red-600 hover:bg-red-100'
-                                : 'bg-green-50 text-green-600 hover:bg-green-100' }}">
-                            
-                            <span wire:loading wire:target="togglePublish({{ $course['id'] }})" class="mr-1">...</span>
-                            {{ $course['publish'] ? 'Unpublish' : 'Publish' }}
+                            wire:click="$dispatch('openEditCourseModal', { courseId: {{ $course['id'] }} })"
+                            class="bg-white/90 backdrop-blur p-3 md:p-2 rounded-full shadow hover:bg-white text-gray-700">
+                            ✏️
                         </button>
 
-                        <span class="text-gray-900 font-extrabold text-xs sm:text-sm whitespace-nowrap ml-auto">
-                            {{ $course['price_formatted'] ?? 'Free' }}
+                        <button
+                            wire:click="confirmDelete({{ $course['id'] }})"
+                            class="bg-white/90 backdrop-blur p-2 rounded-full shadow hover:bg-red-50 text-red-600">
+                            🗑️
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex flex-col flex-1 p-4">
+                    <div class="mb-3">
+                        <h3 class="text-sm font-bold text-gray-800 leading-tight line-clamp-2 h-10"
+                            title="{{ $course['title'] }}">
+                            {{ $course['title'] }}
+                        </h3>
+
+                        <span class="mt-2 inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider
+                            {{ $course['publish'] ? 'bg-green-100 text-green-700' : 'bg-gray-200 text-gray-600' }}">
+                            {{ $course['publish'] ? 'Live' : 'Draft' }}
                         </span>
+                    </div>
+
+                    <div class="flex-1"></div>
+
+                    <div class="pt-3 border-t border-orange-100 mt-auto">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <button
+                                wire:click="togglePublish({{ $course['id'] }})"
+                                wire:loading.attr="disabled"
+                                class="whitespace-nowrap px-3 py-1.5 text-[10px] sm:text-[11px] font-bold rounded-lg transition-colors min-w-[80px]
+                                {{ $course['publish']
+                                    ? 'bg-red-50 text-red-600 hover:bg-red-100'
+                                    : 'bg-green-50 text-green-600 hover:bg-green-100' }}">
+                                
+                                <span wire:loading wire:target="togglePublish({{ $course['id'] }})" class="mr-1">...</span>
+                                {{ $course['publish'] ? 'Unpublish' : 'Publish' }}
+                            </button>
+
+                            <span class="text-gray-900 font-extrabold text-xs sm:text-sm whitespace-nowrap ml-auto">
+                                {{ $course['price_formatted'] ?? 'Free' }}
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    @empty
-        <div class="col-span-full text-center py-12 text-gray-500 bg-white rounded-2xl border border-dashed border-gray-300">
-            <div class="text-4xl mb-3">📚</div>
-            <p>No courses found matching your criteria.</p>
-        </div>
-    @endforelse
-</div>
+        @empty
+            <div class="col-span-full text-center py-12 text-gray-500 bg-white rounded-2xl border border-dashed border-gray-300">
+                <div class="text-4xl mb-3">📚</div>
+                <p>No courses found matching your criteria.</p>
+            </div>
+        @endforelse
+    </div>
 
-
-    <!-- Pagination Links -->
     @if($courses->hasPages())
         <div class="mt-8 flex justify-center">
             {{ $courses->onEachSide(1)->links() }}

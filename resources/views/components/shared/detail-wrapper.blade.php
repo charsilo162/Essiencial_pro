@@ -22,20 +22,20 @@
 
                 {{-- IMAGE --}}
                 <div class="lg:col-span-2">
-                    <div class="aspect-video rounded-xl overflow-hidden bg-gray-100">
-                        <img 
-                            src="{{ $imageUrl }}" 
-                            alt="{{ $title }}"
-                            class="w-full h-full object-cover"
-                        />
-                    </div>
+    <div class="rounded-2xl overflow-hidden bg-gray-100">
+        <img 
+            src="{{ $imageUrl }}" 
+            alt="{{ $title }}"
+            class="w-full h-auto max-h-[460px] object-contain mx-auto"
+        />
+    </div>
 
-                    @if ($badgeText)
-                        <span class="inline-block mt-3 px-3 py-1 text-xs font-semibold bg-orange-100 text-orange-700 rounded-full">
-                            {{ $badgeText }}
-                        </span>
-                    @endif
-                </div>
+    @if ($badgeText)
+        <span class="inline-block mt-3 px-3 py-1 text-xs font-semibold bg-orange-100 text-orange-700 rounded-full">
+            {{ $badgeText }}
+        </span>
+    @endif
+</div>
 
                 {{-- CONTENT --}}
                 <div class="lg:col-span-3 space-y-5">

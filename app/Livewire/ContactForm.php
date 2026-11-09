@@ -27,28 +27,37 @@ class ContactForm extends Component
         $this->validateOnly($propertyName);
     }
 
-    public function sendMessage()
-    {
-        $this->validate();
-//dd('dd');
-        // Convert message to HTML using Markdown
-        $markdownMessage = Str::markdown($this->message);
+            public function sendMessage()
+            {
+                $this->validate();
 
-        // Send email (assuming you have a Mailable set up)
-        Mail::to('support@esencialacademy.com')->send(new ContactMessage(
-            $this->name,
-            $this->email,
-            $this->subject,
-            $markdownMessage
-        ));
+                // Convert message to HTML using Markdown
+                $markdownMessage = Str::markdown($this->message);
 
-        // Flash success message
-        session()->flash('success', 'Your message has been sent successfully!');
+                try {
+                    Mail::to('support@esencialacademy.com')->send(new ContactMessage(
+                        $this->name,
+                        $this->email,
+                        $this->subject,
+                        $markdownMessage
+                    ));
 
-        // Reset form fields
-        $this->reset(['name', 'email', 'subject', 'message']);
-    }
+                    // Success
+                    session()->flash('success', 'Your message has been sent successfully!');
+                    $this->reset(['name', 'email', 'subject', 'message']);
 
+                } catch (\Symfony\Component\Mailer\Exception\TransportException $e) {
+                    // SMTP / authentication problems (the one you are seeing)
+                    session()->flash('error', 'Sorry, we could not send your message right now. Please try again later or contact us directly.');
+                    // Optional: log the real error for yourself
+                    \Log::error('Mail transport error: ' . $e->getMessage());
+
+                } catch (\Exception $e) {
+                    // Any other unexpected error
+                    session()->flash('error', 'An unexpected error occurred. Please try again later.');
+                    // \Log::error('Contact form error: ' . $e->getMessage());
+                }
+            }
     public function render()
     {
         // dd(dd);

@@ -1,3 +1,4 @@
+@php $role = session('user.role') ?? session('user.type') ?? ''; @endphp
 <aside
     class="fixed inset-y-0 left-0 z-40 w-64
            transform transition-transform duration-300 ease-in-out
@@ -43,8 +44,32 @@
             >
                 Categories
             </x-dashboard.nav-link>
+            @if($role === 'agent')
+    <x-dashboard.nav-link
+        href="{{ route('agent.dashboard') }}"
+        :active="request()->routeIs('agent.dashboard')"
+    >
+        My Dashboard
+    </x-dashboard.nav-link>
 
-             @if((session('user.role') ?? session('user.type') ?? '') !== 'user')
+    <x-dashboard.nav-link
+        href="{{ route('agent.register-user') }}"
+        :active="request()->routeIs('agent.register-user')"
+    >
+        Register a User
+    </x-dashboard.nav-link>
+@endif
+
+@if($role === 'admin')
+    <x-dashboard.nav-link
+        href="{{ route('admin.agents') }}"
+        :active="request()->routeIs('admin.agents')"
+    >
+        Agents
+    </x-dashboard.nav-link>
+@endif
+
+             @if(!in_array($role, ['user', 'agent']))
 
             <x-dashboard.nav-link
                 href="{{ route('category.list') }}"
@@ -81,7 +106,7 @@
                 Videos
             </x-dashboard.nav-link>
 @endif
-               @if((session('user.role') ?? session('user.type') ?? '') !== 'user')
+               @if(!in_array($role, ['user', 'agent']))
             <div class="pt-4 space-y-3 border-t border-gray-200 dark:border-gray-700">
                
                 <livewire:post-center-button />

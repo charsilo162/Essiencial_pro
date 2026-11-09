@@ -28,7 +28,7 @@ class CourseWatch extends Component
 {
     
     $response = $this->api->get("courses/{$slug}/watch");
-// dd($response);
+         //dd($response);
     if (isset($response['message']) && str_contains($response['message'], 'enrolled')) {
         return redirect()->route('category.index')->with('error', 'You must enroll to watch this course.');
     }

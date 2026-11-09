@@ -20,6 +20,7 @@ class DashboardStats extends Component
     {
         // Fetch stats from the /stats endpoint
         $response = $this->api->get('stats');
+        //dd($response);
         $this->stats = $response['data'];
     }
 

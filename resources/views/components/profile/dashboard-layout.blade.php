@@ -15,7 +15,7 @@
                     <div class="flex items-start space-x-4">
                         <div class="shrink-0">
                             <img class="h-16 w-16 rounded-full object-cover"
-                                 src="{{ asset(session('user.photo_path')) }}" alt="Ishola Balogun">
+                                 src="{{ asset(session('user.photo_url')) }}" alt="Ishola Balogun">
                         </div>
                         <div class="flex flex-col">
                             <h1 class="text-xl font-semibold text-gray-800">   {{ session('user.name') }}</h1>

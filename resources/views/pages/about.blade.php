@@ -27,7 +27,7 @@
                 </p>
                 <div class="mt-12 fade-in animation-delay-1000">
                     <span class="inline-block px-10 py-5 bg-white/20 backdrop-blur-md rounded-full text-2xl font-bold border border-white/30">
-                        Trusted by 250,000+ Learners Worldwide
+                        Trusted by 50+ Learners Online
                     </span>
                 </div>
             </div>

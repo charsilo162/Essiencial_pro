@@ -10,7 +10,7 @@
     {{-- SECTION TITLE — now with warm gradient underline --}}
     <div class="mb-10 text-center">
         <h2 class="text-3xl font-extrabold text-gray-900 tracking-tight">
-            {{ $title }}
+            {{ $title }} 
         </h2>
         <div class="w-24 mx-auto mt-2 h-1 bg-gradient-to-r from-orange-500 via-pink-500 to-yellow-400 rounded-full"></div>
     </div>
@@ -31,10 +31,10 @@
                 <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-400 via-pink-500 to-yellow-400"></div>
 
                 {{-- IMAGE — exact same h-48 and behavior --}}
-                <div class="overflow-hidden">
+               <div class="overflow-hidden aspect-[16/9] rounded-t-2xl">   <!-- Change ratio as needed -->
                     <img src="{{ $item['image_thumbnail_url'] ?? asset('storage/img2.jpg') }}"
-                         class="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110"
-                         alt="{{ $item['title'] }}">
+                        class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        alt="{{ $item['title'] }}">
                 </div>
 
                 {{-- BODY — exact same p-5 and spacing --}}

@@ -13,11 +13,14 @@ class PostCourse extends Component
     public $category_id;
     public $title;
     public $price_amount;
+    public $showModal = false;
     public $description;
     public $image_thumb;
     public $type = 'online';
     public $center_id = null;
-    public $showModal = false;
+
+    // 🔥 New: Dynamic "About the Course" field
+    public $about_course = [];
 
     protected $listeners = [
         'openPostCourseModal' => 'openModal',
@@ -32,28 +35,27 @@ class PostCourse extends Component
         $this->api = app(ApiService::class);
     }
 
-   public function openModal()
-        {
-            $this->reset([
-                'category_id',
-                'title',
-                'price_amount',
-                'description',
-                'image_thumb',
-                'type',
-                'center_id',
-            ]);
+    public function openModal()
+    {
+        $this->reset([
+            'category_id',
+            'title',
+            'price_amount',
+            'description',
+            'image_thumb',
+            'type',
+            'center_id',
+            'about_course'
+        ]);
 
-            // Restore default values
-            $this->type = 'online';
+        $this->type = 'online';
+        $this->about_course = ['']; // Start with one empty field
 
-            // Clear validation + error states
-            $this->resetErrorBag();
-            $this->resetValidation();
+        $this->resetErrorBag();
+        $this->resetValidation();
 
-            $this->showModal = true;
-        }
-
+        $this->showModal = true;
+    }
 
     public function setCategory($categoryId)
     {
@@ -72,31 +74,53 @@ class PostCourse extends Component
         }
     }
 
+    // Add new point
+    public function addAboutPoint()
+    {
+        $this->about_course[] = '';
+    }
+
+    // Remove point
+    public function removeAboutPoint($index)
+    {
+        unset($this->about_course[$index]);
+        $this->about_course = array_values($this->about_course);
+    }
+
     public function rules()
     {
         return [
-            'category_id' => 'required|integer',
-            'title' => 'required|string|max:100',
-            'description' => 'required|string',
-            'type' => 'required|in:online,physical',
-            'price_amount' => 'required|numeric',
-            'center_id' => $this->type === 'physical' ? 'required|integer' : 'nullable',
-            'image_thumb' => 'nullable|image|max:2048',
+            'category_id'   => 'required|integer',
+            'title'         => 'required|string|max:100',
+            'description'   => 'required|string',
+            'about_course'  => 'required|array|min:1',
+            'about_course.*'=> 'required|string|min:5|max:500',
+            'type'          => 'required|in:online,physical',
+            'price_amount'  => 'required|numeric|min:0',
+            'center_id'     => $this->type === 'physical' ? 'required|integer' : 'nullable',
+            'image_thumb'   => 'nullable|image|max:2048',
         ];
     }
 
-   public function postCourse()
+public function postCourse()
 {
     $this->validate();
 
-    // Multipart payload
     $data = [
-        ['name' => 'category_id', 'contents' => $this->category_id],
-        ['name' => 'title', 'contents' => $this->title],
-        ['name' => 'price_amount', 'contents' => $this->price_amount],
-        ['name' => 'description', 'contents' => $this->description],
-        ['name' => 'type', 'contents' => $this->type],
+        ['name' => 'category_id',   'contents' => $this->category_id],
+        ['name' => 'title',         'contents' => $this->title],
+        ['name' => 'price_amount',  'contents' => $this->price_amount],
+        ['name' => 'description',   'contents' => $this->description],
+        ['name' => 'type',          'contents' => $this->type],
     ];
+
+    // 🔥 Send about_course as proper array for multipart
+    foreach ($this->about_course as $index => $point) {
+        $data[] = [
+            'name'     => "about_course[{$index}]",
+            'contents' => $point
+        ];
+    }
 
     if ($this->type === 'physical' && $this->center_id) {
         $data[] = ['name' => 'center_id', 'contents' => $this->center_id];
@@ -111,37 +135,29 @@ class PostCourse extends Component
     }
 
     try {
-        $this->api->postWithFile('courses', $data);
+        $response = $this->api->postWithFile('courses', $data);
 
         $this->dispatch('course-updated');
         $this->dispatch('toast', message: 'Course posted successfully!', type: 'success');
 
-        // 🔥 FULL RESET AFTER SUCCESS
+        // Reset
         $this->reset([
-            'category_id',
-            'title',
-            'price_amount',
-            'description',
-            'image_thumb',
-            'type',
-            'center_id',
+            'category_id', 'title', 'price_amount', 'description',
+            'image_thumb', 'type', 'center_id', 'about_course'
         ]);
 
         $this->type = 'online';
+        $this->about_course = [''];
+
         $this->resetErrorBag();
         $this->resetValidation();
 
         $this->showModal = false;
 
     } catch (\Exception $e) {
-        $this->dispatch(
-            'toast',
-            message: 'Failed to post course: ' . $e->getMessage(),
-            type: 'error'
-        );
+        $this->dispatch('toast', message: 'Failed to post course: ' . $e->getMessage(), type: 'error');
     }
 }
-
 
     public function render()
     {

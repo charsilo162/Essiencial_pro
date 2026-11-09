@@ -37,7 +37,7 @@
 
 
     <!-- CATEGORIES ------------------------------------------------------ -->
-    <section class="py-10 bg-white text-center fade-in">
+    {{-- <section class="py-10 bg-white text-center fade-in">
         <div class="flex flex-wrap justify-center gap-4 md:gap-6 font-semibold text-gray-700">
             <a class="hover:text-blue-600">Creative</a>
             <a class="hover:text-blue-600">Development</a>
@@ -45,13 +45,13 @@
             <a class="hover:text-blue-600">Tech</a>
             <a class="hover:text-blue-600">Business</a>
             <a class="hover:text-blue-600">Fashion</a>
-            <a class="hover:text-blue-600">Language</a>
+            <a class="hover:text-blue-600">Language</a> --}}
 
             {{-- <button class="bg-orange-500 text-white px-6 py-2 rounded-full hover:bg-orange-600">
                 Join Us
             </button> --}}
-        </div>
-    </section>
+        {{-- </div>
+    </section> --}}
 
 </body>
 </html>
@@ -224,63 +224,95 @@
 
         </div>
 </section> --}}
+<livewire:testimonial-section />
 
-<footer class="bg-gray-400 text-black pt-10 pb-4 px-6">
+
+
+<footer class="bg-slate-900 text-slate-300 pt-16 pb-6 px-6 border-t-4 border-blue-600">
     <div class="max-w-6xl mx-auto">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
             
+            {{-- Column 1: Brand & Identity --}}
             <div class="space-y-4">
-                <div class="flex items-center space-x-2">
-                    <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 rounded-xl bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/20">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
                     </div>
+                    <span class="text-xl font-bold tracking-wider text-white">E-Training</span>
                 </div>
-                <p class="text-lg font-semibold">Smart Learning Starts Here!</p>
+                <p class="text-sm font-medium text-slate-400 leading-relaxed">
+                    Smart Learning Starts Here! Elevate your academic journey with expert-led courses.
+                </p>
             </div>
 
+            {{-- Column 2: Quick Links --}}
             <div>
-                <h3 class="text-lg font-bold mb-4">Useful links</h3>
-                <ul class="space-y-2 text-sm text-gray-800">
-                    <li><a href="#" class="hover:text-white">Home</a></li>
-                    <li><a href="{{ route('category.index') }}" class="hover:text-white">Category</a></li>
-                    <li><a href="{{ route('about-us') }}" class="hover:text-white">About Us</a></li>
-                    <li><a href="{{ route('contact_us')}}" class="hover:text-white">Contact Us</a></li>
+                <h3 class="text-white text-base font-semibold tracking-wider uppercase mb-4 pb-2 border-b border-slate-800">
+                    Useful Links
+                </h3>
+                <ul class="space-y-3 text-sm">
+                    <li><a href="#" class="text-slate-400 hover:text-blue-400 transition-colors duration-150 flex items-center gap-1"><span>Home</span></a></li>
+                    <li><a href="{{ route('category.index') }}" class="text-slate-400 hover:text-blue-400 transition-colors duration-150 flex items-center gap-1"><span>Category</span></a></li>
+                    <li><a href="{{ route('about-us') }}" class="text-slate-400 hover:text-blue-400 transition-colors duration-150 flex items-center gap-1"><span>About Us</span></a></li>
+                    <li><a href="{{ route('contact_us') }}" class="text-slate-400 hover:text-blue-400 transition-colors duration-150 flex items-center gap-1"><span>Contact Us</span></a></li>
                 </ul>
             </div>
 
+            {{-- Column 3: Contact & Socials --}}
             <div>
-                <h3 class="text-lg font-bold mb-4">Contact</h3>
-                <address class="text-sm text-gray-800 not-italic mb-6">
-                    3 Walker Street, Edinburgh, EH3 7JY
-                </address>
+                <h3 class="text-white text-base font-semibold tracking-wider uppercase mb-4 pb-2 border-b border-slate-800">
+                    Get In Touch
+                </h3>
+                <div class="text-sm text-slate-400 space-y-2 mb-6">
+                    <p class="flex items-center gap-2">
+                        <span class="font-semibold text-slate-300">Call:</span> 09055556666
+                    </p>
+                    <address class="not-italic leading-relaxed">
+                        <span class="font-semibold text-slate-300">Address:</span> 24 Iyalla Street, Lagos State.
+                    </address>
+                </div>
 
-                <h3 class="text-lg font-bold mb-3">Social media</h3>
-                <div class="flex space-x-4 text-gray-800">
-                    <a href="#" class="hover:text-white"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM4 9h4v12H4zM6 3a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></svg></a>
-                    <a href="#" class="hover:text-white font-bold text-xl">X</a>
-                    <a href="#" class="hover:text-white"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0A.555.555 0 0 0 4.3 3.513c-.22.383-.34 1.144-.34 2.214v10.546c0 1.07.12 1.83.34 2.214.285.487 1.05.733 4.965.738 3.601.005 11.628.005 15.228 0a.555.555 0 0 0 .341-.33.722.722 0 0 0 .339-2.214V5.727c0-1.07-.12-1.83-.34-2.214a.555.555 0 0 0-.341-.33zM9.545 15.698V8.302L15.42 12l-5.875 3.698z"/></svg></a>
+                <h4 class="text-xs font-bold uppercase tracking-widest text-slate-500 mb-3">Connect With Us</h4>
+                <div class="flex space-x-4">
+                    {{-- LinkedIn --}}
+                    <a href="#" class="p-2 bg-slate-800 hover:bg-blue-600 rounded-lg text-slate-400 hover:text-white transition-all duration-200" title="LinkedIn">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM4 9h4v12H4zM6 3a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></svg>
+                    </a>
+                    
+                    {{-- X (Formerly Twitter) --}}
+                    <a href="https://x.com/essentialacademyng" target="_blank" rel="noopener noreferrer" class="p-2 bg-slate-800 hover:bg-sky-500 rounded-lg text-slate-400 hover:text-white font-bold text-base flex items-center justify-center w-9 h-9 transition-all duration-200" title="X (Twitter)">
+                        X
+                    </a>
+                    
+                    {{-- TikTok --}}
+                    <a href="#" class="p-2 bg-slate-800 hover:bg-black rounded-lg text-slate-400 hover:text-white transition-all duration-200" title="TikTok">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.02 1.63 4.15 1.13 1.18 2.69 1.88 4.31 2.01v3.91c-1.24-.04-2.47-.36-3.58-1-.79-.46-1.46-1.09-1.99-1.83v6.52c-.04 2.1-.81 4.14-2.23 5.67-1.49 1.64-3.69 2.58-5.93 2.56-2.28.02-4.51-.93-5.99-2.65-1.52-1.72-2.19-4.05-1.85-6.31.33-2.3 1.77-4.32 3.86-5.4 1.5-.79 3.21-1.12 4.88-.94v4.01c-.88-.23-1.83-.09-2.6.4-.78.48-1.32 1.33-1.47 2.24-.19 1.06.14 2.17.87 2.94.73.79 1.81 1.2 2.88 1.11 1.05-.07 2.01-.7 2.5-1.63.29-.53.42-1.13.4-1.74V.02z"/>
+                        </svg>
+                    </a>
                 </div>
             </div>
 
-            {{-- <div>
-                <h3 class="text-lg font-bold mb-4">Subscribe</h3>
-                <form class="space-y-3">
-                    <input type="text" placeholder="Full Name*" class="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <input type="email" placeholder="your e-mail*" class="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <button type="submit" class="w-full py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-150">
-                        Send
-                    </button>
-                </form>
-            </div> --}}
+            {{-- Column 4: News Subscription --}}
+            <div>
+                <h3 class="text-white text-base font-semibold tracking-wider uppercase mb-4 pb-2 border-b border-slate-800">
+                    Newsletter
+                </h3>
+                <livewire:news-subscriber />
+            </div>
+
         </div>
 
-        <div class="mt-8 pt-4 border-t border-gray-700 flex flex-col sm:flex-row justify-between items-center text-xs text-gray-500">
-            <p class="mb-2 sm:mb-0">
-                Etraining. All Rights Reserved. Created by Essencial Media & Ciobsmith.
+        {{-- Bottom Copyright Strip --}}
+        <div class="mt-12 pt-6 border-t border-slate-800 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500">
+            <p class="mb-3 sm:mb-0 text-center sm:text-left leading-relaxed">
+                &copy; {{ date('Y') }} Etraining. All Rights Reserved. <br class="sm:hidden"> Created by <span class="text-slate-400">Essencial Media</span> & <span class="text-slate-400">Ciobsmith</span>.
             </p>
-            <div class="flex space-x-4">
-                <a href="#" class="hover:text-white">PRIVACY POLICY</a>
-                <a href="#" class="hover:text-white">GENERAL TERMS</a>
+            <div class="flex space-x-6">
+                <a href="#" class="hover:text-white transition-colors">PRIVACY POLICY</a>
+                <a href="#" class="hover:text-white transition-colors">GENERAL TERMS</a>
             </div>
         </div>
     </div>

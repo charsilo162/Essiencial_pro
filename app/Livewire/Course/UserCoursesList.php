@@ -1,11 +1,9 @@
 <?php
-
 namespace App\Livewire\Course;
-
-use App\Services\ApiService;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\Attributes\On;
+use App\Services\ApiService; // Ensure this is correctly imported
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class UserCoursesList extends Component
@@ -13,6 +11,7 @@ class UserCoursesList extends Component
     use WithPagination;
 
     public string $search = '';
+    public string $publishStatus = ''; // '' = All, 'published' = Published, 'unpublished' = Unpublished
     public $confirmingDelete = null; 
     protected $api;
 
@@ -21,10 +20,16 @@ class UserCoursesList extends Component
         $this->api = app(ApiService::class);
     }
 
+    // Reset pagination when the publish status filter changes
+    public function updatedPublishStatus()
+    {
+        $this->resetPage();
+    }
+
     #[On('course-updated')]
     public function refreshList()
     {
-        // This can be empty; calling it just forces a re-render
+        // Forces a re-render
     }
 
     #[On('search-updated')]
@@ -63,17 +68,16 @@ class UserCoursesList extends Component
 
             if ($response) {
                 $this->confirmingDelete = null;
-                $this->dispatch('course-updated'); // Add this to trigger refresh
+                $this->dispatch('course-updated'); 
                 $this->dispatch('toast', message: 'Course deleted successfully!', type: 'success');
             } else {
                 throw new \Exception('API response was empty or falsey');
             }
         } catch (\Exception $e) {
-            $this->confirmingDelete = null; // Optional: reset even on error
+            $this->confirmingDelete = null; 
             $this->dispatch('toast', message: 'Failed to delete course: ' . $e->getMessage(), type: 'error');
         }
     }
-
 
     public function render()
     {
@@ -83,10 +87,19 @@ class UserCoursesList extends Component
             return redirect()->route('login');
         }
 
+        // Base parameters for the API
         $params = [
-            'include_unpublished' => true,
             'paginate' => true,
+            'per_page' => 12,
+            'page' => $this->getPage(), // 👈 CRITICAL: Tells the backend API which page to fetch
         ];
+
+        // Apply our new filter selection
+        if ($this->publishStatus !== '') {
+            $params['publish_status'] = $this->publishStatus;
+        } else {
+            $params['include_unpublished'] = true; // Fallback for 'all'
+        }
 
         // Only filter by uploader if the user is not an admin
         if ($user['type'] !== 'admin') {
@@ -97,9 +110,9 @@ class UserCoursesList extends Component
             $params['search'] = $this->search;
         }
 
+        // Fetch data from the API with page parameters applied
         $response = $this->api->get('courses', $params);
 
-        // Handle both paginated and non-paginated responses
         $rawCourses = $response['data'] ?? [];
 
         $items = collect($rawCourses)->map(function ($course) {
@@ -113,12 +126,12 @@ class UserCoursesList extends Component
             return $course;
         });
 
-        // Create paginator for ->links()
+        // Reconstruct the LengthAwarePaginator for front-end rendering
         $paginator = new LengthAwarePaginator(
             $items,
             $response['meta']['total'] ?? count($rawCourses),
             $response['meta']['per_page'] ?? 12,
-            $response['meta']['current_page'] ?? 1,
+            $response['meta']['current_page'] ?? $this->getPage(),
             [
                 'path' => request()->url(),
                 'query' => request()->query(),

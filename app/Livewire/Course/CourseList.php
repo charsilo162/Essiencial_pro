@@ -37,7 +37,9 @@ class CourseList extends Component
         $this->tutorId = $tutorId;
         $this->usePagination = $usePagination;
         $this->limit = $usePagination ? null : 6;
+        
         if ($this->categorySlug) {
+            //dump($this->categorySlug);
             $this->fetchCategoryName();
         }
     }
@@ -46,10 +48,12 @@ class CourseList extends Component
     {
         // Assuming your API has an endpoint like 'categories/{slug}' or 'categories' 
         // that returns the category details including the name.
+       
         $response = $this->api->get('categories', ['slug' => $this->categorySlug]);
-        
+       // dump($response);
         // Assuming the response structure is $response['data'][0]['name']
         if (isset($response['data'][0]['name'])) {
+            //dump($response['data'][0]);
             $this->categoryName = $response['data'][0]['name'];
         }
     }
@@ -133,6 +137,8 @@ class CourseList extends Component
 
     private function calculateTitle(): string
 {
+    //dump($this->filterType);
+    //dump($this->categoryName);
     return match (true) {
         $this->searchQuery !== '' => "Search Results: \"{$this->searchQuery}\"",
         $this->categoryName !== null => "Courses in " . $this->categoryName,

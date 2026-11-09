@@ -5,7 +5,7 @@
 
         <div>
             <h2 class="text-2xl md:text-3xl font-bold text-gray-900">
-                Top Categories
+                Categories
             </h2>
             <p class="text-sm text-gray-500">
                 Explore essential skills curated for your success

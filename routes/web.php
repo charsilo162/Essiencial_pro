@@ -14,6 +14,13 @@ use App\Livewire\Category\CategoryManager;
 use App\Livewire\PopularCategoryCards;
 use App\Livewire\SimpleCategoryGrid;
 use Illuminate\Support\Facades\Route;
+use App\Livewire\Admin\Agents;
+use App\Http\Middleware\EnsureSessionUserType;
+use App\Livewire\Agent\RegisterUser;
+use App\Livewire\Admin\Commissions;
+use App\Livewire\Agent\Dashboard;
+
+ 
 
 Route::get('/categorys', function () {
     return view('category');
@@ -24,6 +31,27 @@ Route::get('/forgot-password', ForgotPassword::class)->name('password.request');
 Route::get('/login', Login::class)->name('logins');
 // Route::get('/register', Login::class)->name('register');
 Route::get('/register', Register::class)->name('signups');
+
+
+Route::get('/agent/dashboard', Dashboard::class)
+    ->middleware(EnsureSessionUserType::class . ':agent')
+    ->name('agent.dashboard');
+
+
+
+Route::get('/admin/commissions', Commissions::class)
+    ->middleware(EnsureSessionUserType::class . ':admin')
+    ->name('admin.commissions');
+
+
+Route::get('/agent/register-user', RegisterUser::class)
+    ->middleware(EnsureSessionUserType::class . ':agent')
+    ->name('agent.register-user');
+
+
+Route::get('/admin/agents', Agents::class)
+    ->middleware(EnsureSessionUserType::class . ':admin')
+    ->name('admin.agents');
 Route::get('/', function () {
     return view('welcome');
 })->name('home');

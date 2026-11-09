@@ -4,17 +4,13 @@
 
 {{-- Outer container for spacing and alignment, matching the detail-wrapper width --}}
 <section class="max-w-7xl mx-auto pb-10 px-4 sm:px-6 lg:px-8">
-    
-    {{-- Inner card styling --}}
-    <div class="bg-white p-8 rounded-xl shadow-2xl">
-        <h2 class="text-3xl font-extrabold text-gray-900 mb-6 border-b pb-2">
+    <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+        <h2 class="text-3xl font-bold text-gray-900 mb-8 border-b pb-4 border-gray-100">
             {{ $title }}
         </h2>
         
-        {{-- The slot holds the actual description content passed from the view --}}
-        <div class="prose max-w-none text-gray-700">
+        <div class="prose max-w-none text-gray-700 text-[15.5px] leading-relaxed">
             {{ $slot }}
         </div>
     </div>
-    
 </section>

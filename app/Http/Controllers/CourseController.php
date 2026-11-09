@@ -92,7 +92,9 @@ public function showOnline($slug)
       // 👇 Capture messages from query string
     $success = request()->query('success');
     $error   = request()->query('error');
+
         if (isset($response['message'])) {
+                
             abort(404);
         }
 
@@ -101,6 +103,7 @@ public function showOnline($slug)
         $center = collect($course['centers'] ?? [])->firstWhere('id', $centerId);
 
         if (!$center || !in_array($course['type'], ['physical', 'hybrid'])) {
+            //dd($center);
             abort(404);
         }
       //  dd($course, $center);

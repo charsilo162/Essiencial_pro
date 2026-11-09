@@ -77,7 +77,7 @@
        <x-slot:footerArea>
         <div class="flex items-center justify-between">
         <span class="text-3xl font-extrabold text-blue-600">
-            ${{ number_format($course['current_price']['amount'] ?? 99.00, 2) }}
+            ₦{{ number_format($course['current_price']['amount'] ?? 99.00, 2) }}
         </span>
             {{-- {{ session('user') ? 'Send' : 'Login to Comment' }} --}}
               @if (session('user'))
@@ -115,11 +115,26 @@
 @endif
 
     {{-- 2. Course Description --}}
-    <x-shared.content-description title="About This Course">
-        <p>{{ $course['long_description_p1'] ?? 'Detailed course content coming soon...' }}</p>
-        <p class="mt-4">{{ $course['long_description_p2'] ?? '' }}</p>
-        <p class="mt-4">{{ $course['long_description_p3'] ?? '' }}</p>
-    </x-shared.content-description>
+<x-shared.content-description title="What You'll Learn">
+
+    @if(is_array($course['about_course']) && count($course['about_course']) > 0)
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-5">
+            @foreach($course['about_course'] as $point)
+                <div class="flex items-start gap-4 group">
+                    <div class="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-orange-500 to-pink-500 text-white rounded-2xl flex items-center justify-center text-lg shadow-sm transition-transform group-hover:scale-110">
+                        →
+                    </div>
+                    <p class="text-gray-700 leading-relaxed text-[15.5px] pt-1">
+                        {{ $point }}
+                    </p>
+                </div>
+            @endforeach
+        </div>
+    @else
+        <p class="text-gray-500">No learning objectives available yet.</p>
+    @endif
+
+</x-shared.content-description>
 {{-- <livewire:comment-section --}}
 
  {{-- :resourceId = "$course['id']"

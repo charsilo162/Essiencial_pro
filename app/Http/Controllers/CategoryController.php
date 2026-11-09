@@ -22,7 +22,7 @@ public function show($slug)
     return view('categories', [
         'categorySlug' => $slug,
     ]);
-}
+} 
 public function category()
 {
     return view('category.categories');
